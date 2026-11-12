@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0c11">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MJIA">
+<meta name="robots" content="noindex, nofollow">
+<title>MJIA — Investimentos & Análise</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234d8dff'/%3E%3Cstop offset='1' stop-color='%239b7bff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M14 44 L26 30 L34 37 L50 20' stroke='white' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c11; --bg2:#10131a; --card:#151922; --card2:#1b2030; --line:#252b3b; --line2:#30374a;
+  --tx:#eef1f6; --tx2:#b7bfd0; --mut:#8a93a8; --mut2:#646d82;
+  --blue:#4d8dff; --blue2:#2f6fe8; --green:#2fd27a; --red:#ff5a5f; --yellow:#f6c94c; --purple:#9b7bff;
+  --gbg:rgba(47,210,122,.12); --rbg:rgba(255,90,95,.12); --ybg:rgba(246,201,76,.12); --bbg:rgba(77,141,255,.13);
+  --r:18px; --r2:12px; --sb:env(safe-area-inset-bottom,0px); --st:env(safe-area-inset-top,0px);
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
+body{min-height:100vh}
+a{color:var(--blue);text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+.num,.big,.mono{font-variant-numeric:tabular-nums}
+h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px} h3{font-size:17px} h4{font-size:14px;color:var(--tx2);font-weight:600}
+p{margin:.5em 0}
+code{background:var(--card2);padding:1px 6px;border-radius:6px;font-size:.92em}
+
+/* ---------- layout ---------- */
+.app{display:flex;min-height:100vh}
+.side{display:none}
+.main{flex:1;min-width:0;padding:calc(12px + var(--st)) 14px calc(96px + var(--sb));max-width:980px;margin:0 auto;width:100%}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 14px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;font-weight:800;font-size:10px;letter-spacing:0}
+.brand b{font-size:17px;display:block;line-height:1.1}
+.brand small{color:var(--mut);font-size:11.5px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(14,17,24,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding:6px 4px calc(6px + var(--sb))}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mut);font-size:11px;padding:6px 0;border-radius:12px;min-height:48px;justify-content:center}
+.tabbar a .ic{font-size:20px;line-height:1}
+.tabbar a.on{color:var(--tx)}
+.tabbar a.on .ic{filter:none}
+.disclaimer{color:var(--mut2);font-size:11.5px;text-align:center;margin:22px 0 4px}
+@media (min-width:900px){
+  .tabbar{display:none}
+  .side{display:flex;flex-direction:column;gap:4px;width:256px;flex-shrink:0;position:sticky;top:0;height:100vh;padding:20px 14px;border-right:1px solid var(--line);background:var(--bg2)}
+  .side .brand{margin:0 6px 18px}
+  .side a{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:14px;border-radius:12px;color:var(--tx2);font-weight:500}
+  .side a:hover{background:var(--card)}
+  .side a.on{background:var(--card2);color:var(--tx)}
+  .side a .soon{margin-left:auto}
+  .side .sep{height:1px;background:var(--line);margin:10px 6px}
+  .main{padding:26px 32px 40px}
+  .topbar .brand{display:none}
+}
+
+/* ---------- componentes ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.card.flat{background:transparent}
+.card h3{margin-bottom:8px}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.card-h h3{margin:0}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:1fr 1fr}
+@media (min-width:700px){.g3{grid-template-columns:repeat(3,1fr)}.g2m{grid-template-columns:1fr 1fr}}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.wrap{flex-wrap:wrap}
+.muted{color:var(--mut)} .small{font-size:12.5px} .tiny{font-size:11.5px}
+.big{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.mid{font-size:22px;font-weight:700}
+.up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--tx2)}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--card2);color:var(--tx2);white-space:nowrap}
+.pill.up{background:var(--gbg);color:var(--green)} .pill.down{background:var(--rbg);color:var(--red)}
+.pill.y{background:var(--ybg);color:var(--yellow)} .pill.b{background:var(--bbg);color:var(--blue)}
+.soon{font-size:10.5px;font-weight:700;color:var(--mut);background:var(--card2);border:1px solid var(--line2);padding:1px 7px;border-radius:999px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:12px;padding:11px 16px;font-weight:600;background:var(--blue);color:#fff;cursor:pointer;min-height:44px;text-align:center}
+.btn:hover{background:var(--blue2)}
+.btn.sec{background:var(--card2);color:var(--tx);border:1px solid var(--line2)}
+.btn.sec:hover{background:#232a3c}
+.btn.ghost{background:transparent;color:var(--blue);padding:8px 10px;min-height:36px}
+.btn.danger{background:var(--rbg);color:var(--red);border:1px solid rgba(255,90,95,.3)}
+.btn.sm{padding:7px 12px;min-height:36px;font-size:13.5px;border-radius:10px}
+.btn.full{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btns>.btn{flex:1 1 auto}
+.seg{display:inline-flex;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;color:var(--mut);padding:6px 12px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer;min-height:34px}
+.seg button.on{background:var(--line2);color:var(--tx)}
+.list{display:flex;flex-direction:column}
+.li{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);color:var(--tx);cursor:pointer;min-height:56px}
+.li:last-child{border-bottom:0}
+.li:hover{background:rgba(255,255,255,.02)}
+.li .grow{flex:1;min-width:0}
+.li .t{font-weight:700}
+.li .s{color:var(--mut);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .r{text-align:right;flex-shrink:0}
+.av{width:38px;height:38px;border-radius:12px;background:var(--card2);display:grid;place-items:center;font-weight:800;font-size:11px;color:var(--tx2);flex-shrink:0;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover;background:#fff}
+.chev{color:var(--mut2)}
+.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:700px){.kv{grid-template-columns:repeat(3,1fr)}}
+.kv .k{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r2);padding:10px 12px;min-width:0}
+.kv .k .l{color:var(--mut);font-size:12px}
+.kv .k .v{font-weight:700;font-size:17px;margin-top:2px;overflow-wrap:anywhere}
+.src{color:var(--mut2);font-size:11.5px;margin-top:10px;line-height:1.4}
+.src b{color:var(--mut);font-weight:600}
+.nodata{color:var(--mut);font-style:italic}
+.bar{height:10px;background:var(--card2);border-radius:999px;overflow:hidden;position:relative}
+.bar>i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:999px}
+.bar>i.g{background:var(--green)} .bar>i.y{background:var(--yellow)}
+.stack{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--card2)}
+.stack>i{display:block;height:100%}
+.callout{background:var(--bbg);border:1px solid rgba(77,141,255,.25);border-radius:var(--r2);padding:12px 14px;margin:12px 0;font-size:14px}
+.callout.warn{background:var(--ybg);border-color:rgba(246,201,76,.28)}
+.callout.bad{background:var(--rbg);border-color:rgba(255,90,95,.3)}
+.callout.ok{background:var(--gbg);border-color:rgba(47,210,122,.28)}
+.banner{border-radius:var(--r2);padding:10px 14px;margin-bottom:12px;font-size:13.5px;background:var(--ybg);border:1px solid rgba(246,201,76,.28)}
+.flag{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.flag:last-child{border-bottom:0}
+.flag .e{font-size:18px;line-height:1.3}
+.skel{background:linear-gradient(90deg,var(--card2),#222838,var(--card2));background-size:200% 100%;animation:sk 1.2s infinite;border-radius:8px;height:14px;margin:6px 0}
+@keyframes sk{to{background-position:-200% 0}}
+.empty{text-align:center;padding:26px 10px;color:var(--mut)}
+.empty .e{font-size:34px}
+table.mini,table.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+table.mini th,table.mini td,table.tbl th,table.tbl td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+table.mini th,table.tbl th{color:var(--mut);font-weight:600;font-size:12px}
+table.tbl td.n,table.tbl th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.lesson{font-size:15.5px;line-height:1.65}
+.lesson ul,.lesson ol{padding-left:20px}
+.lesson li{margin:6px 0}
+.hidden{display:none!important}
+.lock{opacity:.6}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+/* termo técnico + tooltip */
+.term{border-bottom:1px dotted var(--mut);cursor:help;text-decoration:none;color:inherit}
+.term:focus{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+#tip{position:fixed;z-index:100;max-width:320px;background:#20263a;border:1px solid var(--line2);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.45);color:var(--tx);pointer-events:auto}
+#tip b{display:block;margin-bottom:3px;font-size:13.5px}
+
+/* formulários */
+label.f{display:block;margin:10px 0}
+label.f>span{display:block;color:var(--tx2);font-size:13px;margin-bottom:5px;font-weight:500}
+input.in,select.in,textarea.in{width:100%;background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;min-height:44px;font-size:16px;outline:none}
+input.in:focus,select.in:focus,textarea.in:focus{border-color:var(--blue)}
+textarea.in{min-height:90px;resize:vertical;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.fgrid .full{grid-column:1/-1}
+.err{color:var(--red);font-size:13px;margin-top:6px}
+.hint{color:var(--mut);font-size:12px;margin-top:4px}
+
+/* folha (modal) */
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg2);border:1px solid var(--line2);border-radius:22px 22px 0 0;width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:18px 16px calc(18px + var(--sb));animation:up .18s ease-out}
+@media (min-width:700px){.sheet-bg{align-items:center}.sheet{border-radius:22px}}
+@keyframes up{from{transform:translateY(30px);opacity:.4}}
+.sheet .sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.x{background:var(--card2);border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;color:var(--tx2);font-size:18px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + var(--sb));z-index:90;background:#263049;border:1px solid var(--line2);padding:10px 16px;border-radius:12px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:90vw}
+@media (min-width:900px){.toast{bottom:24px}}
+
+/* gráfico */
+.chart{position:relative;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.chart svg{width:100%;height:220px;display:block}
+.chart .yl{position:absolute;right:0;font-size:11px;color:var(--mut);background:rgba(21,25,34,.8);padding:0 4px;border-radius:4px}
+.chart .hov{position:absolute;top:0;pointer-events:none;background:#20263a;border:1px solid var(--line2);border-radius:8px;padding:4px 8px;font-size:12px;white-space:nowrap;transform:translateX(-50%)}
+
+/* quiz */
+.opt{display:block;width:100%;text-align:left;background:var(--card2);border:1px solid var(--line2);border-radius:12px;padding:13px 14px;margin:8px 0;cursor:pointer;min-height:48px}
+.opt:hover{border-color:var(--blue)}
+.opt.ok{border-color:var(--green);background:var(--gbg)}
+.opt.no{border-color:var(--red);background:var(--rbg)}
+.opt:disabled{cursor:default}
+.hero{background:linear-gradient(160deg,#18203a,#121725 60%);border:1px solid var(--line2)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--tx2);background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.secttl{display:flex;align-items:center;gap:8px;margin:18px 2px 8px;color:var(--tx2);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+
+</style>
+</head>
+<body>
+<noscript>A MJIA precisa de JavaScript.</noscript>
+<script>
+'use strict';
+/* ===== MJIA — conteúdo estático (glossário, universo, textos educativos) ===== */
+const APP_VERSION = '1.0.0';
+const CONTENT_DATE = 'nov. 2026';
+
+/* Glossário: cada termo técnico tem uma explicação curta (rato ou toque). */
+const GLOSSARY = {
+  'acao': ['Ação', 'Uma pequena parte de uma empresa. Se a empresa cresce ou distribui lucros, ganhas com isso. Se corre mal, a ação pode perder valor, no limite até zero.'],
+  'etf': ['ETF (Exchange-Traded Fund)', 'Fundo negociado em bolsa que guarda um cesto de ativos (por exemplo, as 500 maiores empresas dos EUA). Compras uma unidade e ficas exposto a todo o cesto de uma vez.'],
+  'ucits': ['UCITS', 'Regras europeias para fundos de investimento: diversificação mínima, proteção do investidor e um documento KID obrigatório. Os ETFs UCITS são os que um investidor particular na UE pode comprar.'],
+  'kid': ['KID', 'Documento de Informações Fundamentais: resumo obrigatório com custos, risco (1 a 7) e cenários. Muitos ETFs americanos não o publicam, por isso as corretoras da UE não os podem vender a particulares.'],
+  'isin': ['ISIN', 'Código internacional de 12 caracteres que identifica um título (ex.: IE00B5BMR087). É mais fiável do que o ticker, que muda de bolsa para bolsa.'],
+  'ticker': ['Ticker', 'Código curto de um título na bolsa (ex.: AAPL = Apple).'],
+  'ter': ['TER (custo total anual)', 'Custo anual de um fundo em % do valor investido. É descontado automaticamente, não vês uma cobrança à parte.'],
+  'acumulacao': ['Acumulação (Acc)', 'O fundo reinveste os dividendos dentro do próprio fundo em vez de os pagar a ti.'],
+  'distribuicao': ['Distribuição (Dist)', 'O fundo paga-te os dividendos em dinheiro, normalmente de 3 em 3 meses.'],
+  'domicilio': ['Domicílio', 'País onde o fundo está registado (ex.: Irlanda). Influencia os impostos retidos sobre dividendos e as regras aplicáveis.'],
+  'etc': ['ETC', 'Exchange-Traded Commodity: título negociado em bolsa que acompanha uma matéria-prima (ex.: ouro guardado em cofre). Juridicamente é dívida do emitente, não é um fundo UCITS.'],
+  'adr': ['ADR', 'Certificado que permite negociar nos EUA, em dólares, ações de uma empresa estrangeira (ex.: ASML, TSMC).'],
+  'reit': ['REIT', 'Sociedade que possui imóveis para arrendar e que, por lei, distribui a maior parte dos lucros como dividendos.'],
+  'conglomerado': ['Conglomerado', 'Empresa-mãe que controla muitos negócios diferentes.'],
+  'indice': ['Índice', 'Lista de empresas usada para medir um mercado (ex.: S&P 500). Não se compra diretamente; compra-se um ETF que o replica.'],
+  'sp500': ['S&P 500', 'Índice com cerca de 500 das maiores empresas dos EUA, ponderadas pela dimensão.'],
+  'nasdaq100': ['Nasdaq-100', 'Índice com as 100 maiores empresas não financeiras cotadas na bolsa Nasdaq. Tem muito peso em tecnologia.'],
+  'bloco-alto': ['Bloco de alto risco', 'Parte do teu dinheiro (até 150 €) para apostas voláteis e para aprender. Assume que pode perder muito valor.'],
+  'bloco-longo': ['Bloco de longo prazo', 'Parte do teu dinheiro para crescer devagar durante anos (ETFs e empresas sólidas).'],
+  'cotacao': ['Cotação', 'Último preço a que o título foi negociado. Com a bolsa fechada é o preço de fecho.'],
+  'variacao': ['Variação diária', 'Diferença entre a cotação atual e o fecho do dia anterior, em valor e em %.'],
+  'market-cap': ['Capitalização bolsista (market cap)', 'Valor total da empresa em bolsa = preço × número de ações. Mega: > 200 mil M$; grande: 10–200 mil M$; média: 2–10 mil M$; pequena: < 2 mil M$.'],
+  'pe': ['P/E (preço / lucro)', 'Quanto pagas por cada 1 $ de lucro anual. Um P/E de 25 significa 25 $ por 1 $ de lucro. Um valor alto pode indicar expectativas de crescimento ou uma ação cara: compara com o setor e com o histórico da empresa. Se o lucro for negativo, o P/E não tem significado.'],
+  'ps': ['P/S (preço / vendas)', 'Valor em bolsa dividido pelas receitas anuais. É útil quando a empresa ainda não tem lucro.'],
+  'eps': ['EPS (lucro por ação)', 'Lucro líquido dividido pelo número de ações.'],
+  'ttm': ['TTM', 'Últimos 12 meses (trailing twelve months): soma dos últimos quatro trimestres.'],
+  'yoy': ['a/a (ano a ano)', 'Comparação com o mesmo período do ano anterior.'],
+  'crescimento-receitas': ['Crescimento das receitas', 'Quanto as vendas subiram face ao ano anterior. Mostra se o negócio está a crescer.'],
+  'crescimento-eps': ['Crescimento do EPS', 'Quanto o lucro por ação subiu face ao ano anterior.'],
+  'margem-bruta': ['Margem bruta', 'Receitas menos o custo direto dos produtos, em %. Indica o poder de preço.'],
+  'margem-op': ['Margem operacional', 'Lucro das operações (antes de juros e impostos) em % das receitas.'],
+  'margem-liquida': ['Margem líquida', 'Lucro final em % das receitas. Uma margem de 25% significa 25 cêntimos de lucro por cada 1 $ vendido.'],
+  'roe': ['ROE (rentabilidade do capital próprio)', 'Lucro em % do capital dos acionistas. Mostra a eficiência com que a empresa usa o dinheiro dos donos. Com muita dívida o ROE fica artificialmente alto.'],
+  'divida-capital': ['Dívida / capital próprio', 'Dívida total a dividir pelo capital dos acionistas. 0,5x é pouca dívida; acima de 2x é muita, salvo em bancos e utilities, onde é normal.'],
+  'dividendo': ['Dividendo', 'Parte do lucro paga em dinheiro aos acionistas.'],
+  'rendimento-dividendo': ['Rendimento do dividendo (dividend yield)', 'Dividendos anuais a dividir pelo preço da ação. 3% significa receber cerca de 3 € por ano por cada 100 € investidos, antes de impostos.'],
+  'ex-dividendo': ['Data ex-dividendo', 'Para receber o próximo dividendo tens de ter a ação antes desta data. Neste dia o preço costuma descer aproximadamente o valor do dividendo.'],
+  'data-pagamento': ['Data de pagamento', 'Dia em que o dividendo chega à conta.'],
+  'beta': ['Beta', 'Quanto a ação costuma mexer face ao mercado. Beta 1 acompanha o mercado; 1,5 tende a mexer 50% mais; 0,5 mexe metade.'],
+  'volatilidade': ['Volatilidade anualizada', 'Mede a intensidade das oscilações do preço. A MJIA calcula-a com os preços diários de 1 ano. Cerca de 15% é típico de um índice amplo; acima de 50% é muito volátil.'],
+  'drawdown': ['Queda máxima (drawdown)', 'A maior descida de um pico até ao ponto mais baixo seguinte no período. Mostra o pior cenário que já aconteceu.'],
+  'max52': ['Máximo / mínimo de 52 semanas', 'Preço mais alto e mais baixo do último ano.'],
+  'resultados': ['Resultados trimestrais (earnings)', 'Apresentação das contas de cada trimestre. O preço costuma mexer muito nesse dia, sobretudo se os números ficarem longe do esperado.'],
+  'bmo': ['Antes da abertura (BMO)', 'Os resultados saem antes de a bolsa dos EUA abrir (antes das 14h30 em Lisboa, normalmente).'],
+  'amc': ['Depois do fecho (AMC)', 'Os resultados saem depois de a bolsa dos EUA fechar (depois das 21h00 em Lisboa, normalmente).'],
+  'eps-estimado': ['EPS estimado', 'Média das previsões dos analistas para o lucro por ação do trimestre.'],
+  'preco-medio': ['Preço médio', 'Média ponderada do preço de compra das ações que ainda tens.'],
+  'fifo': ['FIFO', 'First In, First Out: quando vendes, considera-se vendido primeiro o que compraste primeiro. É a regra usada em Portugal para calcular as mais-valias de títulos iguais.'],
+  'custo': ['Custo de aquisição', 'Quanto pagaste em euros pelas ações que ainda tens, incluindo comissões.'],
+  'ganho-nao-realizado': ['Ganho / perda não realizado', 'Lucro ou prejuízo "no papel" de uma posição que ainda não vendeste. Só se torna real quando vendes.'],
+  'ganho-realizado': ['Ganho / perda realizado', 'Lucro ou prejuízo já concretizado com uma venda.'],
+  'efeito-cambio': ['Efeito do câmbio', 'Parte do ganho ou perda em euros que vem da variação EUR/USD e não do preço da ação. Se o dólar desvalorizar face ao euro, perdes em euros mesmo com a ação parada.'],
+  'cambio': ['Câmbio EUR/USD', 'Quantos dólares vale 1 euro. Se passa de 1,10 para 1,20, o euro valorizou e os teus ativos em dólares valem menos euros.'],
+  'taxa-bce': ['Taxa de referência do BCE', 'Taxa de câmbio oficial publicada pelo Banco Central Europeu em cada dia útil (por volta das 16h00 CET). A taxa da tua corretora pode ser um pouco diferente.'],
+  'comissao': ['Comissão', 'Valor cobrado pela corretora por executar uma ordem. Em montantes pequenos pesa muito: 1 € numa compra de 20 € são 5%.'],
+  'fracao': ['Ação fracionada', 'Parte de uma ação (ex.: 0,05 ações). Permite investir pouco dinheiro em ações caras.'],
+  'peso': ['Peso na carteira', 'Percentagem do valor total da carteira que esta posição representa.'],
+  'concentracao': ['Concentração', 'Ter muito dinheiro numa só ação, num só setor ou numa só moeda. Aumenta o risco: um único problema afeta grande parte da carteira.'],
+  'concorrentes': ['Concorrentes (peers)', 'Empresas comparáveis do mesmo setor. A lista automática vem da Finnhub e pode não ser perfeita.'],
+  'setor': ['Setor', 'Área de atividade da empresa (ex.: tecnologia, saúde, consumo).'],
+  'dca': ['DCA (investimento periódico)', 'Dollar-Cost Averaging: investir o mesmo montante em intervalos regulares (ex.: 50 € por mês), seja qual for o preço. Reduz o risco de entrar tudo num mau momento e cria disciplina.'],
+  'juros-compostos': ['Juros compostos', 'Ganhar rendimento sobre os rendimentos anteriores. O crescimento acelera com o tempo, por isso começar cedo conta muito.'],
+  'diversificacao': ['Diversificação', 'Distribuir o dinheiro por muitos ativos diferentes para que um problema isolado não estrague a carteira toda.'],
+  'ordem-mercado': ['Ordem de mercado', 'Compra ou vende já, ao melhor preço disponível. É rápida, mas não controlas o preço exato.'],
+  'ordem-limite': ['Ordem limite', 'Só executa ao preço que definires ou melhor (comprar a ≤ X ou vender a ≥ X). Controlas o preço, mas pode nunca executar.'],
+  'ordem-stop': ['Ordem stop (stop-loss)', 'Fica adormecida até o preço tocar o valor "stop"; depois torna-se ordem de mercado. Serve para limitar perdas, mas pode executar abaixo do stop se o preço cair de repente.'],
+  'ordem-stop-limite': ['Ordem stop-limit', 'Quando o preço toca o stop, torna-se uma ordem limite. Protege o preço de execução, mas numa queda rápida pode não executar.'],
+  'pre-market': ['Pré-abertura e pós-fecho', 'Negociação fora do horário normal. Há menos compradores e vendedores, por isso os preços oscilam mais e o spread é maior.'],
+  'spread': ['Spread', 'Diferença entre o melhor preço de compra e o melhor preço de venda. É um custo escondido: maior em ações pouco negociadas e fora de horas.'],
+  'gap': ['Gap', 'Salto de preço entre o fecho de um dia e a abertura do seguinte (por exemplo, por causa de notícias durante a noite).'],
+  'liquidez': ['Liquidez', 'Facilidade de comprar ou vender sem mexer muito no preço. Ações grandes têm muita liquidez.'],
+  'execucao': ['Execução', 'Momento em que a ordem é cumprida: encontrou-se um comprador ou vendedor e o preço ficou fixado.'],
+  'liquidacao': ['Liquidação', 'Momento em que as ações e o dinheiro mudam oficialmente de mãos. Nos EUA é em T+1.'],
+  't1': ['T+1', 'A liquidação acontece 1 dia útil depois da execução (regra dos EUA desde 28 de maio de 2024).'],
+  'risco-cambial': ['Risco cambial', 'Risco de perder (ou ganhar) dinheiro só por causa da variação entre moedas, por exemplo EUR/USD.'],
+  'fundo-emergencia': ['Fundo de emergência', 'Dinheiro guardado num sítio seguro e de acesso imediato para imprevistos. Não se investe em bolsa.'],
+  'obrigacao': ['Obrigação', 'Empréstimo que fazes a uma empresa ou a um Estado. Recebes juros e, no fim do prazo, o capital de volta, se o emitente não falhar.'],
+  'deposito-prazo': ['Depósito a prazo', 'Dinheiro "preso" num banco durante um prazo, com juro definido. Garantido até 100 000 € por depositante e por banco pelo Fundo de Garantia de Depósitos.'],
+  'certificados-aforro': ['Certificados de Aforro', 'Produto de poupança do Estado português (emitido pelo IGCP). Rendem juros ligados à Euribor e o capital é garantido pelo Estado.'],
+  'ppr': ['PPR', 'Plano Poupança Reforma: produto de poupança para a reforma com benefícios fiscais, mas com penalizações se levantares fora das condições previstas na lei.'],
+  'capex': ['Capex', 'Investimento em ativos físicos (fábricas, centros de dados, máquinas).'],
+  'antitrust': ['Antitrust (concorrência)', 'Leis contra monopólios e abuso de posição dominante. Os processos podem obrigar a mudar o negócio ou a pagar multas.'],
+  'foundry': ['Foundry', 'Fábrica que produz chips desenhados por outras empresas.'],
+  'api': ['API', 'Serviço que fornece dados a outros programas. A MJIA pede preços e métricas a APIs gratuitas que têm limites de pedidos.'],
+  'cache': ['Cache', 'Cópia guardada de dados já pedidos, para não gastar pedidos à API. Cada valor mostra a data em que foi obtido.'],
+  'fgd': ['Fundo de Garantia de Depósitos', 'Garante depósitos bancários até 100 000 € por pessoa e por banco, se o banco falir. Não cobre investimentos.'],
+  'protecao-investidor': ['Sistema de indemnização aos investidores', 'Cobre o caso de a corretora falir e perder os teus ativos (até 22 000 € na Revolut, pelo sistema lituano). Não cobre descidas de preço.'],
+  'retencao-fonte': ['Retenção na fonte', 'Imposto cobrado automaticamente no país de origem do rendimento, por exemplo sobre dividendos de empresas americanas.'],
+  'demo': ['Conta de demonstração', 'Dinheiro fictício para treinar. As operações "demo" não contam para os totais nem para o objetivo.'],
+  'capital-liquido': ['Capital investido líquido', 'Reforços menos levantamentos: o dinheiro que efetivamente meteste na carteira.'],
+  'cash': ['Liquidez do bloco', 'Dinheiro do bloco que ainda não está investido em ações (ou que voltou de vendas).'],
+  'mais-valia': ['Mais-valia', 'Lucro obtido com a venda de um ativo por mais do que custou. Em Portugal paga imposto (detalhe no módulo de Impostos).'],
+  'risco-retorno': ['Risco vs. retorno', 'Para esperar mais rendimento a longo prazo tens de aceitar mais oscilações e a possibilidade de perdas.'],
+  'inflacao': ['Inflação', 'Subida geral dos preços. Dinheiro parado perde poder de compra.'],
+  'euribor': ['Euribor', 'Taxa de juro a que os bancos da zona euro emprestam entre si. Serve de referência a créditos, depósitos e Certificados de Aforro.'],
+  'fx-fim-semana': ['Câmbio ao fim de semana', 'Com os mercados de moeda fechados, a Revolut aplica uma margem extra. Converter durante a semana sai mais barato.'],
+  'volume': ['Volume', 'Número de ações negociadas num período. Volume muito acima do normal indica que algo relevante está a acontecer.'],
+};
+
+const CATEGORIES = [
+  { id: 'etf', name: 'Longo prazo / ETFs', icon: '🧺' },
+  { id: 'qualidade', name: 'Qualidade (grandes empresas)', icon: '🏛️' },
+  { id: 'dividendos', name: 'Dividendos e defensivas', icon: '🛡️' },
+  { id: 'crescimento', name: 'Crescimento', icon: '📈' },
+  { id: 'volatil', name: 'Alta volatilidade / alto risco', icon: '⚡', locked: true },
+];
+
+const UNIVERSE_DEFAULT = [
+  ['VOO', 'etf', 'etf'], ['QQQ', 'etf', 'etf'], ['VT', 'etf', 'etf'], ['SCHD', 'etf', 'etf'], ['GLD', 'etf', 'etf'],
+  ['AAPL', 'qualidade'], ['MSFT', 'qualidade'], ['GOOGL', 'qualidade'], ['AMZN', 'qualidade'], ['META', 'qualidade'], ['NVDA', 'qualidade'], ['BRK.B', 'qualidade'], ['V', 'qualidade'], ['MA', 'qualidade'], ['COST', 'qualidade'], ['ASML', 'qualidade'], ['TSM', 'qualidade'], ['NDAQ', 'qualidade'],
+  ['JNJ', 'dividendos'], ['PG', 'dividendos'], ['KO', 'dividendos'], ['PEP', 'dividendos'], ['MCD', 'dividendos'], ['JPM', 'dividendos'], ['O', 'dividendos'],
+  ['AMD', 'crescimento'], ['AVGO', 'crescimento'], ['NFLX', 'crescimento'], ['SHOP', 'crescimento'], ['UBER', 'crescimento'], ['CRWD', 'crescimento'],
+  ['TSLA', 'volatil'], ['PLTR', 'volatil'], ['COIN', 'volatil'], ['SOFI', 'volatil'], ['RKLB', 'volatil'], ['IONQ', 'volatil'], ['HOOD', 'volatil'],
+].map(([t, cat, kind]) => ({ t, cat, kind: kind || 'stock' }));
+
+/* Textos educativos escritos à mão (não vêm de APIs).
+   o = o que é · m = como ganha dinheiro · c = principais concorrentes · r = riscos principais */
+const COMPANY = {
+  VOO: { n: 'Vanguard S&P 500 ETF', o: 'ETF que replica o [[sp500|S&P 500]]: cerca de 500 das maiores empresas dos EUA num só título.', m: 'Ganhas com a valorização das empresas do índice e com os [[dividendo|dividendos]] que o fundo distribui (trimestrais).', c: ['SPY', 'IVV'], r: ['Concentração: as 10 maiores empresas (sobretudo tecnológicas) pesam uma fatia grande do índice.', 'Só investe nos EUA e em dólares: tem [[risco-cambial|risco cambial]] para quem vive no euro.', 'Não está disponível para particulares na UE (sem [[kid|KID]]). Usa o equivalente [[ucits|UCITS]].'] },
+  QQQ: { n: 'Invesco QQQ Trust', o: 'ETF que replica o [[nasdaq100|Nasdaq-100]]: as 100 maiores empresas não financeiras da Nasdaq.', m: 'Valorização das empresas do índice e pequenos dividendos.', c: ['QQQM', 'VGT'], r: ['Muito concentrado em tecnologia: oscila mais do que o S&P 500.', '[[risco-cambial|Risco cambial]] EUR/USD.', 'Não disponível para particulares na UE: usa o equivalente [[ucits|UCITS]].'] },
+  VT: { n: 'Vanguard Total World Stock ETF', o: 'ETF com ações de todo o mundo (países desenvolvidos e emergentes), milhares de empresas.', m: 'Valorização da economia mundial cotada e dividendos.', c: ['ACWI'], r: ['Os EUA continuam a pesar cerca de 60% do índice mundial.', 'Exposição a várias moedas.', 'Não disponível para particulares na UE: usa o equivalente [[ucits|UCITS]].'] },
+  SCHD: { n: 'Schwab US Dividend Equity ETF', o: 'ETF com cerca de 100 empresas americanas escolhidas pelo histórico de dividendos e pela solidez financeira.', m: 'Dividendos acima da média do mercado e alguma valorização.', c: ['VYM', 'DGRO'], r: ['Menos tecnologia: pode ficar atrás do mercado em fases de euforia tecnológica.', '[[risco-cambial|Risco cambial]] EUR/USD.', 'O equivalente [[ucits|UCITS]] sugerido (VHYL) não segue o mesmo índice: é mundial e não só dos EUA.'] },
+  GLD: { n: 'SPDR Gold Shares', o: 'Título que acompanha o preço do ouro físico guardado em cofres.', m: 'Só ganhas se o preço do ouro subir: o ouro não paga dividendos nem juros.', c: ['IAU'], r: ['Não gera rendimento; o preço depende de juros reais, do dólar e do sentimento.', 'Pode passar anos sem subir.', 'O equivalente europeu é um [[etc|ETC]], não um ETF UCITS.'] },
+  AAPL: { n: 'Apple', o: 'Fabrica o iPhone, o Mac, o iPad, o Apple Watch e os AirPods, e vende serviços digitais (App Store, iCloud, Apple Music, Apple Pay).', m: 'Venda de equipamentos (o iPhone vale cerca de metade das receitas) e serviços com margens muito altas, incluindo pagamentos da Google para ser o motor de pesquisa por defeito.', c: ['Samsung', 'Alphabet (Android)', 'Microsoft'], r: ['Dependência do iPhone e do ciclo de renovação dos telemóveis.', 'Regulação da App Store e dos acordos com a Google ([[antitrust|antitrust]] nos EUA e Lei dos Mercados Digitais na UE).', 'Exposição à China (produção e vendas) e a tarifas comerciais.'] },
+  MSFT: { n: 'Microsoft', o: 'Software (Windows, Microsoft 365), cloud (Azure), LinkedIn, Xbox e GitHub. É parceira e investidora da OpenAI.', m: 'Sobretudo subscrições de software e cloud, receitas recorrentes e previsíveis.', c: ['Amazon (AWS)', 'Alphabet (Google Cloud)', 'Oracle', 'Salesforce'], r: ['[[capex|Capex]] enorme em centros de dados para IA, com retorno ainda incerto.', 'Concorrência forte na cloud.', 'Regulação e processos de concorrência.'] },
+  GOOGL: { n: 'Alphabet (Google)', o: 'Dona da Pesquisa Google, do YouTube, do Android, do Google Cloud e da Waymo (carros autónomos).', m: 'Publicidade (a maior parte), cloud e subscrições (YouTube, Google One).', c: ['Meta', 'Microsoft', 'Amazon', 'OpenAI'], r: ['Processos de concorrência ([[antitrust|antitrust]]): um tribunal dos EUA considerou que a Google tem um monopólio ilegal na pesquisa.', 'A pesquisa com IA generativa pode mudar o modelo de publicidade.', 'A publicidade cai quando a economia abranda.'] },
+  AMZN: { n: 'Amazon', o: 'Comércio eletrónico, AWS (cloud), publicidade, Prime Video e logística.', m: 'O retalho tem margens baixas; a AWS e a publicidade geram a maior parte do lucro operacional.', c: ['Walmart', 'Microsoft (Azure)', 'Alphabet (Google Cloud)', 'Temu / Shein'], r: ['[[capex|Capex]] muito elevado em IA e centros de dados.', 'O consumo depende da economia.', 'Processos de concorrência (FTC nos EUA, UE).'] },
+  META: { n: 'Meta Platforms', o: 'Dona do Facebook, do Instagram, do WhatsApp e do Messenger, e da divisão Reality Labs (realidade virtual e aumentada).', m: 'Quase tudo vem da publicidade nas suas aplicações.', c: ['Alphabet', 'TikTok (ByteDance)', 'Snap'], r: ['Dependência quase total da publicidade.', 'Perdas grandes na Reality Labs e [[capex|capex]] elevado em IA.', 'Regulação de privacidade e de concorrência, sobretudo na UE.'] },
+  NVDA: { n: 'NVIDIA', o: 'Desenha GPUs (processadores gráficos) usadas para treinar e correr IA em centros de dados, e também para jogos e automóveis. O software CUDA prende os clientes ao ecossistema.', m: 'A venda de chips e sistemas para centros de dados é a grande maioria das receitas.', c: ['AMD', 'Broadcom (chips à medida)', 'Intel', 'Chips próprios da Google e da Amazon'], r: ['Expectativas muito altas: qualquer abrandamento na procura de IA pesa muito no preço.', 'Poucos clientes gigantes concentram grande parte das vendas.', 'Restrições à exportação de chips para a China.'] },
+  'BRK.B': { n: 'Berkshire Hathaway (classe B)', o: '[[conglomerado|Conglomerado]] com seguros (GEICO), caminhos de ferro (BNSF), energia, dezenas de empresas industriais e de consumo, e uma grande carteira de ações.', m: 'Lucros das empresas que controla, prémios de seguros investidos e investimentos em bolsa. Não paga dividendos.', c: ['Markel', 'Grandes seguradoras'], r: ['Transição de liderança: Warren Buffett anunciou em 2025 a saída de CEO e Greg Abel é o sucessor designado.', 'Catástrofes naturais afetam os seguros.', 'A dimensão enorme torna difícil crescer depressa.'] },
+  V: { n: 'Visa', o: 'Rede global de pagamentos com cartão. Não empresta dinheiro: são os bancos que emitem os cartões.', m: 'Pequenas comissões sobre o volume e o número de pagamentos processados, mais altas nos pagamentos internacionais.', c: ['Mastercard', 'American Express', 'PayPal', 'Pagamentos instantâneos (MB WAY, Pix)'], r: ['Regulação e processos sobre comissões.', 'Novos sistemas de pagamento podem contornar os cartões.', 'O volume depende do consumo e das viagens.'] },
+  MA: { n: 'Mastercard', o: 'Rede global de pagamentos com cartão, semelhante à Visa.', m: 'Comissões sobre o volume e as transações processadas, com destaque para as internacionais.', c: ['Visa', 'American Express', 'PayPal'], r: ['Regulação e processos sobre comissões.', 'Concorrência de novos sistemas de pagamento.', 'Depende do consumo e das viagens.'] },
+  COST: { n: 'Costco', o: 'Cadeia de armazéns grossistas com adesão paga e preços baixos.', m: 'As quotas anuais dos sócios são uma parte muito grande do lucro; as margens nos produtos são finas.', c: ['Walmart (Sam\'s Club)', 'Amazon', 'BJ\'s'], r: ['[[pe|P/E]] historicamente alto: as expectativas já estão no preço.', 'Margens muito finas.', 'Sensível a custos e ao consumo.'] },
+  ASML: { n: 'ASML (ADR)', o: 'Empresa neerlandesa que fabrica as máquinas de litografia usadas para produzir chips. É o único fornecedor mundial das máquinas EUV, necessárias para os chips mais avançados. Cotada nos EUA como [[adr|ADR]].', m: 'Venda de máquinas (cada uma custa centenas de milhões) e serviços de manutenção.', c: ['Canon', 'Nikon (litografia menos avançada)'], r: ['Restrições à exportação para a China.', 'Poucos clientes (TSMC, Samsung, Intel).', 'Ciclo dos semicondutores: as encomendas podem cair rapidamente.'] },
+  TSM: { n: 'TSMC (ADR)', o: 'A maior [[foundry|foundry]] do mundo, em Taiwan: fabrica os chips desenhados pela Apple, NVIDIA, AMD e outras. Cotada nos EUA como [[adr|ADR]].', m: 'Cobra pela produção de chips, sobretudo nos processos mais avançados.', c: ['Samsung Foundry', 'Intel Foundry'], r: ['Risco geopolítico entre Taiwan e a China.', 'Tarifas e políticas industriais dos EUA.', '[[capex|Capex]] gigantesco e cíclico.'] },
+  NDAQ: { n: 'Nasdaq, Inc.', o: 'Gere a bolsa Nasdaq (e bolsas nórdicas e bálticas), vende software para bancos e mercados (anti-fraude, risco) e licencia índices como o Nasdaq-100 a ETFs como o QQQ.', m: 'Software por subscrição, dados de mercado, licenças de índices e comissões de negociação.', c: ['ICE (NYSE)', 'CME Group', 'Cboe', 'LSEG'], r: ['Dívida acrescida após a compra da Adenza (2023).', 'Os volumes de negociação variam com o mercado.', 'Concorrência no software financeiro.'] },
+  JNJ: { n: 'Johnson & Johnson', o: 'Farmacêutica (medicamentos inovadores) e dispositivos médicos. Em 2023 separou a divisão de consumo, que deu origem à Kenvue.', m: 'Venda de medicamentos protegidos por patentes e de equipamento médico.', c: ['Pfizer', 'Merck', 'AbbVie', 'Medtronic'], r: ['Processos judiciais (talco).', 'Fim de patentes: medicamentos importantes enfrentam concorrência de biossimilares.', 'Pressão política sobre os preços dos medicamentos nos EUA.'] },
+  PG: { n: 'Procter & Gamble', o: 'Produtos de consumo diário: Gillette, Pampers, Ariel, Oral-B, Pantene, entre outros.', m: 'Venda de marcas fortes com poder de preço; consumo estável mesmo em crise.', c: ['Unilever', 'Colgate-Palmolive', 'Kimberly-Clark'], r: ['Custos de matérias-primas e transporte.', 'Concorrência das marcas brancas.', 'Câmbio: vende muito fora dos EUA.'] },
+  KO: { n: 'Coca-Cola', o: 'Dona das marcas Coca-Cola, Sprite, Fanta, Powerade e Costa Coffee. Vende sobretudo concentrado e marcas a engarrafadores.', m: 'Venda de concentrado e licenças de marca, com margens altas e pouco capital investido.', c: ['PepsiCo', 'Keurig Dr Pepper'], r: ['Tendências de saúde (menos açúcar).', 'Impostos sobre bebidas açucaradas.', 'Câmbio: grande parte das vendas é fora dos EUA.'] },
+  PEP: { n: 'PepsiCo', o: 'Bebidas (Pepsi, Gatorade) e snacks (Lay\'s, Doritos, Quaker).', m: 'Venda de bebidas e snacks de marca em todo o mundo.', c: ['Coca-Cola', 'Mondelez', 'Kraft Heinz'], r: ['Medicamentos para perda de peso (GLP-1) podem reduzir o consumo de snacks.', 'Volumes sob pressão quando sobe os preços.', 'Custos de matérias-primas.'] },
+  MCD: { n: 'McDonald\'s', o: 'Cadeia de restaurantes. A grande maioria dos restaurantes é gerida por franquiados.', m: 'Recebe rendas e royalties dos franquiados: receitas estáveis e com margens altas.', c: ['Restaurant Brands (Burger King)', 'Yum! Brands', 'Wendy\'s'], r: ['Clientes de rendimentos mais baixos a cortar nos gastos.', 'Custos laborais e de alimentos.', 'Riscos de reputação e de segurança alimentar.'] },
+  JPM: { n: 'JPMorgan Chase', o: 'O maior banco dos EUA: banca de retalho, cartões, banca de investimento e gestão de ativos.', m: 'Margem de juros (diferença entre os juros que cobra e os que paga) e comissões.', c: ['Bank of America', 'Citigroup', 'Wells Fargo', 'Goldman Sachs'], r: ['Numa recessão aumentam os créditos em incumprimento.', 'Sensível às taxas de juro.', 'Regulação de capital.'] },
+  O: { n: 'Realty Income', o: '[[reit|REIT]] dono de milhares de imóveis comerciais (lojas, armazéns) arrendados com contratos longos. Paga dividendo todos os meses.', m: 'Rendas dos inquilinos, que pagam também impostos, seguros e manutenção dos imóveis.', c: ['NNN REIT', 'W. P. Carey', 'Agree Realty'], r: ['Juros altos encarecem o financiamento e tornam as obrigações mais atrativas.', 'Inquilinos do retalho em dificuldades.', 'Os dividendos de REITs têm um tratamento fiscal próprio nos EUA.'] },
+  AMD: { n: 'AMD', o: 'Desenha processadores (Ryzen, EPYC), GPUs (Radeon, Instinct para IA), chips para consolas e FPGAs.', m: 'Venda de chips para centros de dados, PCs, consolas e sistemas embebidos.', c: ['Intel', 'NVIDIA', 'Qualcomm'], r: ['Compete com a NVIDIA, dominante em IA.', 'Ciclicidade do mercado de PCs e de chips.', 'Restrições de exportação para a China.'] },
+  AVGO: { n: 'Broadcom', o: 'Semicondutores (redes e chips à medida para IA de grandes clientes) e software de infraestrutura (VMware, comprada em 2023).', m: 'Venda de chips com margens altas e subscrições de software.', c: ['Marvell', 'NVIDIA (redes)', 'Cisco'], r: ['Dívida da compra da VMware.', 'Poucos clientes concentram as vendas de chips de IA.', 'Ciclo dos semicondutores.'] },
+  NFLX: { n: 'Netflix', o: 'Plataforma de streaming por subscrição que produz séries e filmes, com um plano com publicidade em crescimento.', m: 'Subscrições mensais e publicidade.', c: ['Disney+', 'Amazon Prime Video', 'YouTube', 'HBO Max'], r: ['Custo elevado dos conteúdos.', 'Saturação de assinantes nos mercados maduros.', 'Concorrência pelo tempo de ecrã (YouTube, TikTok).'] },
+  SHOP: { n: 'Shopify', o: 'Empresa canadiana que fornece a plataforma de lojas online usada por milhões de comerciantes, com pagamentos integrados.', m: 'Subscrições mensais e comissões sobre os pagamentos processados (Shopify Payments).', c: ['Amazon', 'WooCommerce', 'Wix', 'BigCommerce'], r: ['Valorização muito exigente.', 'Depende do consumo e do comércio online.', 'Concorrência forte.'] },
+  UBER: { n: 'Uber', o: 'Plataforma de transporte de passageiros (Mobility), entregas (Uber Eats) e frete.', m: 'Comissões sobre cada viagem e entrega.', c: ['Bolt', 'Lyft', 'DoorDash', 'Glovo'], r: ['Regulação laboral dos motoristas (estatuto de trabalhador).', 'Os veículos autónomos (Waymo, Tesla) podem tanto ajudar como ameaçar o negócio.', 'Concorrência de preços.'] },
+  CRWD: { n: 'CrowdStrike', o: 'Cibersegurança na cloud (plataforma Falcon) vendida por subscrição a empresas.', m: 'Subscrições anuais de módulos de segurança.', c: ['Palo Alto Networks', 'Microsoft (Defender)', 'SentinelOne', 'Zscaler'], r: ['Valorização muito alta.', 'Em julho de 2024, uma atualização falhada bloqueou milhões de PCs Windows: mostra o risco operacional e de reputação.', 'Concorrência intensa.'] },
+  TSLA: { n: 'Tesla', o: 'Carros elétricos, baterias para armazenamento de energia e apostas em condução autónoma (robotáxi) e robôs humanoides (Optimus).', m: 'Venda de carros (a maior parte), armazenamento de energia, serviços e créditos regulatórios.', c: ['BYD', 'Volkswagen', 'GM', 'Waymo'], r: ['A valorização depende muito de promessas futuras (autonomia, robôs).', 'Concorrência chinesa e guerra de preços.', 'Dependência de Elon Musk (atenção dividida e polémicas).'] },
+  PLTR: { n: 'Palantir', o: 'Software de análise de dados para governos e defesa (Gotham), empresas (Foundry) e IA (AIP).', m: 'Contratos de software com governos e empresas.', c: ['Snowflake', 'Databricks', 'C3.ai', 'Grandes clouds'], r: ['Valorização extremamente alta face às receitas.', 'Dependência de contratos governamentais.', 'Grande volatilidade do preço.'] },
+  COIN: { n: 'Coinbase', o: 'Plataforma de compra e venda e de custódia de criptomoedas nos EUA.', m: 'Comissões de negociação, staking e juros associados à stablecoin USDC (em parceria com a Circle).', c: ['Robinhood', 'Binance', 'Kraken', 'ETFs de bitcoin'], r: ['Muito dependente do preço e da atividade das criptomoedas.', 'Regulação.', 'Concorrência que pressiona as comissões.'] },
+  SOFI: { n: 'SoFi Technologies', o: 'Banco digital (com licença bancária desde 2022): empréstimos pessoais e de estudantes, contas, investimentos e uma plataforma tecnológica para outros bancos (Galileo).', m: 'Margem de juros dos empréstimos, comissões e tecnologia.', c: ['Bancos tradicionais', 'Chime', 'Robinhood', 'LendingClub'], r: ['Risco de crédito numa recessão.', 'Sensível às taxas de juro.', 'Diluição: emissão de novas ações.'] },
+  RKLB: { n: 'Rocket Lab', o: 'Lança pequenos satélites (foguete Electron), desenvolve o foguete médio Neutron e fabrica componentes e satélites.', m: 'Contratos de lançamento e sistemas espaciais.', c: ['SpaceX', 'Firefly', 'Blue Origin'], r: ['Ainda com prejuízos.', 'Atrasos ou falhas técnicas (Neutron) afetam muito o preço.', 'Concorrência da SpaceX.'] },
+  IONQ: { n: 'IonQ', o: 'Computação quântica com iões aprisionados; vende acesso pela cloud e sistemas.', m: 'Contratos de acesso, sistemas e parcerias. As receitas ainda são pequenas.', c: ['IBM', 'Google', 'Rigetti', 'Quantinuum'], r: ['Tecnologia numa fase inicial: o sucesso comercial é incerto.', 'Prejuízos e diluição.', 'Valorização muito acima das receitas atuais.'] },
+  HOOD: { n: 'Robinhood Markets', o: 'Corretora e app de investimento (ações, opções, cripto) com negociação sem comissões.', m: 'Pagamento por fluxo de ordens, juros sobre saldos, subscrição Gold e cripto.', c: ['Charles Schwab', 'Interactive Brokers', 'Coinbase', 'eToro'], r: ['As receitas dependem da atividade de negociação dos clientes, que é cíclica.', 'Regulação do modelo de pagamento por fluxo de ordens.', 'Exposição às criptomoedas.'] },
+};
+
+/* Equivalentes UCITS (ISIN verificado; disponibilidade na Revolut a confirmar na app) */
+const UCITS = {
+  VOO: { list: [
+    { t: 'CSPX', n: 'iShares Core S&P 500 UCITS ETF (Acc)', isin: 'IE00B5BMR087', pol: 'acumulacao' },
+    { t: 'VUAA', n: 'Vanguard S&P 500 UCITS ETF (USD) Accumulating', isin: 'IE00BFMXXD54', pol: 'acumulacao' }],
+    note: 'Mesmo índice (S&P 500). Fundos com [[domicilio|domicílio]] na Irlanda, que reinvestem os dividendos. Custos e moeda de negociação podem diferir do VOO.' },
+  QQQ: { list: [
+    { t: 'EQQQ', n: 'Invesco EQQQ Nasdaq-100 UCITS ETF (Dist)', isin: 'IE0032077012', pol: 'distribuicao' },
+    { t: 'CNDX', n: 'iShares Nasdaq 100 UCITS ETF (Acc)', isin: 'IE00B53SZB19', pol: 'acumulacao' }],
+    note: 'Mesmo índice (Nasdaq-100). O EQQQ paga dividendos e o CNDX reinveste-os. Os custos ([[ter|TER]]) são mais altos do que nos ETFs de S&P 500.' },
+  VT: { list: [
+    { t: 'VWCE', n: 'Vanguard FTSE All-World UCITS ETF (USD) Accumulating', isin: 'IE00BK5BQT80', pol: 'acumulacao' }],
+    note: 'Índice parecido mas não igual: o VT inclui pequenas empresas (FTSE Global All Cap) e o VWCE só grandes e médias (FTSE All-World).' },
+  SCHD: { list: [
+    { t: 'VHYL', n: 'Vanguard FTSE All-World High Dividend Yield UCITS ETF (Dist)', isin: 'IE00B8GKDB10', pol: 'distribuicao' }],
+    note: '⚠️ Não é o mesmo índice: o SCHD só tem empresas dos EUA e o VHYL tem empresas de dividendo alto de todo o mundo. Comportamento diferente.' },
+  GLD: { list: [
+    { t: 'SGLN', n: 'iShares Physical Gold ETC', isin: 'IE00B4ND3602', pol: 'etc' }],
+    note: 'Acompanha o ouro físico como o GLD, mas é um [[etc|ETC]] (título de dívida garantido por ouro), não um fundo UCITS.' },
+};
+
+/* Regras automáticas de risco (limiares documentados) */
+const RISK_RULES = {
+  betaHigh: 1.5, volHigh: 45, peHigh: 40, debtHigh: 2, earningsDays: 14, weightHigh: 25,
+};
+
+/* ===== Academia MJIA — Nível 1: Fundamentos ===== */
+const ACADEMY_LEVELS = [
+  { n: 1, name: 'Fundamentos', ver: 'V1', ready: true },
+  { n: 2, name: 'Analisar empresas', ver: 'V3' },
+  { n: 3, name: 'Mercado e notícias', ver: 'V3' },
+  { n: 4, name: 'Gestão de risco e trading', ver: 'V5' },
+  { n: 5, name: 'Psicologia e disciplina', ver: 'V5' },
+  { n: 'imp', name: 'Impostos em Portugal', ver: 'V5' },
+];
+
+const LESSONS_L1 = [
+  { id: 'l1-1', t: 'O que compras: ações, ETFs e obrigações', min: 4, h: `
+<p>Quando compras uma <b>[[acao|ação]]</b> ficas dono de uma pequena parte de uma empresa. Se a empresa lucra e cresce, a ação tende a valorizar e pode pagar <b>[[dividendo|dividendos]]</b>. Se corre mal, o preço cai, e no limite (falência) podes perder tudo o que investiste <i>nessa</i> ação.</p>
+<p>Um <b>[[etf|ETF]]</b> é um fundo que guarda um cesto de ativos e que se compra e vende na bolsa como uma ação. Um ETF do <b>[[sp500|S&P 500]]</b>, por exemplo, dá-te um bocadinho de cerca de 500 empresas de uma só vez. É a forma mais simples de <b>[[diversificacao|diversificar]]</b>.</p>
+<div class="callout">🇪🇺 <b>Porque não podes comprar o VOO na Revolut?</b> Na UE, um particular só pode comprar fundos com <b>[[kid|KID]]</b>, e a maioria dos ETFs americanos não o publica. A solução é comprar o equivalente <b>[[ucits|UCITS]]</b> (ex.: CSPX ou VUAA em vez do VOO), normalmente com <b>[[domicilio|domicílio]]</b> na Irlanda. Na MJIA, a página de cada ETF mostra o equivalente.</div>
+<p>Uma <b>[[obrigacao|obrigação]]</b> é um empréstimo: emprestas dinheiro a um Estado ou a uma empresa e recebes juros. O risco é que o emitente não pague, e o preço da obrigação também mexe quando as taxas de juro mudam (se os juros sobem, as obrigações antigas valem menos).</p>
+<table class="mini"><tr><th></th><th>Ação</th><th>ETF de ações</th><th>Obrigação</th></tr>
+<tr><td>O que tens</td><td>Parte de 1 empresa</td><td>Parte de muitas</td><td>Um crédito</td></tr>
+<tr><td>Rendimento</td><td>Valorização + dividendos</td><td>Valorização + dividendos</td><td>Juros</td></tr>
+<tr><td>Risco</td><td>Alto</td><td>Médio (diversificado)</td><td>Baixo a médio</td></tr></table>` },
+
+  { id: 'l1-2', t: 'Poupar com pouco risco: depósitos, Certificados de Aforro e PPR', min: 4, h: `
+<p>Antes da bolsa, convém conhecer as alternativas de baixo risco em Portugal. Servem de comparação: se uma ação não te parece capaz de render claramente mais do que isto, o risco pode não compensar.</p>
+<p><b>[[deposito-prazo|Depósito a prazo]]</b>: dinheiro parado num banco durante um prazo, com juro fixo. Está protegido até 100 000 € por pessoa e por banco pelo <b>[[fgd|Fundo de Garantia de Depósitos]]</b>. Os juros pagam 28% de IRS (taxa liberatória), retidos automaticamente.</p>
+<p><b>[[certificados-aforro|Certificados de Aforro]]</b> (Série F): dívida do Estado para particulares, com a taxa ligada à <b>[[euribor|Euribor]]</b> a 3 meses e um teto de 2,5% na taxa base. Para subscrições de novembro de 2026, a taxa bruta está no teto de 2,500% (cerca de 1,8% líquidos depois de IRS), segundo o IGCP. A partir do 2.º ano há prémios de permanência. Só podes levantar depois do primeiro vencimento de juros (3 meses).</p>
+<p><b>[[ppr|PPR]]</b>: poupança para a reforma com benefício fiscal (dedução à coleta de IRS de 20% do valor aplicado, com limites por idade). <b>Atenção:</b> se ainda não pagas IRS, o benefício pode ser zero, e levantar fora das condições previstas na lei tem penalizações.</p>
+<div class="callout warn">ℹ️ As taxas e regras mudam: confirma sempre no IGCP, no teu banco e na lei em vigor. Informação geral, não é aconselhamento.</div>` },
+
+  { id: 'l1-3', t: 'Risco vs. retorno e juros compostos', min: 5, h: `
+<p><b>[[risco-retorno|Risco e retorno andam juntos.]]</b> Ações tiveram historicamente retornos médios mais altos do que depósitos, mas com anos de quedas fortes (−20%, −30% ou pior). Ninguém consegue ter retorno alto sem risco. Quem promete o contrário está a enganar-te.</p>
+<p>Os <b>[[juros-compostos|juros compostos]]</b> são rendimento sobre rendimento. Se 100 € rendem 7% num ano, ficas com 107 €; no ano seguinte os 7% são calculados sobre 107 €, e assim por diante. Com o tempo, a curva acelera.</p>
+<p>Fórmula: <code>Valor final = Capital × (1 + taxa)<sup>anos</sup></code>. Com reforços mensais o cálculo é feito mês a mês, como na calculadora abaixo.</p>
+<div data-widget="juros"></div>
+<div class="callout warn">⚠️ A taxa da calculadora é ilustrativa: não é uma previsão. Os retornos reais variam muito de ano para ano e podem ser negativos. A <b>[[inflacao|inflação]]</b> também come parte do ganho.</div>` },
+
+  { id: 'l1-4', t: 'Diversificação e investimento periódico (DCA)', min: 3, h: `
+<p><b>[[diversificacao|Diversificar]]</b> é não pôr os ovos todos no mesmo cesto. Se tens só uma ação e a empresa tem um escândalo, a tua carteira afunda. Com 500 empresas (um ETF), um escândalo quase não se nota.</p>
+<p>A diversificação reduz o <i>risco específico</i> (de uma empresa ou setor), mas <b>não elimina o risco de mercado</b>: quando a bolsa toda cai, um ETF também cai. Também conta diversificar por país, por setor e por moeda (ver <b>[[concentracao|concentração]]</b>).</p>
+<p><b>[[dca|DCA]]</b> (investimento periódico): investir um valor fixo em datas fixas (ex.: 50 € no início de cada mês). Quando o preço está alto compras menos unidades; quando está baixo compras mais. Evita a tentação de adivinhar o "momento certo", algo que nem os profissionais conseguem fazer de forma consistente.</p>
+<div class="callout">💡 No teu caso: reforços de 50–100 € encaixam bem em DCA. Atenção às <b>[[comissao|comissões]]</b>: com montantes pequenos, uma comissão fixa pesa muito (ver a lição sobre a Revolut).</div>` },
+
+  { id: 'l1-5', t: 'Tipos de ordens e horário da bolsa', min: 5, h: `
+<p>Uma ordem é o pedido que dás à corretora para comprar ou vender.</p>
+<ul>
+<li><b>[[ordem-mercado|Ordem de mercado]]</b>: executa já, ao melhor preço disponível. É simples, mas numa ação muito volátil ou fora de horas o preço pode ser pior do que esperavas.</li>
+<li><b>[[ordem-limite|Ordem limite]]</b>: "compra só a 100 $ ou menos" (ou "vende só a 120 $ ou mais"). Controlas o preço, mas a ordem pode nunca ser executada.</li>
+<li><b>[[ordem-stop|Ordem stop]]</b> (stop-loss): "se cair até 90 $, vende". Ao tocar nos 90 $ passa a ordem de mercado; numa queda brusca pode vender a 85 $.</li>
+<li><b>[[ordem-stop-limite|Ordem stop-limit]]</b>: "se tocar nos 90 $, tenta vender a pelo menos 88 $". Protege o preço, mas se cair a pique pode não vender.</li>
+</ul>
+<p><b>Horário:</b> a bolsa dos EUA funciona das 9h30 às 16h00 de Nova Iorque, ou seja <b>14h30–21h00 em Lisboa</b>. Durante cerca de 3 semanas em março e 1 semana entre o fim de outubro e o início de novembro é <b>13h30–20h00</b>, porque os EUA e a Europa mudam a hora em datas diferentes. A MJIA calcula o horário certo para o dia de hoje.</p>
+<p><b>Fora do horário:</b> uma ordem colocada à noite fica pendente até à abertura (ou é executada em <b>[[pre-market|pré-abertura ou pós-fecho]]</b>, se a corretora o permitir). Nessas sessões há pouca <b>[[liquidez|liquidez]]</b>, o <b>[[spread|spread]]</b> é maior e o preço pode abrir com um <b>[[gap|gap]]</b>. Uma ordem de mercado colocada à noite pode executar a um preço bem diferente do que viste.</p>
+<div class="callout">💡 Na Revolut, confirma na app que tipos de ordem estão disponíveis para cada título e se as <b>[[fracao|frações]]</b> aceitam ordens limite.</div>` },
+
+  { id: 'l1-6', t: 'Vender não é levantar: execução, liquidação e câmbio', min: 4, h: `
+<p>Carregar em "vender" não põe euros na tua conta à ordem no mesmo instante. Há várias etapas:</p>
+<ol>
+<li><b>[[execucao|Execução]]</b>: a venda é feita a um preço. A partir daqui o preço já não te afeta.</li>
+<li><b>[[liquidacao|Liquidação]]</b>: nos EUA é <b>[[t1|T+1]]</b>, ou seja, 1 dia útil depois as ações e o dinheiro mudam oficialmente de mãos. Feriados americanos atrasam a liquidação.</li>
+<li><b>Conversão de moeda</b>: se vendeste em dólares, ficas com USD. Converter para EUR tem <b>[[risco-cambial|risco cambial]]</b> (o câmbio muda enquanto esperas) e pode ter custo (ver <b>[[fx-fim-semana|câmbio ao fim de semana]]</b>).</li>
+<li><b>Levantar</b>: transferir o dinheiro da conta de investimento para a conta à ordem ou para outro banco.</li>
+</ol>
+<p><b>Exemplo:</b> vendes na sexta às 20h00 (Lisboa). A liquidação é na segunda-feira seguinte, e só aí o dinheiro fica disponível para levantar. Se converteres USD → EUR ao sábado, pagas a margem de fim de semana.</p>
+<div class="callout">🎯 Para a viagem: se precisares do dinheiro numa data, não deixes a venda para o último dia. Conta com alguns dias úteis e com a variação do câmbio.</div>` },
+
+  { id: 'l1-7', t: 'Comissões e câmbio na Revolut', min: 4, h: `
+<p>Segundo a página de ajuda da Revolut em Portugal (consultada em ${'nov. 2026'}), as <b>ordens sem [[comissao|comissão]]</b> por mês dependem do plano:</p>
+<table class="mini"><tr><th>Plano</th><th>Ordens sem comissão/mês</th></tr>
+<tr><td>Standard e Plus</td><td>0</td></tr><tr><td>Premium</td><td>5</td></tr><tr><td>Metal e Ultra</td><td>10</td></tr></table>
+<p>Acima disso há uma comissão por ordem (percentagem do valor, com um <b>mínimo de cerca de 1 €</b>). A documentação de taxas da Revolut indica que nas <b>compras recorrentes de ETFs</b> não se aplica a comissão mínima. <b>Confirma sempre o custo no ecrã de confirmação da ordem</b>: as condições mudam.</p>
+<p><b>Faz as contas:</b> comprar 20 € com 1 € de comissão custa <b>5%</b> logo à partida, e a ação tem de subir 5% só para empatares. Com 100 € são 1%. Conclusão: compras menos frequentes e maiores, ou planos recorrentes de ETFs, ficam mais baratos.</p>
+<p><b>[[cambio|Câmbio]]:</b> nos planos Standard e Plus, converter moeda é grátis até 1 000 € por mês em dias úteis; acima disso há uma comissão (1% no Standard, 0,5% no Plus), e <b>ao fim de semana</b> há uma margem extra. Comprar ações americanas implica converter EUR → USD.</p>
+<p><b>Proteção:</b> o dinheiro em conta na Revolut Bank está coberto até 100 000 € (garantia de depósitos lituana). Os investimentos estão na Revolut Securities Europe, separados dos ativos da empresa e cobertos até 22 000 € pelo <b>[[protecao-investidor|sistema de indemnização aos investidores]]</b>, que cobre a falência da corretora e não as descidas de preço.</p>` },
+
+  { id: 'l1-8', t: 'Fundo de emergência e dinheiro com prazo', min: 3, h: `
+<p>O <b>[[fundo-emergencia|fundo de emergência]]</b> vem antes de qualquer investimento: normalmente 3 a 6 meses de despesas, num sítio seguro e de acesso imediato (conta poupança ou depósito mobilizável). Tu já o tens separado. Ótimo!</p>
+<p><b>Regra do horizonte:</b> dinheiro de que vais precisar em menos de 3–5 anos não deve depender da bolsa. Num ano mau, as ações podem cair 20–30% precisamente quando precisas do dinheiro.</p>
+<div class="callout warn">🎿 <b>Aplicado à viagem à neve (fev. 2027):</b> o dinheiro da viagem é de <i>curto prazo</i>. Faz sentido vir da poupança (conta ou Certificados de Aforro, por exemplo). Os lucros da bolsa são um bónus e nunca a base do plano. Se a meta estiver atrasada, a resposta é poupar mais ou ajustar a meta, nunca arriscar mais para a recuperar.</div>
+<p>É por isso que a MJIA separa os blocos e a barra do objetivo mostra a poupança e os lucros <i>realizados</i> separadamente.</p>` },
+];
+
+const QUIZ_L1 = [
+  { q: 'Quando compras uma ação da Apple, o que passas a ter?', o: ['Uma pequena parte da empresa', 'Um empréstimo feito à Apple', 'Um direito a um iPhone com desconto', 'Uma garantia de dividendos anuais'], a: 0, e: 'Uma ação é uma fração do capital da empresa. Dividendos não são garantidos.' },
+  { q: 'O que é um ETF?', o: ['Um depósito a prazo em bolsa', 'Um cesto de ativos que se negoceia em bolsa como uma ação', 'Uma ação com dividendos garantidos', 'Um tipo de criptomoeda'], a: 1, e: 'Um ETF replica, em geral, um índice, como o S&P 500, e dá-te exposição a muitos ativos de uma vez.' },
+  { q: 'Porque é que, na UE, compras o CSPX em vez do VOO?', o: ['Porque o CSPX rende sempre mais', 'Porque o VOO é ilegal nos EUA', 'Porque os ETFs americanos geralmente não têm KID e não podem ser vendidos a particulares na UE', 'Porque o CSPX não tem custos'], a: 2, e: 'Sem KID, a corretora não pode vendê-los a particulares na UE. O equivalente UCITS segue o mesmo índice.' },
+  { q: 'Investes 1000 € a 5% ao ano, com reinvestimento. Ao fim de 2 anos tens…', o: ['1100,00 €', '1102,50 €', '1050,00 €', '1200,00 €'], a: 1, e: '1000 × 1,05 × 1,05 = 1102,50 €. Os 2,50 € extra são os juros sobre juros, ou seja, os juros compostos.' },
+  { q: 'O que é DCA?', o: ['Comprar tudo de uma vez no ponto mais baixo', 'Investir um montante fixo em intervalos regulares', 'Vender quando cai 10%', 'Usar dinheiro emprestado para investir'], a: 1, e: 'Dollar-Cost Averaging: valores fixos em datas fixas, sem tentar adivinhar o momento.' },
+  { q: 'Uma ação está a 105 $. Colocas uma ordem LIMITE de compra a 100 $. O que acontece?', o: ['Compra já a 105 $', 'Só compra se o preço chegar a 100 $ ou menos', 'Compra a 100 $ mesmo que o preço não desça', 'Vende a 100 $'], a: 1, e: 'A ordem limite garante o preço máximo, mas pode nunca ser executada.' },
+  { q: 'Tens um stop (stop-loss simples) a 90 $ e a ação abre a 84 $ depois de más notícias noturnas. A que preço vendes, aproximadamente?', o: ['Exatamente 90 $', 'Perto de 84 $', 'Não vende', '95 $'], a: 1, e: 'Ao ser ativado, o stop torna-se ordem de mercado. Com um gap de abertura vende perto dos 84 $. Um stop-limit podia nem vender.' },
+  { q: 'Num dia normal (fora das semanas de mudança da hora), a bolsa dos EUA funciona em Lisboa…', o: ['09h00–17h30', '14h30–21h00', '15h30–22h00', '24 horas por dia'], a: 1, e: '9h30–16h00 em Nova Iorque corresponde a 14h30–21h00 em Lisboa, exceto nas semanas em que os relógios estão desalinhados (13h30–20h00).' },
+  { q: 'Vendeste ações americanas hoje. Nos EUA, a liquidação acontece…', o: ['No mesmo segundo', 'T+1: 1 dia útil depois', 'T+5', 'Só no fim do mês'], a: 1, e: 'Desde 28 de maio de 2024 os EUA liquidam em T+1.' },
+  { q: 'Compras 20 € de uma ação e pagas 1 € de comissão. Quanto tem de subir só para empatares?', o: ['1%', 'Cerca de 5%', '0,5%', '20%'], a: 1, e: '1 € em 20 € são 5%. Com montantes pequenos, as comissões fixas pesam muito.' },
+  { q: 'O dinheiro para a viagem de fevereiro de 2027 deve estar sobretudo…', o: ['No bloco de alto risco, para crescer mais depressa', 'Em poupança segura e de fácil acesso', 'Em ações que já subiram muito', 'Investido com alavancagem'], a: 1, e: 'Dinheiro de curto prazo não deve depender da bolsa. Os lucros são um bónus.' },
+  { q: 'Diversificar com um ETF mundial…', o: ['Elimina todo o risco', 'Reduz o risco de uma empresa específica, mas não o risco do mercado como um todo', 'Garante lucro', 'Só serve para quem tem muito dinheiro'], a: 1, e: 'Quando o mercado todo cai, um ETF diversificado também cai. Diversificar evita o desastre de uma empresa isolada.' },
+];
+const QUIZ_L1_PASS = 10; /* de 12 (≥ 83%) */
+
+
+/* =====================================================================
+   MJIA — núcleo: utilidades, armazenamento, gestor de pedidos, câmbio,
+   cálculo da carteira (FIFO em euros com efeito do câmbio separado)
+   ===================================================================== */
+
+/* ---------- utilidades ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const z2 = n => String(n).padStart(2, '0');
+const localDate = d => `${d.getFullYear()}-${z2(d.getMonth() + 1)}-${z2(d.getDate())}`;
+const todayISO = () => localDate(new Date());
+const utcDay = () => new Date().toISOString().slice(0, 10);
+const isNum = v => typeof v === 'number' && isFinite(v);
+const sum = (a, f = x => x) => a.reduce((s, x) => s + (f(x) || 0), 0);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const MIN = 60e3, HOUR = 36e5, DAY = 864e5;
+
+const _nf = {};
+const nf = (a, b) => (_nf[a + ':' + b] ||= new Intl.NumberFormat('pt-PT', { minimumFractionDigits: a, maximumFractionDigits: b }));
+const _cf = {};
+const cf = (ccy, d) => (_cf[ccy + d] ||= new Intl.NumberFormat('pt-PT', { style: 'currency', currency: ccy, minimumFractionDigits: d, maximumFractionDigits: d }));
+function fmtMoney(v, ccy = 'EUR', d = 2) { return isNum(v) ? cf(ccy, d).format(v) : '—'; }
+const fmtEUR = (v, d = 2) => fmtMoney(v, 'EUR', d);
+const fmtUSD = (v, d = 2) => fmtMoney(v, 'USD', d);
+const fmtSignedEUR = v => isNum(v) ? (v > 0 ? '+' : '') + fmtEUR(v) : '—';
+const fmtNum = (v, d = 2) => isNum(v) ? nf(d, d).format(v) : '—';
+const fmtQty = v => isNum(v) ? nf(0, 6).format(v) : '—';
+const fmtPct = (v, d = 2, sign = true) => isNum(v) ? (sign && v > 0 ? '+' : '') + nf(d, d).format(v) + '%' : '—';
+const fmtDate = iso => { if (!iso) return '—'; const [y, m, d] = String(iso).slice(0, 10).split('-'); return `${d}/${m}/${y}`; };
+const fmtDT = ts => { if (!ts) return '—'; const d = new Date(ts); return `${z2(d.getDate())}/${z2(d.getMonth() + 1)}/${d.getFullYear()} ${z2(d.getHours())}:${z2(d.getMinutes())}`; };
+const fmtAgo = ts => { const s = (Date.now() - ts) / 1000; if (s < 60) return 'agora mesmo'; if (s < 3600) return `há ${Math.round(s / 60)} min`; if (s < 86400) return `há ${Math.round(s / 3600)} h`; return `há ${Math.round(s / 86400)} dias`; };
+const cls = v => !isNum(v) ? 'flat' : v > 0 ? 'up' : v < 0 ? 'down' : 'flat';
+const arrow = v => !isNum(v) ? '' : v > 0 ? '▲ ' : v < 0 ? '▼ ' : '■ ';
+function fmtBig(v, ccy = 'USD') { // valores grandes (market cap)
+  if (!isNum(v)) return '—';
+  const a = Math.abs(v), sym = ccy === 'EUR' ? '€' : '$';
+  if (a >= 1e12) return nf(2, 2).format(v / 1e12) + ' biliões ' + sym;
+  if (a >= 1e9) return nf(1, 1).format(v / 1e9) + ' mil M' + sym;
+  if (a >= 1e6) return nf(0, 0).format(v / 1e6) + ' M' + sym;
+  return fmtMoney(v, ccy, 0);
+}
+/* termos técnicos: [[id|texto]] → span com explicação */
+function term(id, label) { const g = GLOSSARY[id]; return `<span class="term" tabindex="0" role="button" data-t="${esc(id)}">${label ?? (g ? esc(g[0]) : esc(id))}</span>`; }
+function T(s) { return String(s ?? '').replace(/\[\[([a-z0-9-]+)(?:\|([^\]]+))?\]\]/g, (_, id, lbl) => term(id, lbl)); }
+
+/* ---------- armazenamento ---------- */
+const MEM = new Map();
+let STORAGE_OK = true;
+try { const k = '__mjia_t'; localStorage.setItem(k, '1'); localStorage.removeItem(k); } catch (e) { STORAGE_OK = false; }
+const LS = {
+  get(k, def) { try { const v = STORAGE_OK ? localStorage.getItem(k) : MEM.get(k); return v == null ? def : JSON.parse(v); } catch (e) { return def; } },
+  set(k, v) { const s = JSON.stringify(v); try { if (STORAGE_OK) localStorage.setItem(k, s); else MEM.set(k, s); return true; } catch (e) { return false; } },
+  raw(k, s) { if (STORAGE_OK) localStorage.setItem(k, s); else MEM.set(k, s); },
+  del(k) { try { STORAGE_OK ? localStorage.removeItem(k) : MEM.delete(k); } catch (e) { } },
+  keys() { try { return STORAGE_OK ? Object.keys(localStorage) : [...MEM.keys()]; } catch (e) { return []; } },
+};
+const K_DATA = 'mjia.data.v1', K_KEYS = 'mjia.keys.v1', K_USAGE = 'mjia.usage.v1', K_CACHE = 'mjia.c.';
+
+function defaultState() {
+  return {
+    schema: 1, createdAt: new Date().toISOString(), onboarded: false,
+    settings: { goal: { name: 'Viagem à neve', target: 1300, date: '2027-02-01' }, highRiskCap: 150, lastExport: null },
+    tx: [], cash: [], savings: [],
+    universe: UNIVERSE_DEFAULT.map(u => ({ ...u })),
+    priceSrc: {},
+    academy: { read: {}, quiz: {} },
+  };
+}
+let state = loadState();
+function loadState() {
+  const s = LS.get(K_DATA, null);
+  if (!s || typeof s !== 'object') return defaultState();
+  return migrate(s);
+}
+function migrate(s) {
+  const d = defaultState();
+  const out = { ...d, ...s, settings: { ...d.settings, ...(s.settings || {}), goal: { ...d.settings.goal, ...((s.settings || {}).goal || {}) } }, academy: { ...d.academy, ...(s.academy || {}) } };
+  for (const k of ['tx', 'cash', 'savings', 'universe']) if (!Array.isArray(out[k])) out[k] = d[k];
+  if (!out.priceSrc || typeof out.priceSrc !== 'object') out.priceSrc = {};
+  return out;
+}
+function save() { state.updatedAt = new Date().toISOString(); if (!LS.set(K_DATA, state)) { evictCache(0.6); if (!LS.set(K_DATA, state)) toast('⚠️ Não foi possível guardar: armazenamento cheio.'); } }
+
+/* chaves das APIs: só neste dispositivo, nunca no código */
+let KEYS = LS.get(K_KEYS, {}) || {};
+function saveKeys(k) { KEYS = k; LS.set(K_KEYS, k); }
+
+/* ---------- ambiente ---------- */
+const HOST = location.hostname || '';
+const IN_ARTIFACT = /claude/i.test(HOST) || /claudeusercontent/i.test(HOST);
+
+/* ---------- gestor de pedidos ---------- */
+const APIS = {
+  finnhub: { name: 'Finnhub', base: 'https://finnhub.io/api/v1', keyParam: 'token', perMin: 55, perDay: null, reserve: 0, limit: '60 pedidos/minuto (a MJIA usa no máx. 55)', signup: 'https://finnhub.io/register' },
+  fmp: { name: 'Financial Modeling Prep', base: 'https://financialmodelingprep.com/stable', keyParam: 'apikey', perMin: 30, perDay: 250, reserve: 60, limit: '250 pedidos/dia (60 reservados à tua carteira)', signup: 'https://site.financialmodelingprep.com/register' },
+  av: { name: 'Alpha Vantage', base: 'https://www.alphavantage.co/query', keyParam: 'apikey', perMin: 5, perDay: 25, reserve: 8, limit: '25 pedidos/dia e 5/minuto (8 reservados à tua carteira)', signup: 'https://www.alphavantage.co/support/#api-key' },
+  fx: { name: 'Frankfurter (BCE)', base: 'https://api.frankfurter.dev', keyParam: null, perMin: 30, perDay: null, reserve: 0, limit: 'sem chave; uso moderado', signup: 'https://frankfurter.dev' },
+};
+const PRIO = { bg: 1, page: 2, portfolio: 3 };
+
+class ApiError extends Error {
+  constructor(code, api, detail) { super(code); this.code = code; this.api = api; this.detail = detail; }
+  get human() {
+    const n = APIS[this.api]?.name || this.api;
+    return ({
+      nokey: `falta a chave ${n} (Definições)`,
+      blocked: 'dados ao vivo bloqueados neste ambiente de pré-visualização',
+      budget: `limite diário ${n} quase esgotado: os pedidos restantes ficam reservados à tua carteira`,
+      limit: `limite de pedidos ${n} atingido; tenta mais tarde`,
+      plan: `não incluído no plano gratuito ${n}`,
+      invalid: `chave ${n} inválida`,
+      network: `sem ligação a ${n}`,
+      nodata: 'sem dados para este título',
+      http: `erro ${this.detail || ''} em ${n}`,
+    })[this.code] || this.code;
+  }
+}
+
+let usage = loadUsage();
+function loadUsage() { const u = LS.get(K_USAGE, null); return (u && u.day === utcDay()) ? u : { day: utcDay(), n: {}, err: (u && u.err) || {} }; }
+function bumpUsage(api) { if (usage.day !== utcDay()) usage = loadUsage(); usage.n[api] = (usage.n[api] || 0) + 1; LS.set(K_USAGE, usage); }
+function noteErr(api, code) { usage.err[api] = { code, at: Date.now() }; LS.set(K_USAGE, usage); }
+function usedToday(api) { if (usage.day !== utcDay()) usage = loadUsage(); return usage.n[api] || 0; }
+
+const RECENT = {};
+function minuteCount(api) { const now = Date.now(), a = (RECENT[api] ||= []); while (a.length && now - a[0] > MIN) a.shift(); return a.length; }
+
+function preflight(api, prio) {
+  const A = APIS[api];
+  if (IN_ARTIFACT) throw new ApiError('blocked', api);
+  if (A.keyParam && !KEYS[api]) throw new ApiError('nokey', api);
+  if (A.perDay) {
+    const u = usedToday(api);
+    if (u >= A.perDay) throw new ApiError('limit', api);
+    if (prio < PRIO.portfolio && u >= A.perDay - A.reserve) throw new ApiError('budget', api);
+  }
+}
+
+const Q = []; let qActive = 0, qTimer = null, qSeq = 0;
+const Q_MAX = 4;
+function enqueue(job) { return new Promise((resolve, reject) => { Q.push({ ...job, resolve, reject, seq: qSeq++ }); pump(); }); }
+function pump() {
+  if (qTimer) { clearTimeout(qTimer); qTimer = null; }
+  Q.sort((a, b) => b.prio - a.prio || a.seq - b.seq);
+  let wait = Infinity;
+  for (let i = 0; i < Q.length && qActive < Q_MAX;) {
+    const j = Q[i], lim = APIS[j.api].perMin;
+    if (lim && minuteCount(j.api) >= lim) { wait = Math.min(wait, MIN - (Date.now() - RECENT[j.api][0]) + 60); i++; continue; }
+    Q.splice(i, 1); qActive++; RECENT[j.api].push(Date.now());
+    runJob(j).then(j.resolve, j.reject).finally(() => { qActive--; pump(); onQueueChange(); });
+  }
+  if (Q.length && wait < Infinity) qTimer = setTimeout(pump, wait);
+  onQueueChange();
+}
+let onQueueChange = () => { };
+function buildUrl(api, path, params) {
+  const A = APIS[api];
+  const u = new URL(A.base + path);
+  for (const [k, v] of Object.entries(params || {})) if (v != null) u.searchParams.set(k, v);
+  if (A.keyParam) u.searchParams.set(A.keyParam, KEYS[api]);
+  return u.toString();
+}
+async function runJob(j) {
+  try { preflight(j.api, j.prio); } catch (e) { throw e; }
+  const url = buildUrl(j.api, j.path, j.params);
+  const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 15000);
+  bumpUsage(j.api);
+  let res, body;
+  try {
+    res = await fetch(url, { signal: ctl.signal, headers: { Accept: 'application/json' } });
+    const txt = await res.text();
+    try { body = JSON.parse(txt); } catch (e) { body = txt; }
+  } catch (e) { noteErr(j.api, 'network'); throw new ApiError('network', j.api); }
+  finally { clearTimeout(tm); }
+  const err = detectError(j.api, res.status, body);
+  if (err) { noteErr(j.api, err); throw new ApiError(err, j.api, res.status); }
+  if (j.validate && !j.validate(body)) throw new ApiError('nodata', j.api);
+  return { data: body, at: Date.now() };
+}
+function detectError(api, status, b) {
+  if (status === 429) return 'limit';
+  if (status === 401) return 'invalid';
+  if (status === 402 || status === 403) return 'plan';
+  /* só analisamos o texto quando a resposta tem forma de erro (nunca em dados válidos) */
+  let msg = null;
+  if (typeof b === 'string') msg = b || 'vazio';
+  else if (b && typeof b === 'object' && !Array.isArray(b)) msg = b['Error Message'] || b.error || b.Note || b.Information || (api === 'fx' ? b.message : null) || null;
+  if (msg) {
+    const low = String(msg).toLowerCase();
+    if (/limit reach|rate limit|frequency|requests per day|per minute|too many/.test(low)) return 'limit';
+    if (/invalid api|api key is invalid|invalid apikey|demo api key|invalid token|wrong token/.test(low)) return 'invalid';
+    if (/premium|subscription|restricted|special endpoint|not available under|access to this resource|upgrade/.test(low)) return 'plan';
+    if (api === 'av' && b && b['Error Message']) return 'nodata';
+    if (api === 'fx') return 'nodata';
+    return 'http';
+  }
+  if (status >= 400) return 'http';
+  return null;
+}
+
+/* cache (localStorage, com despejo dos mais antigos quando enche) */
+function cacheGet(ck) { return LS.get(K_CACHE + ck, null); }
+function cacheSet(ck, d, at) {
+  const v = JSON.stringify({ at, d });
+  try { LS.raw(K_CACHE + ck, v); } catch (e) { evictCache(0.4); try { LS.raw(K_CACHE + ck, v); } catch (e2) { } }
+}
+function evictCache(frac) {
+  const items = LS.keys().filter(k => k.startsWith(K_CACHE)).map(k => ({ k, at: (LS.get(k, {}) || {}).at || 0 })).sort((a, b) => a.at - b.at);
+  items.slice(0, Math.ceil(items.length * frac)).forEach(i => LS.del(i.k));
+}
+function cacheStats() { const ks = LS.keys().filter(k => k.startsWith(K_CACHE)); let bytes = 0; try { ks.forEach(k => bytes += (localStorage.getItem(k) || '').length); } catch (e) { } return { n: ks.length, kb: bytes / 1024 }; }
+function clearCache() { LS.keys().filter(k => k.startsWith(K_CACHE)).forEach(k => LS.del(k)); }
+
+const INFLIGHT = new Map();
+async function apiGet(api, path, params, opt = {}) {
+  const ck = opt.ck || `${api}:${path}:${JSON.stringify(params || {})}`;
+  const ttl = opt.ttl ?? 5 * MIN, prio = opt.prio || PRIO.page;
+  const c = cacheGet(ck);
+  if (c && !opt.force && (ttl === Infinity || Date.now() - c.at < ttl)) return { data: c.d, at: c.at, api, cached: true };
+  if (INFLIGHT.has(ck)) return INFLIGHT.get(ck);
+  const p = (async () => {
+    try {
+      preflight(api, prio);
+      const r = await enqueue({ api, path, params, prio, validate: opt.validate });
+      const d = opt.transform ? opt.transform(r.data) : r.data;
+      cacheSet(ck, d, r.at);
+      return { data: d, at: r.at, api };
+    } catch (e) {
+      if (c) return { data: c.d, at: c.at, api, cached: true, stale: true, err: e };
+      throw e instanceof ApiError ? e : new ApiError('network', api);
+    } finally { INFLIGHT.delete(ck); }
+  })();
+  INFLIGHT.set(ck, p);
+  return p;
+}
+
+/* ---------- fontes de dados ---------- */
+const QUOTES = {};   // ticker → { c, d, dp, h, l, pc, t, at, api, stale }
+const PROFILES = {}; // ticker → perfil Finnhub (para setor/país na diversificação)
+function hydrateFromCache() {
+  for (const k of LS.keys()) {
+    if (k.startsWith(K_CACHE + 'q:')) { const v = LS.get(k, null); if (v?.d) QUOTES[k.slice(K_CACHE.length + 2)] = { ...v.d, at: v.at, api: 'finnhub', cached: true }; }
+    if (k.startsWith(K_CACHE + 'pf:')) { const v = LS.get(k, null); if (v?.d) PROFILES[k.slice(K_CACHE.length + 3)] = v.d; }
+  }
+}
+const validQuote = d => d && isNum(d.c) && !(d.c === 0 && !d.t);
+async function getQuote(t, prio = PRIO.page, force = false) {
+  const r = await apiGet('finnhub', '/quote', { symbol: t }, { ck: 'q:' + t, ttl: 5 * MIN, prio, force, validate: validQuote });
+  QUOTES[t] = { ...r.data, at: r.at, api: 'finnhub', stale: !!r.stale };
+  return r;
+}
+async function getProfile(t, prio) { const r = await apiGet('finnhub', '/stock/profile2', { symbol: t }, { ck: 'pf:' + t, ttl: 7 * DAY, prio }); if (r.data && r.data.name) PROFILES[t] = r.data; return r; }
+const getMetrics = (t, prio) => apiGet('finnhub', '/stock/metric', { symbol: t, metric: 'all' }, { ck: 'm:' + t, ttl: DAY, prio });
+const getPeers = (t, prio) => apiGet('finnhub', '/stock/peers', { symbol: t }, { ck: 'peers:' + t, ttl: 7 * DAY, prio });
+function getEarnings(t, prio) {
+  const from = todayISO(), to = localDate(new Date(Date.now() + 200 * DAY));
+  return apiGet('finnhub', '/calendar/earnings', { symbol: t, from, to }, { ck: 'earn:' + t, ttl: DAY, prio });
+}
+const getFmpProfile = (t, prio) => apiGet('fmp', '/profile', { symbol: t }, { ck: 'fpf:' + t, ttl: 7 * DAY, prio, validate: d => Array.isArray(d) && d.length > 0 });
+const getDividends = (t, prio) => apiGet('fmp', '/dividends', { symbol: t }, { ck: 'div:' + t, ttl: DAY, prio, transform: d => (Array.isArray(d) ? d : (d.historical || [])).slice(0, 12).map(x => ({ date: x.date, pay: x.paymentDate, rec: x.recordDate, decl: x.declarationDate, amt: x.dividend ?? x.adjDividend, freq: x.frequency })) });
+async function getChart(t, prio) {
+  const from = localDate(new Date(Date.now() - 5 * 365.25 * DAY));
+  try {
+    const r = await apiGet('fmp', '/historical-price-eod/light', { symbol: t, from }, {
+      ck: 'ch:' + t, ttl: DAY, prio,
+      validate: d => (Array.isArray(d) ? d : d?.historical || []).length > 5,
+      transform: d => ({ src: 'fmp', step: 'diário', pts: (Array.isArray(d) ? d : d.historical).map(x => [x.date, +(x.price ?? x.close), +(x.volume || 0)]).filter(p => isNum(p[1])).sort((a, b) => a[0] < b[0] ? -1 : 1) }),
+    });
+    return r;
+  } catch (e) {
+    if (e.code === 'nokey' || e.code === 'blocked') throw e;
+    const r = await apiGet('av', '', { function: 'TIME_SERIES_WEEKLY', symbol: t }, {
+      ck: 'chav:' + t, ttl: DAY, prio,
+      validate: d => d && d['Weekly Time Series'],
+      transform: d => ({ src: 'av', step: 'semanal, não ajustado a splits', pts: Object.entries(d['Weekly Time Series']).map(([k, v]) => [k, +v['4. close'], +v['5. volume']]).sort((a, b) => a[0] < b[0] ? -1 : 1).filter(p => p[0] >= from) }),
+    });
+    r.fallbackFrom = e;
+    return r;
+  }
+}
+async function getAvQuote(sym, prio) {
+  return apiGet('av', '', { function: 'GLOBAL_QUOTE', symbol: sym }, { ck: 'avq:' + sym, ttl: 12 * HOUR, prio, validate: d => d && d['Global Quote'] && d['Global Quote']['05. price'], transform: d => ({ c: +d['Global Quote']['05. price'], day: d['Global Quote']['07. latest trading day'], dp: parseFloat(d['Global Quote']['10. change percent']) }) });
+}
+
+/* ---------- câmbio (BCE via Frankfurter): guardamos USD por 1 EUR ---------- */
+const FX = { latest: null };
+function parseFx(d) {
+  if (!d || typeof d !== 'object') return null;
+  if (Array.isArray(d)) d = d[0] || {};
+  const rate = isNum(d.rate) ? d.rate : (d.rates && isNum(d.rates.USD) ? d.rates.USD : null);
+  return rate ? { rate, date: d.date } : null;
+}
+async function fxApi(path1, path2, ck, ttl, prio) {
+  try { const r = await apiGet('fx', path1, null, { ck, ttl, prio, validate: d => !!parseFx(d), transform: parseFx }); return r; }
+  catch (e) { if (e.code === 'blocked') throw e; return apiGet('fx', path2, null, { ck, ttl, prio, validate: d => !!parseFx(d), transform: parseFx }); }
+}
+async function getFxLatest(prio = PRIO.portfolio, force = false) {
+  const r = await fxApi('/v1/latest?base=EUR&symbols=USD', '/v2/rate/EUR/USD?providers=ECB', 'fx:latest', force ? 0 : HOUR, prio);
+  FX.latest = { ...r.data, at: r.at, stale: !!r.stale };
+  return FX.latest;
+}
+async function getFxOn(date) {
+  const r = await fxApi(`/v1/${date}?base=EUR&symbols=USD`, `/v2/rate/EUR/USD?providers=ECB&date=${date}`, 'fx:' + date, Infinity, PRIO.page);
+  return { ...r.data, at: r.at };
+}
+function hydrateFx() { const c = cacheGet('fx:latest'); if (c?.d) FX.latest = { ...c.d, at: c.at, stale: Date.now() - c.at > HOUR }; }
+const toEUR = (amt, ccy, eurusd) => ccy === 'EUR' ? amt : (isNum(eurusd) && eurusd > 0 ? amt / eurusd : null);
+
+/* ---------- preço atual de um título ---------- */
+function priceFor(ticker) {
+  const ps = state.priceSrc[ticker];
+  if (ps?.mode === 'manual' && isNum(ps.px)) return { px: ps.px, ccy: ps.ccy, at: Date.parse(ps.date) || null, src: 'manual', label: `preço introduzido por ti (${fmtDate(ps.date)})` };
+  if (ps?.mode === 'av') { const c = cacheGet('avq:' + ps.sym); if (c?.d && isNum(c.d.c)) return { px: c.d.c, ccy: ps.ccy, at: c.at, src: 'av', label: `Alpha Vantage ${ps.sym}, dia ${fmtDate(c.d.day)}` }; return null; }
+  const q = QUOTES[ticker];
+  if (q && validQuote(q)) return { px: q.c, ccy: 'USD', at: q.t ? q.t * 1000 : q.at, fetched: q.at, src: 'finnhub', dp: q.dp, label: 'Finnhub' };
+  return null;
+}
+
+/* ---------- carteira ---------- */
+const BLOCKS = { alto: { name: 'Alto risco', icon: '⚡', term: 'bloco-alto' }, longo: { name: 'Longo prazo', icon: '🌱', term: 'bloco-longo' } };
+function txFeesEUR(t) { if (!t.fees) return 0; if ((t.feesCcy || t.ccy) === 'EUR') return t.fees; return t.eurusd ? t.fees / t.eurusd : 0; }
+function txRate(t) { return t.ccy === 'EUR' ? 1 : t.eurusd; }
+const byDate = (a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : (a.createdAt || '') < (b.createdAt || '') ? -1 : 1);
+
+function computePortfolio(opt = {}) {
+  const demo = !!opt.demo, excludeTx = opt.excludeTx;
+  const fxNow = FX.latest?.rate ?? null;
+  const txs = state.tx.filter(t => !!t.demo === demo && t.id !== excludeTx).slice().sort(byDate);
+  const lots = {}, warnings = [];
+  const realized = { total: 0, price: 0, fx: 0, fees: 0, items: [] };
+  const blk = { alto: mkBlock(), longo: mkBlock() };
+  function mkBlock() { return { cash: 0, dep: 0, wd: 0, tin: 0, tout: 0, posValue: 0, posCost: 0, missing: 0, n: 0 }; }
+  if (!demo) for (const m of state.cash) {
+    if (m.kind === 'deposit') { blk[m.block].cash += m.amount; blk[m.block].dep += m.amount; }
+    else if (m.kind === 'withdraw') { blk[m.block].cash -= m.amount; blk[m.block].wd += m.amount; }
+    else if (m.kind === 'transfer') { blk[m.from].cash -= m.amount; blk[m.from].tout += m.amount; blk[m.to].cash += m.amount; blk[m.to].tin += m.amount; }
+  }
+  for (const t of txs) {
+    const r = txRate(t), fee = txFeesEUR(t), key = t.block + '|' + t.ticker;
+    const B = blk[t.block] || (blk[t.block] = mkBlock());
+    if (t.kind === 'buy') {
+      (lots[key] ||= []).push({ id: t.id, date: t.date, qty: t.qty, px: t.price, ccy: t.ccy, r, feeU: fee / t.qty, broker: t.broker });
+      B.cash -= t.qty * t.price / r + fee;
+    } else {
+      const L = lots[key] || [];
+      const held = sum(L, l => l.qty);
+      let q = t.qty;
+      if (q > held + 1e-9) { warnings.push({ tx: t.id, msg: `Venda de ${fmtQty(t.qty)} ${t.ticker} em ${t.date} é maior do que a posição nessa data (${fmtQty(held)}).` }); q = held; }
+      if (L.length && L[0].ccy !== t.ccy) warnings.push({ tx: t.id, msg: `Venda de ${t.ticker} em ${t.ccy}, mas a compra foi em ${L[0].ccy}.` });
+      B.cash += q * t.price / r - fee;
+      const it = { tx: t.id, ticker: t.ticker, block: t.block, date: t.date, qty: q, price: 0, fx: 0, fees: fee };
+      while (q > 1e-12 && L.length) {
+        const l = L[0], take = Math.min(q, l.qty);
+        it.price += take * (t.price - l.px) / l.r;
+        it.fx += take * t.price * (1 / r - 1 / l.r);
+        it.fees += take * l.feeU;
+        l.qty -= take; q -= take;
+        if (l.qty <= 1e-12) L.shift();
+      }
+      it.total = it.price + it.fx - it.fees;
+      realized.items.push(it); realized.price += it.price; realized.fx += it.fx; realized.fees += it.fees;
+    }
+  }
+  realized.total = realized.price + realized.fx - realized.fees;
+  const positions = [];
+  for (const [key, L] of Object.entries(lots)) {
+    const qty = sum(L, l => l.qty);
+    if (qty <= 1e-9) continue;
+    const [block, ticker] = key.split('|');
+    const ccy = L[0].ccy;
+    const costEUR = sum(L, l => l.qty * l.px / l.r + l.qty * l.feeU);
+    const feesEUR = sum(L, l => l.qty * l.feeU);
+    const avgPx = sum(L, l => l.qty * l.px) / qty;
+    const p = priceFor(ticker);
+    let px = null, valueEUR = null, priceEff = null, fxEff = null;
+    const rNow = ccy === 'EUR' ? 1 : fxNow;
+    if (p && isNum(rNow)) {
+      px = p.ccy === ccy ? p.px : (p.ccy === 'EUR' ? p.px * rNow : p.px / rNow); // converte para a moeda da posição
+      valueEUR = qty * px / rNow;
+      priceEff = sum(L, l => l.qty * (px - l.px) / l.r);
+      fxEff = sum(L, l => l.qty * px * (1 / rNow - 1 / l.r));
+    }
+    const pos = { key, ticker, block, qty, ccy, lots: L, costEUR, feesEUR, avgPx, price: p, px, valueEUR, priceEff, fxEff, gainEUR: valueEUR == null ? null : valueEUR - costEUR };
+    pos.gainPct = pos.gainEUR == null ? null : pos.gainEUR / costEUR * 100;
+    positions.push(pos);
+    const B = blk[block]; B.n++; B.posCost += costEUR;
+    if (valueEUR == null) B.missing++; else B.posValue += valueEUR;
+  }
+  const known = positions.filter(p => p.valueEUR != null);
+  const tot = {
+    cash: blk.alto.cash + blk.longo.cash,
+    posValue: sum(known, p => p.valueEUR),
+    missing: positions.length - known.length,
+    dep: blk.alto.dep + blk.longo.dep, wd: blk.alto.wd + blk.longo.wd,
+    unrealGain: sum(known, p => p.gainEUR), unrealPrice: sum(known, p => p.priceEff), unrealFx: sum(known, p => p.fxEff), unrealFees: sum(known, p => p.feesEUR),
+  };
+  tot.invested = tot.dep - tot.wd;
+  tot.value = tot.missing ? null : tot.cash + tot.posValue;
+  tot.valueKnown = tot.cash + tot.posValue;
+  tot.gain = tot.missing ? null : tot.value - tot.invested;
+  tot.gainPct = tot.gain != null && tot.invested > 0 ? tot.gain / tot.invested * 100 : null;
+  tot.priceEff = tot.unrealPrice + realized.price; tot.fxEff = tot.unrealFx + realized.fx; tot.fees = tot.unrealFees + realized.fees;
+  for (const b of Object.values(blk)) { b.value = b.missing ? null : b.cash + b.posValue; b.allocated = b.dep - b.wd + b.tin - b.tout; }
+  positions.sort((a, b) => (b.valueEUR ?? b.costEUR) - (a.valueEUR ?? a.costEUR));
+  return { positions, blocks: blk, realized, tot, warnings, fxNow };
+}
+function heldQty(ticker, block, demo, excludeTx) { const P = computePortfolio({ demo, excludeTx }); const p = P.positions.find(p => p.ticker === ticker && p.block === block); return p ? p.qty : 0; }
+function portfolioTickers() { return [...new Set(computePortfolio().positions.concat(computePortfolio({ demo: true }).positions).map(p => p.ticker))]; }
+
+function goalStatus() {
+  const g = state.settings.goal, P = computePortfolio();
+  const saved = sum(state.savings, s => s.amount), realized = P.realized.total;
+  const progress = saved + realized;
+  const end = new Date(g.date + 'T23:59:59');
+  const months = Math.max(0, (end.getFullYear() - new Date().getFullYear()) * 12 + end.getMonth() - new Date().getMonth());
+  const missing = Math.max(0, g.target - progress);
+  return { ...g, saved, realized, progress, pct: g.target > 0 ? Math.max(0, Math.min(100, progress / g.target * 100)) : 0, missing, months, perMonth: months > 0 ? missing / months : missing };
+}
+
+/* ---------- horário da bolsa dos EUA (convertido para Lisboa) ---------- */
+function tzParts(date, tz) {
+  const f = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', weekday: 'short' });
+  const o = {}; for (const p of f.formatToParts(date)) o[p.type] = p.value; return o;
+}
+function tzOffsetMin(date, tz) { const p = tzParts(date, tz); return (Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour % 24, +p.minute, +p.second) - date.getTime()) / MIN; }
+function zonedToUtc(y, m, d, hh, mm, tz) { const g = Date.UTC(y, m - 1, d, hh, mm); let t = g - tzOffsetMin(new Date(g), tz) * MIN; const o2 = tzOffsetMin(new Date(t), tz); t = g - o2 * MIN; return new Date(t); }
+function marketHours(now = new Date()) {
+  const ny = tzParts(now, 'America/New_York');
+  const open = zonedToUtc(+ny.year, +ny.month, +ny.day, 9, 30, 'America/New_York');
+  const close = zonedToUtc(+ny.year, +ny.month, +ny.day, 16, 0, 'America/New_York');
+  const lis = d => { const p = tzParts(d, 'Europe/Lisbon'); return `${p.hour}h${p.minute}`; };
+  const weekday = !['Sat', 'Sun'].includes(ny.weekday);
+  const isOpen = weekday && now >= open && now < close;
+  const normal = lis(open) === '14h30';
+  return { open: lis(open), close: lis(close), isOpen, weekday, normal };
+}
+
+/* ---------- universo ---------- */
+function inUniverse(t) { return state.universe.find(u => u.t === t); }
+const isEtf = t => (inUniverse(t)?.kind === 'etf') || !!UCITS[t];
+const companyName = t => COMPANY[t]?.n || PROFILES[t]?.name || '';
+const validTicker = t => /^[A-Z0-9][A-Z0-9.\-]{0,9}$/.test(t);
+const level1Passed = () => !!state.academy.quiz?.['1']?.passed;
+
+/* =====================================================================
+   MJIA — interface
+   ===================================================================== */
+const NAV = [
+  { id: 'inicio', ic: '🏠', l: 'Início' },
+  { id: 'carteira', ic: '💼', l: 'Carteira' },
+  { id: 'acoes', ic: '📊', l: 'Ações' },
+  { id: 'academia', ic: '🎓', l: 'Academia' },
+];
+const SOON = {
+  watchlist: { ic: '👀', l: 'Watchlist', v: 'V2', d: 'Ações que acompanhas sem as ter, com score e alertas.' },
+  score: { ic: '🧮', l: 'Como funciona o score', v: 'V2', d: 'Score de oportunidade de 0 a 100 com a decomposição por componente (fundamentais, valorização, momento, notícias, risco) e os motivos.' },
+  diario: { ic: '📓', l: 'Diário de investimentos', v: 'V3', d: 'Para cada compra e venda: motivo, plano (objetivo, stop, horizonte) e emoção. Aparece quando há um alerta na ação.' },
+  alertas: { ic: '🔔', l: 'Alertas e notificações', v: 'V4', d: 'Alertas 🔵 🟡 🔴 e notificações push no iPhone (ntfy), com verificação automática pelo GitHub Actions.' },
+  radar: { ic: '📡', l: 'Radar', v: 'V4', d: 'Centenas de ações (S&P 500, Nasdaq-100 e uma seleção de small e mid caps) com uma passagem diária para destacar movimentos anormais.' },
+  impostos: { ic: '🧾', l: 'Calculadora de impostos', v: 'V4', d: 'Quanto pagarias de imposto se vendesses hoje cada posição, em euros.' },
+  csv: { ic: '📥', l: 'Importar extrato da Revolut', v: 'V4', d: 'Importação do CSV da Revolut. Vou pedir-te um ficheiro de exemplo antes de a implementar.' },
+};
+let RT = 0;            // token de renderização (ignora respostas de ecrãs antigos)
+let CART_TAB = 'pos';
+let LAST_REFRESH = null;
+
+/* ---------- arranque ---------- */
+function boot() {
+  hydrateFromCache(); hydrateFx();
+  document.body.innerHTML = shell();
+  wireTips();
+  window.addEventListener('hashchange', () => render());
+  onQueueChange = () => { const el = $('#qstat'); if (el) el.textContent = (Q.length + qActive) ? `⏳ ${Q.length + qActive} pedido(s) em curso` : ''; };
+  render();
+  if (!state.onboarded && !state.tx.length && !state.cash.length) setTimeout(openOnboarding, 300);
+}
+function shell() {
+  const side = NAV.map(n => `<a href="#${n.id}" data-nav="${n.id}"><span>${n.ic}</span>${n.l}</a>`).join('') + '<div class="sep"></div>' +
+    Object.entries(SOON).map(([id, s]) => `<a href="#em-breve-${id}" data-nav="em-breve-${id}"><span>${s.ic}</span>${s.l}<span class="soon">${s.v}</span></a>`).join('') +
+    '<div class="sep"></div><a href="#definicoes" data-nav="definicoes"><span>⚙️</span>Definições</a>';
+  const tabs = NAV.concat([{ id: 'mais', ic: '☰', l: 'Mais' }]).map(n => `<a href="#${n.id}" data-nav="${n.id}"><span class="ic">${n.ic}</span>${n.l}</a>`).join('');
+  return `<div class="app"><aside class="side">${brand()}${side}</aside>
+  <main class="main"><div class="topbar">${brand()}<span class="small muted" id="qstat"></span></div>
+  <div id="banners"></div><div id="view"></div>
+  <div class="disclaimer">Informação educativa, não é aconselhamento financeiro. · MJIA v${APP_VERSION}</div></main>
+  <nav class="tabbar">${tabs}</nav></div><div id="tip" class="hidden" role="tooltip"></div>`;
+}
+const brand = () => `<div class="brand"><div class="logo">MJIA</div><div><b>MJIA</b><small>Investimentos &amp; Análise</small></div></div>`;
+
+function route() {
+  const h = decodeURIComponent(location.hash.slice(1)) || 'inicio';
+  if (h.startsWith('acao-')) return { name: 'acao', t: h.slice(5).replace(/-/g, '.').toUpperCase() };
+  if (h.startsWith('licao-')) return { name: 'licao', id: h.slice(6) };
+  if (h.startsWith('em-breve-')) return { name: 'soon', id: h.slice(9) };
+  return { name: h };
+}
+const stockHash = t => '#acao-' + t.replace(/\./g, '-');
+function go(h) { if (location.hash === '#' + h) render(); else location.hash = h; }
+
+function render(opt = {}) {
+  const r = route(), my = ++RT, alive = () => my === RT;
+  hideTip();
+  const navId = r.name === 'acao' ? 'acoes' : r.name === 'licao' || r.name === 'quiz' ? 'academia' : r.name === 'soon' ? 'em-breve-' + r.id : r.name;
+  $$('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === navId || (a.dataset.nav === 'mais' && ['mais', 'definicoes'].includes(navId)) || (a.dataset.nav === 'mais' && navId.startsWith('em-breve'))));
+  $('#banners').innerHTML = banners();
+  const S = ({ inicio: scrInicio, carteira: scrCarteira, acoes: scrAcoes, acao: scrAcao, academia: scrAcademia, licao: scrLicao, quiz: scrQuiz, mais: scrMais, definicoes: scrDefinicoes, soon: scrSoon })[r.name] || scrInicio;
+  const out = S(r, opt);
+  $('#view').innerHTML = out.html;
+  if (!opt.keepScroll) window.scrollTo(0, 0);
+  wireView();
+  if (out.mount) out.mount(alive);
+}
+function rerender() { const y = window.scrollY; render({ fresh: true, keepScroll: true }); window.scrollTo(0, y); }
+
+function banners() {
+  let b = '';
+  if (IN_ARTIFACT) b += `<div class="banner">🔒 <b>Pré-visualização no Claude.</b> Neste ambiente os pedidos às APIs estão bloqueados por segurança, por isso não há cotações ao vivo. A carteira, a Academia e o quiz funcionam. Para dados reais usa a versão alojada no GitHub Pages (guia no resumo de estado).</div>`;
+  if (!STORAGE_OK) b += `<div class="banner">⚠️ Este browser não deixa guardar dados (modo privado?). O que registares perde-se ao fechar: exporta um backup em Definições.</div>`;
+  else if (!IN_ARTIFACT && !KEYS.finnhub) b += `<div class="banner">🔑 Falta a chave da Finnhub para veres cotações. <a href="#definicoes">Configurar em Definições →</a></div>`;
+  return b;
+}
+
+/* ---------- ajudas de UI ---------- */
+function toast(msg, ms = 2600) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), ms); }
+function openSheet(title, body, o = {}) {
+  const bg = document.createElement('div'); bg.className = 'sheet-bg';
+  bg.innerHTML = `<div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="sh"><h3>${esc(title)}</h3><button class="x" aria-label="Fechar">✕</button></div><div class="sb">${body}</div></div>`;
+  document.body.appendChild(bg);
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  const close = () => { bg.remove(); document.removeEventListener('keydown', onKey); o.onClose && o.onClose(); };
+  bg.addEventListener('mousedown', e => { if (e.target === bg) close(); });
+  $('.x', bg).onclick = close;
+  document.addEventListener('keydown', onKey);
+  if (o.onMount) o.onMount($('.sheet', bg), close);
+  return close;
+}
+function confirmBox(msg, { ok = 'Confirmar', danger = false } = {}) {
+  return new Promise(res => {
+    let done = false;
+    openSheet('Confirmar', `<p>${msg}</p><div class="btns" style="margin-top:14px"><button class="btn sec" data-a="no">Cancelar</button><button class="btn ${danger ? 'danger' : ''}" data-a="ok">${ok}</button></div>`, {
+      onClose: () => { if (!done) res(false); },
+      onMount: (el, close) => { $('[data-a=no]', el).onclick = () => close(); $('[data-a=ok]', el).onclick = () => { done = true; close(); res(true); }; },
+    });
+  });
+}
+const pnum = s => { if (s == null) return NaN; s = String(s).trim().replace(/\s/g, ''); if (s.includes(',') && s.includes('.')) s = s.replace(/\./g, ''); s = s.replace(',', '.'); return s === '' ? NaN : Number(s); };
+const skel = (n = 3) => Array.from({ length: n }, (_, i) => `<div class="skel" style="width:${90 - i * 15}%"></div>`).join('');
+function srcLine(r, what) {
+  if (!r) return '';
+  const A = APIS[r.api]?.name || r.api;
+  return `<div class="src">Fonte: <b>${esc(A)}</b>${what ? ` · ${what}` : ''} · obtido ${fmtDT(r.at)}${r.stale ? ` · ⚠️ dados não atualizados (${esc(r.err?.human || 'erro')})` : r.cached ? ' · da cache' : ''}</div>`;
+}
+const errLine = e => `<span class="nodata">sem dados</span> <span class="muted small">(${esc(e?.human || e?.message || 'erro')})</span>`;
+const pill = (v, txt) => `<span class="pill ${cls(v)}">${arrow(v)}${txt}</span>`;
+const avatar = t => `<div class="av">${esc(t.replace('.', '').slice(0, 4))}</div>`;
+function wireView() { wireIn($('#view')); }
+const ACTIONS = {
+  tx: d => openTxForm({ kind: d.kind || 'buy', ticker: d.t, block: d.block }),
+  cash: d => openCashForm({ kind: d.kind || 'deposit' }),
+  saving: () => openSavingForm(),
+  goal: () => openGoalForm(),
+  refresh: async (d, b) => { b.disabled = true; b.textContent = 'A atualizar…'; await refreshPortfolio(true); rerender(); },
+  onboarding: () => openOnboarding(),
+  carttab: d => { CART_TAB = d.tab; rerender(); },
+  move: d => openMoveMenu(d.kind, d.id),
+  pricesrc: d => openPriceSrcForm(d.t),
+  univ: d => { toggleUniverse(d.t); rerender(); },
+  goto: d => go(d.h),
+  scroll: d => document.getElementById(d.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+};
+
+/* ---------- explicações dos termos (rato no PC, toque no iPhone) ---------- */
+let TIP_EL = null, TIP_Y = 0;
+function showTip(el) {
+  const g = GLOSSARY[el.dataset.t]; if (!g) return;
+  const tip = $('#tip'); tip.innerHTML = `<b>${esc(g[0])}</b>${esc(g[1])}`; tip.classList.remove('hidden');
+  const r = el.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+  let left = Math.max(8, Math.min(r.left, innerWidth - tw - 8)), top = r.bottom + 8;
+  if (top + th > innerHeight - 70) top = Math.max(8, r.top - th - 8);
+  tip.style.left = left + 'px'; tip.style.top = top + 'px'; TIP_EL = el; TIP_Y = window.scrollY;
+}
+function hideTip() { const t = $('#tip'); if (t) t.classList.add('hidden'); TIP_EL = null; }
+function wireTips() {
+  let lastPT = 'mouse';
+  document.addEventListener('pointerdown', e => { lastPT = e.pointerType; }, true);
+  document.addEventListener('pointerover', e => { if (e.pointerType !== 'mouse') return; const t = e.target.closest?.('.term'); if (t && t !== TIP_EL) showTip(t); });
+  document.addEventListener('pointerout', e => { if (e.pointerType !== 'mouse' || !TIP_EL) return; const to = e.relatedTarget; if (!to || !(to.closest?.('.term') === TIP_EL || to.closest?.('#tip'))) hideTip(); });
+  document.addEventListener('click', e => {
+    const t = e.target.closest?.('.term');
+    if (t) { e.preventDefault(); e.stopPropagation(); if (TIP_EL === t && lastPT !== 'mouse') hideTip(); else showTip(t); return; }
+    if (!e.target.closest?.('#tip')) hideTip();
+  }, true);
+  document.addEventListener('keydown', e => { const t = e.target.closest?.('.term'); if (t && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); TIP_EL === t ? hideTip() : showTip(t); } if (e.key === 'Escape') hideTip(); });
+  window.addEventListener('scroll', () => { if (TIP_EL && Math.abs(window.scrollY - TIP_Y) > 60) hideTip(); }, { passive: true });
+}
+
+/* ---------- atualização dos dados da carteira ---------- */
+async function refreshPortfolio(force = false) {
+  const tickers = portfolioTickers();
+  const jobs = [getFxLatest(PRIO.portfolio, force).catch(e => e)];
+  for (const t of tickers) {
+    const ps = state.priceSrc[t];
+    if (ps?.mode === 'manual') continue;
+    if (ps?.mode === 'av') jobs.push(getAvQuote(ps.sym, PRIO.portfolio).catch(e => e));
+    else jobs.push(getQuote(t, PRIO.portfolio, force).catch(e => e));
+  }
+  const res = await Promise.all(jobs);
+  LAST_REFRESH = Date.now();
+  return res.filter(x => x instanceof ApiError);
+}
+function pricesSourceLine(P) {
+  const ps = P.positions.map(p => p.price).filter(Boolean);
+  const oldest = ps.length ? Math.min(...ps.map(p => p.fetched || p.at || Date.now())) : null;
+  const fx = FX.latest;
+  const srcs = [...new Set(ps.map(p => p.src === 'finnhub' ? 'Finnhub' : p.src === 'av' ? 'Alpha Vantage' : 'manual'))].join(', ');
+  return `<div class="src">${ps.length ? `Cotações: <b>${srcs}</b>, a mais antiga obtida ${fmtDT(oldest)}. ` : ''}${fx ? `Câmbio: <b>${term('taxa-bce', 'taxa BCE')}</b> 1 € = ${fmtNum(fx.rate, 4)} $ (${fmtDate(fx.date)}, via Frankfurter, obtido ${fmtDT(fx.at)})${fx.stale ? ' · ⚠️ não atualizado' : ''}.` : 'Câmbio: <span class="nodata">sem dados</span>.'}</div>`;
+}
+
+/* =====================================================================
+   INÍCIO
+   ===================================================================== */
+function scrInicio(r, opt) {
+  const P = computePortfolio(), g = goalStatus(), mh = marketHours(), T0 = P.tot;
+  const hasData = state.cash.length || state.tx.some(t => !t.demo);
+  let h = '';
+  if (!hasData) {
+    h += `<div class="card hero"><h2>Olá! 👋</h2><p class="muted">Começa por registar o capital inicial de cada bloco (ex.: 150 € em alto risco e 250 € em longo prazo).</p><div class="btns"><button class="btn" data-act="onboarding">Registar capital inicial</button><button class="btn sec" data-act="goto" data-h="academia">Começar pela Academia</button></div></div>`;
+  } else {
+    const val = T0.value ?? T0.valueKnown;
+    h += `<div class="card hero">
+      <div class="row between wrap"><span class="muted small">Valor total da carteira</span><span class="chip"><span class="dot" style="background:${mh.isOpen ? 'var(--green)' : 'var(--mut2)'}"></span>Bolsa EUA ${mh.isOpen ? 'aberta' : 'fechada'} · ${mh.open}–${mh.close} Lisboa</span></div>
+      <div class="big num" style="margin:6px 0">${fmtEUR(val)}${T0.missing ? ' <span class="pill y">parcial</span>' : ''}</div>
+      ${T0.gain != null ? `<div class="row wrap">${pill(T0.gain, `${fmtSignedEUR(T0.gain)} (${fmtPct(T0.gainPct)})`)}<span class="muted small">face ao ${term('capital-liquido', 'capital investido')} de ${fmtEUR(T0.invested)}</span></div>
+      <div class="small muted" style="margin-top:8px">Preço: <span class="${cls(T0.priceEff)}">${fmtSignedEUR(T0.priceEff)}</span> · ${term('efeito-cambio', 'Câmbio')}: <span class="${cls(T0.fxEff)}">${fmtSignedEUR(T0.fxEff)}</span> · ${term('comissao', 'Comissões')}: <span class="down">${fmtSignedEUR(-T0.fees)}</span></div>`
+        : `<div class="callout warn small">⚠️ ${T0.missing} posição(ões) sem preço atual: o total mostra só o que tem dados (inclui a liquidez). <a href="#carteira">Ver carteira</a></div>`}
+      ${pricesSourceLine(P)}
+      <div class="btns" style="margin-top:10px"><button class="btn sec sm" data-act="refresh">↻ Atualizar</button><button class="btn sec sm" data-act="tx">+ Compra/venda</button></div>
+    </div>`;
+    h += '<div class="grid g2">' + ['alto', 'longo'].map(k => blockCard(k, P)).join('') + '</div>';
+    h += `<div class="btns" style="margin:-2px 0 12px"><button class="btn sec sm" data-act="cash" data-kind="transfer">↔ Transferir entre blocos</button><button class="btn sec sm" data-act="cash" data-kind="deposit">+ Reforço</button></div>`;
+  }
+  h += goalCard(g);
+  h += `<div class="grid g2m">
+    <div class="card"><div class="card-h"><h3>Alertas</h3><span class="soon">V4</span></div><p class="muted small">🔵 oportunidade · 🟡 atenção · 🔴 urgente. Os alertas e as notificações no iPhone chegam na Versão 4.</p></div>
+    <div class="card"><div class="card-h"><h3>Em destaque no radar</h3><span class="soon">V4</span></div><p class="muted small">Movimentos anormais (preço e volume) no S&amp;P 500, no Nasdaq-100 e em small e mid caps.</p></div></div>`;
+  const read = LESSONS_L1.filter(l => state.academy.read[l.id]).length;
+  h += `<a class="card li" href="#academia" style="display:flex"><div class="av">🎓</div><div class="grow"><div class="t">Academia · Nível 1</div><div class="s">${read}/${LESSONS_L1.length} lições · ${level1Passed() ? 'quiz aprovado ✓' : 'quiz por fazer'}</div><div class="bar" style="margin-top:6px"><i style="width:${read / LESSONS_L1.length * 100}%"></i></div></div><span class="chev">›</span></a>`;
+  return {
+    html: h,
+    mount: async alive => { if (opt.fresh || !hasData) return; await refreshPortfolio(); if (alive()) rerender(); },
+  };
+}
+function blockCard(k, P) {
+  const B = P.blocks[k], tot = P.tot.value ?? P.tot.valueKnown, val = B.value ?? (B.cash + B.posValue);
+  const cap = state.settings.highRiskCap;
+  return `<div class="card" style="margin:0 0 12px">
+    <div class="row between"><span>${BLOCKS[k].icon} ${term(BLOCKS[k].term, BLOCKS[k].name)}</span><span class="muted small">${tot > 0 ? fmtPct(val / tot * 100, 0, false) : ''}</span></div>
+    <div class="mid num" style="margin:4px 0">${fmtEUR(val)}${B.missing ? ' <span class="pill y">parcial</span>' : ''}</div>
+    <div class="small muted">${B.n} posição(ões) · ${term('cash', 'liquidez')} ${fmtEUR(B.cash)}</div>
+    ${k === 'alto' ? `<div class="small muted" style="margin-top:8px">Capital alocado ${fmtEUR(B.allocated, 0)} de máx. ${fmtEUR(cap, 0)}</div><div class="bar"><i class="${B.allocated > cap ? 'y' : ''}" style="width:${Math.min(100, B.allocated / cap * 100)}%"></i></div>${B.allocated > cap ? '<div class="small" style="color:var(--yellow);margin-top:4px">🟡 Acima do limite que definiste</div>' : ''}` : ''}
+    ${B.cash < -0.005 ? '<div class="small" style="color:var(--yellow);margin-top:6px">🟡 Liquidez negativa: falta registar algum reforço?</div>' : ''}
+  </div>`;
+}
+function goalCard(g) {
+  return `<div class="card">
+    <div class="card-h"><h3>🎿 ${esc(g.name)}: ${fmtEUR(g.target, 0)}</h3><button class="btn ghost sm" data-act="goal">Editar</button></div>
+    <div class="row between"><span class="mid num">${fmtEUR(g.progress)}</span><span class="muted small">${fmtPct(g.pct, 0, false)} · até ${fmtDate(g.date)}</span></div>
+    <div class="bar" style="margin:8px 0"><i class="g" style="width:${g.pct}%"></i></div>
+    <div class="small muted">Poupança registada <b class="num" style="color:var(--tx)">${fmtEUR(g.saved)}</b> + ${term('ganho-realizado', 'lucros realizados')} <b class="num ${cls(g.realized)}">${fmtSignedEUR(g.realized)}</b></div>
+    ${g.missing > 0 ? `<div class="small" style="margin-top:6px">Faltam <b>${fmtEUR(g.missing)}</b>${g.months > 0 ? ` · cerca de <b>${fmtEUR(g.perMonth, 0)}/mês</b> durante ${g.months} meses` : ''}.</div>` : '<div class="small up" style="margin-top:6px">✓ Objetivo atingido!</div>'}
+    <div class="small muted" style="margin-top:6px">A viagem vem sobretudo da poupança: os lucros são um bónus, nunca o plano.</div>
+    <div class="btns" style="margin-top:10px"><button class="btn sec sm" data-act="saving">+ Registar poupança</button></div></div>`;
+}
+
+/* =====================================================================
+   CARTEIRA
+   ===================================================================== */
+function scrCarteira(r, opt) {
+  const P = computePortfolio(), D = computePortfolio({ demo: true }), T0 = P.tot;
+  let h = `<div class="row between wrap" style="margin-bottom:12px"><h2>A minha carteira</h2><div class="btns"><button class="btn sm" data-act="tx">+ Compra/venda</button><button class="btn sec sm" data-act="cash">+ Reforço/levantamento</button><button class="btn sec sm" data-act="cash" data-kind="transfer">↔ Transferência</button></div></div>`;
+  h += `<div class="card"><div class="kv">
+    <div class="k"><div class="l">Valor total</div><div class="v num">${fmtEUR(T0.value ?? T0.valueKnown)}${T0.missing ? ' <span class="pill y">parcial</span>' : ''}</div></div>
+    <div class="k"><div class="l">${term('capital-liquido', 'Capital investido')}</div><div class="v num">${fmtEUR(T0.invested)}</div></div>
+    <div class="k"><div class="l">${term('ganho-nao-realizado', 'Não realizado')}</div><div class="v num ${cls(T0.unrealGain)}">${fmtSignedEUR(T0.unrealGain)}</div></div>
+    <div class="k"><div class="l">${term('ganho-realizado', 'Realizado')}</div><div class="v num ${cls(P.realized.total)}">${fmtSignedEUR(P.realized.total)}</div></div>
+    <div class="k"><div class="l">${term('efeito-cambio', 'Efeito câmbio')}</div><div class="v num ${cls(T0.fxEff)}">${fmtSignedEUR(T0.fxEff)}</div></div>
+    <div class="k"><div class="l">${term('cash', 'Liquidez')}</div><div class="v num">${fmtEUR(T0.cash)}</div></div></div>
+    ${pricesSourceLine(P)}</div>`;
+  for (const w of P.warnings.concat(D.warnings)) h += `<div class="callout warn small">🟡 ${esc(w.msg)}</div>`;
+  h += `<div class="seg" style="margin:4px 0 12px">${[['pos', 'Posições'], ['mov', 'Movimentos'], ['div', 'Diversificação']].map(([k, l]) => `<button class="${CART_TAB === k ? 'on' : ''}" data-act="carttab" data-tab="${k}">${l}</button>`).join('')}</div>`;
+  if (CART_TAB === 'pos') h += positionsView(P, D);
+  else if (CART_TAB === 'mov') h += movesView(P, D);
+  else h += diversView(P);
+  return { html: h, mount: async alive => { if (opt.fresh) return; await refreshPortfolio(); if (alive()) rerender(); } };
+}
+function posRow(p, total) {
+  const w = total > 0 && p.valueEUR != null ? p.valueEUR / total * 100 : null;
+  return `<a class="li" href="${stockHash(p.ticker)}">${avatar(p.ticker)}<div class="grow"><div class="t">${esc(p.ticker)} <span class="muted small">${esc(companyName(p.ticker))}</span></div>
+    <div class="s">${fmtQty(p.qty)} · ${term('preco-medio', 'médio')} ${fmtMoney(p.avgPx, p.ccy)}${w != null ? ` · ${term('peso', 'peso')} ${fmtPct(w, 1, false)}` : ''}</div></div>
+    <div class="r"><div class="num"><b>${p.valueEUR != null ? fmtEUR(p.valueEUR) : '<span class="nodata">sem preço</span>'}</b></div>${p.gainEUR != null ? `<div class="small ${cls(p.gainEUR)}">${arrow(p.gainEUR)}${fmtSignedEUR(p.gainEUR)} (${fmtPct(p.gainPct, 1)})</div>` : `<div class="small muted">custo ${fmtEUR(p.costEUR)}</div>`}</div><span class="chev">›</span></a>`;
+}
+function positionsView(P, D) {
+  let h = '';
+  const total = P.tot.posValue;
+  for (const k of ['alto', 'longo']) {
+    const ps = P.positions.filter(p => p.block === k), B = P.blocks[k];
+    h += `<div class="secttl">${BLOCKS[k].icon} ${term(BLOCKS[k].term, BLOCKS[k].name)} <span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:0">${fmtEUR(B.value ?? B.cash + B.posValue)} · liquidez ${fmtEUR(B.cash)}</span></div>`;
+    h += `<div class="card">${ps.length ? `<div class="list">${ps.map(p => posRow(p, total)).join('')}</div>` : `<div class="empty"><div class="e">${BLOCKS[k].icon}</div>Sem posições neste bloco.<div style="margin-top:10px"><button class="btn sm" data-act="tx" data-block="${k}">+ Registar compra</button></div></div>`}</div>`;
+  }
+  if (D.positions.length) {
+    h += `<div class="secttl">🧪 ${term('demo', 'Demonstração')} (Trading 212) <span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:0">não conta para o total</span></div><div class="card"><div class="list">${D.positions.map(p => posRow(p, D.tot.posValue)).join('')}</div></div>`;
+  }
+  const missing = P.positions.concat(D.positions).filter(p => !p.price);
+  if (missing.length) h += `<div class="callout warn small">Sem preço atual: ${missing.map(p => `<b>${esc(p.ticker)}</b> <a href="#" data-act="pricesrc" data-t="${esc(p.ticker)}">definir fonte de preço</a>`).join(' · ')}. O plano gratuito da Finnhub só cobre bolsas dos EUA: para ETFs UCITS (ex.: VWCE) define um preço manual ou um símbolo da Alpha Vantage.</div>`;
+  return h;
+}
+function movesView(P, D) {
+  const items = [];
+  for (const t of state.tx) items.push({ date: t.date, kind: 'tx', id: t.id, ic: t.kind === 'buy' ? '🟢' : '🔴', t: `${t.kind === 'buy' ? 'Compra' : 'Venda'} ${fmtQty(t.qty)} ${t.ticker}`, s: `${fmtMoney(t.price, t.ccy)}/ação${t.ccy === 'USD' ? ` · 1 € = ${fmtNum(t.eurusd, 4)} $` : ''}${t.fees ? ` · comissão ${fmtMoney(t.fees, t.feesCcy || t.ccy)}` : ''} · ${esc(t.broker)}${t.demo ? ' · demo' : ` · ${BLOCKS[t.block].name}`}`, v: (t.kind === 'buy' ? -1 : 1) * toEUR(t.qty * t.price, t.ccy, t.eurusd) });
+  for (const m of state.cash) items.push({ date: m.date, kind: 'cash', id: m.id, ic: m.kind === 'deposit' ? '➕' : m.kind === 'withdraw' ? '➖' : '↔️', t: m.kind === 'deposit' ? `Reforço · ${BLOCKS[m.block].name}` : m.kind === 'withdraw' ? `Levantamento · ${BLOCKS[m.block].name}` : `Transferência ${BLOCKS[m.from].name} → ${BLOCKS[m.to].name}`, s: esc(m.note || ''), v: m.kind === 'withdraw' ? -m.amount : m.amount, neutral: m.kind === 'transfer' });
+  for (const s of state.savings) items.push({ date: s.date, kind: 'saving', id: s.id, ic: '🎿', t: 'Poupança para a viagem', s: esc(s.note || ''), v: s.amount });
+  items.sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+  if (!items.length) return `<div class="card empty"><div class="e">🗂️</div>Ainda não há movimentos.</div>`;
+  return `<div class="card"><div class="list">${items.map(i => `<div class="li" data-act="move" data-kind="${i.kind}" data-id="${i.id}"><div class="av">${i.ic}</div><div class="grow"><div class="t" style="font-weight:600">${i.t}</div><div class="s">${fmtDate(i.date)}${i.s ? ' · ' + i.s : ''}</div></div><div class="r num ${i.neutral ? '' : cls(i.v)}">${i.neutral ? fmtEUR(i.v) : (isNum(i.v) ? fmtSignedEUR(i.v) : '—')}</div><span class="chev">⋯</span></div>`).join('')}</div></div>`;
+}
+function diversView(P) {
+  const ps = P.positions.filter(p => p.valueEUR != null), total = sum(ps, p => p.valueEUR);
+  if (!ps.length) return `<div class="card empty"><div class="e">🧩</div>Sem posições com preço para analisar.</div>`;
+  const group = f => { const m = {}; ps.forEach(p => { const k = f(p); m[k] = (m[k] || 0) + p.valueEUR; }); return Object.entries(m).sort((a, b) => b[1] - a[1]); };
+  const bars = (rows) => rows.map(([k, v]) => `<div style="margin:8px 0"><div class="row between small"><span>${esc(k)}</span><span class="num">${fmtPct(v / total * 100, 1, false)} · ${fmtEUR(v)}</span></div><div class="bar" style="height:7px"><i style="width:${v / total * 100}%"></i></div></div>`).join('');
+  const sector = p => isEtf(p.ticker) ? 'ETF / ETC (diversificado)' : (PROFILES[p.ticker]?.finnhubIndustry || 'sem dados (abre a página da ação)');
+  const country = p => isEtf(p.ticker) ? 'ETF (vários)' : (PROFILES[p.ticker]?.country || 'sem dados');
+  const warns = [];
+  ps.forEach(p => { const w = p.valueEUR / total * 100; if (!isEtf(p.ticker) && w > RISK_RULES.weightHigh) warns.push(`🟡 <b>${esc(p.ticker)}</b> pesa ${fmtPct(w, 0, false)} das posições (limiar: ${RISK_RULES.weightHigh}% numa só ação). Se correr mal, afeta muito a carteira.`); });
+  group(sector).forEach(([k, v]) => { const w = v / total * 100; if (!k.startsWith('ETF') && !k.startsWith('sem') && w > 40) warns.push(`🟡 O setor <b>${esc(k)}</b> pesa ${fmtPct(w, 0, false)} (limiar: 40%).`); });
+  const usd = sum(ps.filter(p => p.ccy === 'USD'), p => p.valueEUR) / total * 100;
+  if (usd > 80) warns.push(`🔵 ${fmtPct(usd, 0, false)} está em dólares: tens ${term('risco-cambial', 'risco cambial')} elevado (normal em ações dos EUA, mas convém saber).`);
+  return `${warns.length ? `<div class="card"><h3>Avisos de ${term('concentracao', 'concentração')}</h3>${warns.map(w => `<div class="flag"><div>${w}</div></div>`).join('')}</div>` : `<div class="callout ok small">✓ Sem concentração excessiva segundo as regras da MJIA (ação > ${RISK_RULES.weightHigh}%, setor > 40%).</div>`}
+  <div class="grid g2m"><div class="card"><h3>Por posição</h3>${bars(ps.map(p => [p.ticker + ' · ' + BLOCKS[p.block].name, p.valueEUR]))}</div>
+  <div class="card"><h3>Por bloco</h3>${bars(group(p => BLOCKS[p.block].name))}<h3 style="margin-top:14px">Por moeda</h3>${bars(group(p => p.ccy))}</div>
+  <div class="card"><h3>Por ${term('setor', 'setor')}</h3>${bars(group(sector))}</div><div class="card"><h3>Por país</h3>${bars(group(country))}</div></div>
+  <div class="src">Pesos calculados sobre as posições com preço (sem a liquidez). Setor e país: perfil Finnhub em cache.</div>`;
+}
+
+/* =====================================================================
+   AÇÕES (lista do núcleo; score e ordenação chegam na V2)
+   ===================================================================== */
+function scrAcoes(r, opt) {
+  const passed = level1Passed();
+  const held = portfolioTickers().filter(t => !inUniverse(t));
+  let h = `<h2 style="margin-bottom:12px">Ações</h2>
+  <form class="card row" id="search" style="gap:8px"><input class="in" id="q" placeholder="Pesquisar ticker (ex.: AAPL)" autocapitalize="characters" autocomplete="off" spellcheck="false"><button class="btn">Abrir</button></form>
+  <div class="callout small">🧮 O score de oportunidade (0–100) e a ordenação por score chegam na <b>Versão 2</b>. Por agora a lista mostra a ${term('cotacao', 'cotação')} e a ${term('variacao', 'variação diária')}. Esta lista é um universo para acompanhar, não uma recomendação de compra.</div>`;
+  const row = u => { const q = QUOTES[u.t]; return `<a class="li" href="${stockHash(u.t)}">${avatar(u.t)}<div class="grow"><div class="t">${esc(u.t)}${u.kind === 'etf' ? ' <span class="pill b">ETF</span>' : ''}</div><div class="s">${esc(companyName(u.t))}</div></div><div class="r" id="q-${esc(u.t.replace('.', '_'))}">${quoteCell(q)}</div><span class="chev">›</span></a>`; };
+  if (held.length) h += `<div class="secttl">💼 Na tua carteira (fora da lista)</div><div class="card"><div class="list">${held.map(t => row({ t, kind: isEtf(t) ? 'etf' : 'stock' })).join('')}</div></div>`;
+  for (const c of CATEGORIES) {
+    const us = state.universe.filter(u => u.cat === c.id);
+    const locked = c.locked && !passed;
+    h += `<div class="secttl">${c.icon} ${c.name} <span class="muted" style="margin-left:auto;text-transform:none;letter-spacing:0">${us.length}</span></div>`;
+    if (locked) h += `<div class="card lock"><div class="empty"><div class="e">🔒</div><b>Bloqueada até completares o Nível 1 da Academia.</b><p class="small">Ações muito voláteis podem cair 50% ou mais. Primeiro os fundamentos.</p><a class="btn sm" href="#academia">Ir para a Academia</a></div></div>`;
+    else h += `<div class="card">${us.length ? `<div class="list">${us.map(row).join('')}</div>` : '<div class="empty small">Lista vazia: edita-a em Definições.</div>'}</div>`;
+  }
+  h += `<div class="src">Cotações: <b>Finnhub</b> (plano gratuito, cache de 5 min). Atualização automática ao abrir este ecrã. A lista edita-se em <a href="#definicoes">Definições</a>.</div>`;
+  return {
+    html: h,
+    mount: async alive => {
+      $('#search').onsubmit = e => { e.preventDefault(); const t = $('#q').value.trim().toUpperCase(); if (!validTicker(t)) return toast('Ticker inválido'); go(stockHash(t).slice(1)); };
+      const vis = state.universe.filter(u => !(CATEGORIES.find(c => c.id === u.cat)?.locked && !passed)).map(u => u.t).concat(held);
+      await Promise.all(vis.map(t => getQuote(t, PRIO.bg).then(() => { if (alive()) { const el = document.getElementById('q-' + t.replace('.', '_')); if (el) el.innerHTML = quoteCell(QUOTES[t]); } }).catch(e => { if (alive()) { const el = document.getElementById('q-' + t.replace('.', '_')); if (el && !QUOTES[t]) el.innerHTML = `<span class="muted small">sem dados</span>`; } })));
+    },
+  };
+}
+function quoteCell(q) {
+  if (!q || !validQuote(q)) return '<span class="muted small">—</span>';
+  return `<div class="num"><b>${fmtUSD(q.c)}</b></div><div class="small ${cls(q.dp)}">${arrow(q.dp)}${fmtPct(q.dp)}</div>`;
+}
+function toggleUniverse(t) {
+  const i = state.universe.findIndex(u => u.t === t);
+  if (i >= 0) { state.universe.splice(i, 1); toast(`${t} removida da lista`); }
+  else { state.universe.push({ t, cat: isEtf(t) ? 'etf' : 'qualidade', kind: isEtf(t) ? 'etf' : 'stock' }); toast(`${t} adicionada (categoria editável em Definições)`); }
+  save();
+}
+
+/* =====================================================================
+   PÁGINA DE CADA AÇÃO
+   ===================================================================== */
+function scrAcao(r) {
+  const t = r.t;
+  if (!validTicker(t)) return { html: `<div class="card empty">Ticker inválido.</div>` };
+  const C = COMPANY[t], U = inUniverse(t), etf = isEtf(t), cat = CATEGORIES.find(c => c.id === U?.cat);
+  if (cat?.locked && !level1Passed() && !portfolioTickers().includes(t)) {
+    return { html: `<a class="btn ghost sm" href="#acoes">‹ Ações</a><div class="card empty"><div class="e">🔒</div><b>${esc(t)}</b> está na categoria de alta volatilidade, bloqueada até completares o Nível 1 da Academia.<div style="margin-top:12px"><a class="btn sm" href="#academia">Ir para a Academia</a></div></div>` };
+  }
+  const h = `<a class="btn ghost sm" href="#acoes" style="margin-left:-8px">‹ Ações</a>
+  <div class="row" style="margin:6px 0 10px"><div class="av" id="logo" style="width:48px;height:48px">${esc(t.slice(0, 4))}</div><div class="grow"><h2>${esc(t)} ${etf ? '<span class="pill b">ETF</span>' : ''}</h2><div class="muted small" id="s-name">${esc(C?.n || '')}${cat ? ' · ' + cat.name : ''}</div></div></div>
+  <div class="card hero" id="s-price">${skel(2)}</div>
+  <div class="row wrap" style="gap:6px;margin-bottom:12px">${[['sec-about', 'Empresa'], ['sec-num', 'Números'], ['sec-chart', 'Gráfico'], ['sec-ev', 'Eventos'], ['sec-risk', 'Riscos'], ['sec-pos', 'A minha posição']].concat(UCITS[t] ? [['sec-ucits', 'UCITS']] : []).map(([id, l]) => `<button class="chip" data-act="scroll" data-id="${id}" style="cursor:pointer">${l}</button>`).join('')}</div>
+  <div class="card" id="sec-about"><h3>1 · ${etf ? 'O que é este ETF' : 'O que é a empresa'}</h3><div id="s-about">${skel(3)}</div></div>
+  <div class="card" id="sec-num"><h3>3 · Números-chave</h3><div id="s-num">${skel(4)}</div></div>
+  <div class="card" id="sec-chart"><div class="card-h"><h3>4 · Gráfico de preço</h3><div class="seg" id="ch-r">${['1M', '6M', '1A', '5A'].map(x => `<button data-r="${x}" class="${x === '1A' ? 'on' : ''}">${x}</button>`).join('')}</div></div><div id="s-chart">${skel(5)}</div></div>
+  <div class="card" id="sec-ev"><h3>5 · Próximos eventos</h3><div id="s-ev">${skel(3)}</div></div>
+  <div class="card" id="sec-risk"><h3>6 · Riscos principais</h3><div id="s-risk">${skel(3)}</div></div>
+  <div class="card" id="sec-pos"><h3>10 · Se eu tiver esta ação</h3><div id="s-pos"></div></div>
+  ${UCITS[t] ? `<div class="card" id="sec-ucits"><h3>11 · Equivalente ${term('ucits', 'UCITS')} para comprar na UE</h3>${ucitsHTML(t)}</div>` : ''}
+  <div class="card flat"><div class="row wrap" style="gap:6px"><span class="soon">V2</span><span class="small muted">Score e motivos</span><span class="soon">V3</span><span class="small muted">Contexto mundial, notícias com impacto, opinião dos analistas</span></div></div>`;
+  return { html: h, mount: alive => mountStock(t, alive) };
+}
+function ucitsHTML(t) {
+  const U = UCITS[t];
+  return `${U.list.map(e => `<div class="flag"><div class="e">🇪🇺</div><div class="grow"><b>${esc(e.t)}</b> · ${esc(e.n)}<div class="small muted">${term('isin', 'ISIN')} <span class="mono">${esc(e.isin)}</span> · ${e.pol === 'etc' ? term('etc', 'ETC') : term(e.pol, e.pol === 'acumulacao' ? 'acumulação' : 'distribuição')} · ${term('domicilio', 'domicílio')} Irlanda</div></div></div>`).join('')}
+  <p class="small">${T(U.note)}</p><div class="callout small">Pesquisa pelo ${term('isin', 'ISIN')} na Revolut para confirmar que está disponível e em que bolsa e moeda é negociado. Confirma também o ${term('ter', 'TER')} no ${term('kid', 'KID')}: os custos e o ${term('domicilio', 'domicílio')} podem diferir do ETF americano.</div>
+  <div class="src">Fonte: lista mantida pela MJIA (ISIN dos emitentes, revista em ${CONTENT_DATE}).</div>`;
+}
+
+function mountStock(t, alive) {
+  const R = {}; const P = PRIO.page;
+  const set = (k, p) => p.then(r => { R[k] = { r }; }, e => { R[k] = { e }; }).then(() => { if (alive()) paint(k); });
+  let range = '1A';
+  $('#ch-r').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; range = b.dataset.r; $$('#ch-r button').forEach(x => x.classList.toggle('on', x === b)); paintChart(); });
+  const etf = isEtf(t);
+  function paint(k) {
+    if (['quote', 'fx'].includes(k)) { paintPrice(); paintPos(); }
+    if (['profile', 'fprof', 'peers'].includes(k)) paintAbout();
+    if (['metric', 'profile', 'quote', 'chart'].includes(k)) paintNum();
+    if (k === 'chart') paintChart();
+    if (['earn', 'div'].includes(k)) paintEv();
+    if (['metric', 'chart', 'earn', 'quote'].includes(k)) paintRisk();
+  }
+  function paintPrice() {
+    const Rq = R.quote, p = priceFor(t), fx = FX.latest;
+    const prof = R.profile?.r?.data;
+    if (prof?.logo && !IN_ARTIFACT) { const lg = $('#logo'); if (lg && !lg.querySelector('img')) { const im = new Image(); im.alt = ''; im.onload = () => { lg.innerHTML = ''; lg.appendChild(im); }; im.src = prof.logo; } }
+    if (!p) {
+      $('#s-price').innerHTML = `<div class="muted small">${term('cotacao', 'Cotação')}</div><div class="mid">${Rq?.e ? errLine(Rq.e) : skel(1)}</div>${Rq?.e?.code === 'nodata' ? `<p class="small muted">A Finnhub (plano gratuito) só cobre bolsas dos EUA. Se tens este título (ex.: ETF UCITS), podes <a href="#" data-act="pricesrc" data-t="${esc(t)}">definir uma fonte de preço</a>.</p>` : ''}${actionsRow(t)}`;
+    } else {
+      const eur = p.ccy === 'USD' ? toEUR(p.px, 'USD', fx?.rate) : p.px;
+      const q = QUOTES[t];
+      $('#s-price').innerHTML = `<div class="row between"><span class="muted small">${term('cotacao', 'Cotação')}</span>${p.src === 'finnhub' && isNum(q?.dp) ? pill(q.dp, `${fmtMoney(q.d, 'USD')} (${fmtPct(q.dp)}) hoje`) : ''}</div>
+        <div class="big num">${fmtMoney(p.px, p.ccy)}</div>${p.ccy === 'USD' ? `<div class="muted num">≈ ${fmtEUR(eur)} <span class="small">(${term('taxa-bce', 'BCE')} 1 € = ${fmtNum(fx?.rate, 4)} $)</span></div>` : ''}
+        <div class="src">Fonte: <b>${esc(p.label)}</b>${p.src === 'finnhub' ? ` · preço de ${fmtDT(p.at)} · obtido ${fmtDT(q.at)}${q.stale ? ' · ⚠️ não atualizado' : ''}` : ''}${fx && p.ccy === 'USD' ? ` · câmbio de ${fmtDate(fx.date)}` : ''}</div>${actionsRow(t)}`;
+    }
+    wireIn($('#s-price'));
+  }
+  function actionsRow(t) {
+    const inU = !!inUniverse(t);
+    return `<div class="btns" style="margin-top:12px"><button class="btn sm" data-act="tx" data-t="${esc(t)}">+ Registar compra</button><button class="btn sec sm" data-act="univ" data-t="${esc(t)}">${inU ? '✓ Na lista (remover)' : '+ Adicionar à lista'}</button></div>`;
+  }
+  function paintAbout() {
+    const C = COMPANY[t], prof = R.profile?.r?.data, fp = R.fprof?.r?.data?.[0], peers = (R.peers?.r?.data || []).filter(x => x !== t).slice(0, 8);
+    let h = '';
+    if (C) h += `<p>${T(C.o)}</p><p><b>Como ganha dinheiro:</b> ${T(C.m)}</p>${C.c?.length ? `<p class="small"><b>Principais ${term('concorrentes', 'concorrentes')}:</b> ${C.c.map(esc).join(', ')}</p>` : ''}<div class="src">Texto educativo escrito pela MJIA (${CONTENT_DATE}) a partir de informação pública. Confirma no relatório anual (10-K).</div>`;
+    else h += `<p class="muted">Ainda não há texto educativo para este ticker (só existe para a lista inicial).</p>`;
+    const kv = [];
+    if (prof?.name) {
+      kv.push(['Nome', esc(prof.name)], [term('setor', 'Setor'), esc(prof.finnhubIndustry || '—')], ['País', esc(prof.country || '—')], ['Bolsa', esc(prof.exchange || '—')]);
+      if (isNum(prof.marketCapitalization)) { const mc = prof.marketCapitalization * 1e6; kv.push([term('market-cap', 'Market cap'), `${fmtBig(mc)} <span class="muted small">(${mc > 2e11 ? 'mega' : mc > 1e10 ? 'grande' : mc > 2e9 ? 'média' : 'pequena'})</span>`]); }
+      if (prof.ipo) kv.push(['Em bolsa desde', fmtDate(prof.ipo)]);
+    }
+    if (fp) { if (fp.city || fp.country) kv.push(['Sede', esc([fp.city, fp.state, fp.country].filter(Boolean).join(', '))]); if (fp.fullTimeEmployees) kv.push(['Trabalhadores', fmtNum(+fp.fullTimeEmployees, 0)]); if (fp.ceo) kv.push(['CEO', esc(fp.ceo)]); }
+    if (kv.length) h += `<div class="kv" style="margin-top:12px">${kv.map(([l, v]) => `<div class="k"><div class="l">${l}</div><div class="v" style="font-size:15px">${v}</div></div>`).join('')}</div>`;
+    if (prof?.weburl) h += `<p class="small" style="margin-top:10px">Site: <a href="${esc(prof.weburl)}" target="_blank" rel="noopener">${esc(prof.weburl)}</a></p>`;
+    if (peers.length) h += `<p class="small" style="margin-top:8px"><b>${term('concorrentes', 'Concorrentes')} (Finnhub):</b> ${peers.map(p => `<a href="${stockHash(p)}">${esc(p)}</a>`).join(' · ')}</p>`;
+    if (fp?.description) h += `<details style="margin-top:8px"><summary class="small" style="cursor:pointer">Descrição oficial (inglês, FMP)</summary><p class="small muted">${esc(fp.description)}</p></details>`;
+    const srcs = [R.profile?.r && srcLine(R.profile.r, 'perfil'), R.fprof?.r && srcLine(R.fprof.r, 'perfil'), R.peers?.r && srcLine(R.peers.r, 'concorrentes')].filter(Boolean).join('');
+    const errs = [R.profile?.e && `Perfil Finnhub: ${errLine(R.profile.e)}`, R.fprof?.e && R.fprof.e.code !== 'nokey' && `Perfil FMP: ${errLine(R.fprof.e)}`].filter(Boolean);
+    $('#s-about').innerHTML = h + srcs + (errs.length ? `<div class="src">${errs.join('<br>')}</div>` : '');
+  }
+  function stats() {
+    const pts = R.chart?.r?.data?.pts; if (!pts || pts.length < 30 || R.chart.r.data.src !== 'fmp') return null;
+    const last = pts[pts.length - 1][0], cut = localDate(new Date(Date.parse(last) - 365 * DAY));
+    const y = pts.filter(p => p[0] >= cut).map(p => p[1]); if (y.length < 30) return null;
+    const rets = []; for (let i = 1; i < y.length; i++) rets.push(Math.log(y[i] / y[i - 1]));
+    const m = sum(rets) / rets.length, sd = Math.sqrt(sum(rets, r => (r - m) ** 2) / (rets.length - 1));
+    let peak = y[0], dd = 0; for (const v of y) { peak = Math.max(peak, v); dd = Math.min(dd, v / peak - 1); }
+    return { vol: sd * Math.sqrt(252) * 100, dd: dd * 100, n: y.length };
+  }
+  function paintNum() {
+    const M = R.metric?.r?.data?.metric || {}, prof = R.profile?.r?.data, q = QUOTES[t];
+    const pick = (...ks) => { for (const k of ks) if (isNum(M[k])) return M[k]; return null; };
+    const st = stats();
+    const cell = (lbl, v, note) => `<div class="k"><div class="l">${lbl}</div><div class="v num">${v == null || v === '—' ? '<span class="nodata" style="font-size:14px;font-weight:500">sem dados</span>' : v}</div>${note ? `<div class="tiny muted">${note}</div>` : ''}</div>`;
+    const pe = pick('peTTM', 'peBasicExclExtraTTM', 'peExclExtraTTM', 'peNormalizedAnnual'), nm = pick('netProfitMarginTTM', 'netProfitMarginAnnual');
+    const mc = isNum(prof?.marketCapitalization) ? prof.marketCapitalization * 1e6 : isNum(M.marketCapitalization) ? M.marketCapitalization * 1e6 : null;
+    const items = [
+      cell(term('cotacao', 'Preço'), q && validQuote(q) ? fmtUSD(q.c) : null),
+      cell(term('variacao', 'Variação hoje'), q && validQuote(q) ? `<span class="${cls(q.dp)}">${arrow(q.dp)}${fmtPct(q.dp)}</span>` : null),
+      cell(term('max52', 'Máx. / mín. 52 sem.'), isNum(pick('52WeekHigh')) ? `${fmtNum(pick('52WeekHigh'))} / ${fmtNum(pick('52WeekLow'))}` : null, q && isNum(pick('52WeekHigh')) ? `${fmtPct((q.c / pick('52WeekHigh') - 1) * 100, 1)} do máximo` : ''),
+      cell(term('market-cap', 'Market cap'), mc ? fmtBig(mc) : null),
+      cell(`${term('pe', 'P/E')} (${term('ttm', 'TTM')})`, pe != null ? (pe > 0 ? fmtNum(pe, 1) : 'negativo') : null, nm != null && nm < 0 ? 'empresa com prejuízo' : ''),
+      cell(term('ps', 'P/S'), isNum(pick('psTTM', 'psAnnual')) ? fmtNum(pick('psTTM', 'psAnnual'), 1) : null),
+      cell(`${term('crescimento-receitas', 'Cresc. receitas')} (${term('yoy', 'a/a')})`, fmtPctOrNull(pick('revenueGrowthTTMYoy', 'revenueGrowthQuarterlyYoy'))),
+      cell(`${term('crescimento-eps', 'Cresc. EPS')} (${term('yoy', 'a/a')})`, fmtPctOrNull(pick('epsGrowthTTMYoy', 'epsGrowthQuarterlyYoy'))),
+      cell(term('margem-bruta', 'Margem bruta'), fmtPctOrNull(pick('grossMarginTTM', 'grossMarginAnnual'), false)),
+      cell(term('margem-op', 'Margem operacional'), fmtPctOrNull(pick('operatingMarginTTM', 'operatingMarginAnnual'), false)),
+      cell(term('margem-liquida', 'Margem líquida'), fmtPctOrNull(nm, false)),
+      cell(term('roe', 'ROE'), fmtPctOrNull(pick('roeTTM', 'roeRfy'), false)),
+      cell(term('divida-capital', 'Dívida / capital'), isNum(pick('totalDebt/totalEquityQuarterly', 'totalDebt/totalEquityAnnual')) ? fmtNum(pick('totalDebt/totalEquityQuarterly', 'totalDebt/totalEquityAnnual'), 2) + 'x' : null),
+      cell(term('rendimento-dividendo', 'Dividendo (yield)'), isNum(pick('currentDividendYieldTTM', 'dividendYieldIndicatedAnnual')) ? fmtPct(pick('currentDividendYieldTTM', 'dividendYieldIndicatedAnnual'), 2, false) : (R.metric?.r ? '0% / não paga' : null)),
+      cell(term('beta', 'Beta'), isNum(pick('beta')) ? fmtNum(pick('beta'), 2) : null),
+      cell(`${term('volatilidade', 'Volatilidade')} 1A`, st ? fmtPct(st.vol, 0, false) : null, st ? 'calculada pela MJIA' : ''),
+      cell(`${term('drawdown', 'Queda máx.')} 1A`, st ? `<span class="down">${fmtPct(st.dd, 1)}</span>` : null, st ? 'calculada pela MJIA' : ''),
+    ];
+    let src = '';
+    if (R.metric?.r) src += srcLine(R.metric.r, 'métricas; % em pontos percentuais');
+    else if (R.metric?.e) src += `<div class="src">Métricas: ${errLine(R.metric.e)}</div>`;
+    if (st) src += `<div class="src">Volatilidade e queda máxima: cálculo da MJIA com ${st.n} preços diários de fecho (FMP).</div>`;
+    if (etf) src += `<div class="src">Nos ETFs, muitas métricas de empresa não se aplicam.</div>`;
+    $('#s-num').innerHTML = `<div class="kv">${items.join('')}</div>${src}`;
+  }
+  function paintChart() {
+    const el = $('#s-chart'); if (!el) return;
+    if (!R.chart) return;
+    if (R.chart.e) { el.innerHTML = `<div class="empty small">${errLine(R.chart.e)}${R.chart.e.code === 'nokey' ? '<br>O gráfico usa a FMP (ou a Alpha Vantage como reserva): configura as chaves em <a href="#definicoes">Definições</a>.' : ''}</div>`; return; }
+    const d = R.chart.r.data;
+    drawChart(el, d.pts, range, 'USD');
+    el.insertAdjacentHTML('beforeend', srcLine(R.chart.r, `fecho ${d.step}${R.chart.r.fallbackFrom ? `; FMP indisponível (${esc(R.chart.r.fallbackFrom.human)})` : ''}`));
+  }
+  function paintEv() {
+    const mh = marketHours();
+    let h = '';
+    if (R.earn?.r) {
+      const list = (R.earn.r.data?.earningsCalendar || []).filter(e => e.date >= todayISO()).sort((a, b) => a.date < b.date ? -1 : 1);
+      const e = list[0];
+      if (e) { const days = Math.round((Date.parse(e.date) - Date.parse(todayISO())) / DAY); h += `<div class="flag"><div class="e">${days <= RISK_RULES.earningsDays ? '🟡' : '📅'}</div><div class="grow"><b>${term('resultados', 'Resultados')}: ${fmtDate(e.date)}</b> ${e.hour === 'bmo' ? '· ' + term('bmo', 'antes da abertura') : e.hour === 'amc' ? '· ' + term('amc', 'depois do fecho') : ''}<div class="small muted">daqui a ${days} dia(s)${isNum(e.epsEstimate) ? ` · ${term('eps-estimado', 'EPS estimado')} ${fmtNum(e.epsEstimate)} $` : ''}${e.quarter ? ` · T${e.quarter} ${e.year}` : ''}</div></div></div>`; }
+      else h += `<div class="flag"><div class="e">📅</div><div class="grow">${term('resultados', 'Resultados')}: sem data anunciada nos próximos meses.</div></div>`;
+      h += srcLine(R.earn.r, 'calendário de resultados');
+    } else if (R.earn?.e) h += `<div class="flag"><div class="e">📅</div><div>Resultados: ${errLine(R.earn.e)}</div></div>`; else h += skel(1);
+    if (R.div?.r) {
+      const ds = R.div.r.data || [], up = ds.filter(d => d.date >= todayISO()).sort((a, b) => a.date < b.date ? -1 : 1)[0], last = ds.filter(d => d.date < todayISO())[0];
+      if (up) h += `<div class="flag"><div class="e">💵</div><div class="grow"><b>${term('ex-dividendo', 'Ex-dividendo')}: ${fmtDate(up.date)}</b> · ${fmtUSD(up.amt, 4)}/ação<div class="small muted">${term('data-pagamento', 'pagamento')} ${fmtDate(up.pay)}</div></div></div>`;
+      if (last) h += `<div class="flag"><div class="e">🧾</div><div class="grow">Último ${term('dividendo', 'dividendo')}: ${fmtUSD(last.amt, 4)}/ação · ex-dividendo ${fmtDate(last.date)}${last.freq ? ` · ${esc(last.freq)}` : ''}</div></div>`;
+      if (!up && !last) h += `<div class="flag"><div class="e">💵</div><div>Sem dividendos registados.</div></div>`;
+      h += srcLine(R.div.r, 'dividendos');
+    } else if (R.div?.e) h += `<div class="flag"><div class="e">💵</div><div>Dividendos: ${errLine(R.div.e)}</div></div>`;
+    h += `<div class="flag"><div class="e">🕒</div><div class="grow">Bolsa dos EUA hoje: <b>${mh.open}–${mh.close}</b> (Lisboa) · ${mh.isOpen ? '<span class="up">aberta</span>' : 'fechada'}${!mh.normal ? '<div class="small" style="color:var(--yellow)">Esta semana o horário está desfasado 1 hora: os EUA e a Europa mudam a hora em datas diferentes.</div>' : ''}<div class="tiny muted">Calculado pela MJIA; não considera os feriados dos EUA.</div></div></div>`;
+    $('#s-ev').innerHTML = h;
+  }
+  function paintRisk() {
+    const C = COMPANY[t], M = R.metric?.r?.data?.metric || {}, st = stats(), q = QUOTES[t];
+    const pick = (...ks) => { for (const k of ks) if (isNum(M[k])) return M[k]; return null; };
+    const auto = [];
+    const beta = pick('beta'); if (beta != null && beta > RISK_RULES.betaHigh) auto.push(['🟡', `${term('beta', 'Beta')} de ${fmtNum(beta, 2)}`, `Tende a oscilar mais do que o mercado (limiar da MJIA: ${RISK_RULES.betaHigh}).`]);
+    if (st && st.vol > RISK_RULES.volHigh) auto.push(['🟡', `${term('volatilidade', 'Volatilidade')} de ${fmtPct(st.vol, 0, false)}`, `Oscilações muito fortes no último ano (limiar: ${RISK_RULES.volHigh}%).`]);
+    if (st && st.dd < -30) auto.push(['🟡', `Caiu ${fmtPct(-st.dd, 0, false)} do pico no último ano`, `${term('drawdown', 'Queda máxima')} acima de 30%.`]);
+    const pe = pick('peTTM', 'peBasicExclExtraTTM'), nm = pick('netProfitMarginTTM');
+    if (nm != null && nm < 0) auto.push(['🟡', 'Empresa com prejuízo', `${term('margem-liquida', 'Margem líquida')} de ${fmtPct(nm, 1)}: depende de crescer até dar lucro.`]);
+    else if (pe != null && pe > RISK_RULES.peHigh) auto.push(['🔵', `${term('pe', 'P/E')} de ${fmtNum(pe, 0)}`, `Valorização exigente (limiar: ${RISK_RULES.peHigh}): o preço já assume muito crescimento, e uma desilusão pode pesar muito.`]);
+    const de = pick('totalDebt/totalEquityQuarterly', 'totalDebt/totalEquityAnnual'); if (de != null && de > RISK_RULES.debtHigh) auto.push(['🔵', `${term('divida-capital', 'Dívida / capital')} de ${fmtNum(de, 1)}x`, `Dívida elevada (limiar: ${RISK_RULES.debtHigh}x; nos bancos é normal ser alta).`]);
+    const e = (R.earn?.r?.data?.earningsCalendar || []).filter(e => e.date >= todayISO()).sort((a, b) => a.date < b.date ? -1 : 1)[0];
+    if (e) { const days = Math.round((Date.parse(e.date) - Date.parse(todayISO())) / DAY); if (days <= RISK_RULES.earningsDays) auto.push(['🟡', `${term('resultados', 'Resultados')} daqui a ${days} dia(s)`, 'O preço costuma mexer muito no dia dos resultados.']); }
+    const P0 = computePortfolio(), pos = P0.positions.filter(p => p.ticker === t && p.valueEUR != null), tv = P0.tot.posValue;
+    if (pos.length && tv > 0 && !isEtf(t)) { const w = sum(pos, p => p.valueEUR) / tv * 100; if (w > RISK_RULES.weightHigh) auto.push(['🟡', `Pesa ${fmtPct(w, 0, false)} da tua carteira`, `${term('concentracao', 'Concentração')} acima de ${RISK_RULES.weightHigh}% numa só ação.`]); }
+    auto.push(['🔵', term('risco-cambial', 'Risco cambial'), 'Está cotada em dólares: se o dólar desvalorizar face ao euro, perdes em euros mesmo com o preço parado.']);
+    let h = '';
+    if (C?.r) h += `<h4 style="margin:4px 0">Do negócio</h4>${C.r.map(x => `<div class="flag"><div class="e">⚠️</div><div>${T(x)}</div></div>`).join('')}<div class="src">Texto educativo da MJIA (${CONTENT_DATE}).</div>`;
+    h += `<h4 style="margin:14px 0 4px">Sinais nos dados (automáticos)</h4>${auto.map(([e, t1, why]) => `<div class="flag"><div class="e">${e}</div><div><b>${t1}</b><div class="small muted">Porquê? ${why}</div></div></div>`).join('')}`;
+    if (!R.metric?.r) h += `<div class="src">Sem métricas, alguns sinais não puderam ser avaliados${R.metric?.e ? ' (' + esc(R.metric.e.human) + ')' : ''}.</div>`;
+    else h += `<div class="src">Regras e limiares definidos pela MJIA; dados Finnhub (métricas) e FMP (preços).</div>`;
+    $('#s-risk').innerHTML = h;
+  }
+  function paintPos() { $('#s-pos').innerHTML = positionDetail(t); wireIn($('#s-pos')); }
+  paintPos(); paintEv();
+  set('quote', getQuote(t, P)); set('profile', getProfile(t, P)); set('metric', getMetrics(t, P)); set('peers', getPeers(t, P)); set('earn', getEarnings(t, P));
+  set('fprof', getFmpProfile(t, P)); set('chart', getChart(t, P)); set('div', getDividends(t, P));
+  if (!FX.latest || FX.latest.stale) set('fx', getFxLatest(P));
+  const ps = state.priceSrc[t]; if (ps?.mode === 'av') set('quote', getAvQuote(ps.sym, P));
+}
+const fmtPctOrNull = (v, sign = true) => isNum(v) ? `<span class="${sign ? cls(v) : ''}">${fmtPct(v, 1, sign)}</span>` : null;
+function wireIn(el) { $$('[data-act]', el).forEach(b => { if (b._w) return; b._w = 1; b.addEventListener('click', e => { e.preventDefault(); ACTIONS[b.dataset.act]?.(b.dataset, b); }); }); }
+
+function positionDetail(t) {
+  const P = computePortfolio(), D = computePortfolio({ demo: true });
+  const ps = P.positions.filter(p => p.ticker === t).concat(D.positions.filter(p => p.ticker === t).map(p => ({ ...p, demo: true })));
+  const real = P.realized.items.filter(i => i.ticker === t);
+  const txs = state.tx.filter(x => x.ticker === t).sort(byDate);
+  let h = '';
+  if (!ps.length && !txs.length) return `<p class="muted">Ainda não tens ${esc(t)}.</p><div class="btns"><button class="btn sm" data-act="tx" data-t="${esc(t)}">+ Registar compra</button></div><p class="small muted" style="margin-top:10px">📓 Diário (V3) · 🔔 Alertas (V4)</p>`;
+  const tv = P.tot.posValue;
+  for (const p of ps) {
+    h += `<div class="callout ${p.demo ? '' : 'ok'}" style="margin-top:0"><b>${p.demo ? '🧪 Demo' : BLOCKS[p.block].icon + ' ' + BLOCKS[p.block].name}</b> · ${fmtQty(p.qty)} ${p.qty === 1 ? 'ação' : 'ações'}</div>
+    <div class="kv"><div class="k"><div class="l">${term('preco-medio', 'Preço médio')}</div><div class="v num">${fmtMoney(p.avgPx, p.ccy)}</div></div>
+    <div class="k"><div class="l">${term('custo', 'Custo')} (com comissões)</div><div class="v num">${fmtEUR(p.costEUR)}</div></div>
+    <div class="k"><div class="l">Valor atual</div><div class="v num">${p.valueEUR != null ? fmtEUR(p.valueEUR) : '<span class="nodata">sem preço</span>'}</div></div>
+    <div class="k"><div class="l">${term('ganho-nao-realizado', 'Ganho/perda')}</div><div class="v num ${cls(p.gainEUR)}">${p.gainEUR != null ? `${fmtSignedEUR(p.gainEUR)} <span class="small">(${fmtPct(p.gainPct, 1)})</span>` : '—'}</div></div>
+    <div class="k"><div class="l">Do preço · do ${term('efeito-cambio', 'câmbio')}</div><div class="v num" style="font-size:14px"><span class="${cls(p.priceEff)}">${fmtSignedEUR(p.priceEff)}</span> · <span class="${cls(p.fxEff)}">${fmtSignedEUR(p.fxEff)}</span></div><div class="tiny muted">comissões ${fmtSignedEUR(-p.feesEUR)}</div></div>
+    <div class="k"><div class="l">${term('peso', 'Peso na carteira')}</div><div class="v num">${!p.demo && p.valueEUR != null && tv > 0 ? fmtPct(p.valueEUR / tv * 100, 1, false) : '—'}</div></div></div>`;
+  }
+  if (real.length) h += `<p class="small" style="margin-top:10px">${term('ganho-realizado', 'Realizado')} com vendas: <b class="${cls(sum(real, i => i.total))}">${fmtSignedEUR(sum(real, i => i.total))}</b> (preço ${fmtSignedEUR(sum(real, i => i.price))}, câmbio ${fmtSignedEUR(sum(real, i => i.fx))}, comissões ${fmtSignedEUR(-sum(real, i => i.fees))}; método ${term('fifo', 'FIFO')}).</p>`;
+  if (txs.length) h += `<div class="tblwrap"><table class="tbl"><tr><th>Data</th><th>Tipo</th><th class="n">Qtd.</th><th class="n">Preço</th><th class="n">${term('cambio', '1 € =')}</th><th>Corretora</th></tr>${txs.map(x => `<tr><td>${fmtDate(x.date)}</td><td>${x.kind === 'buy' ? '🟢 compra' : '🔴 venda'}</td><td class="n">${fmtQty(x.qty)}</td><td class="n">${fmtMoney(x.price, x.ccy)}</td><td class="n">${x.ccy === 'USD' ? fmtNum(x.eurusd, 4) + ' $' : '—'}</td><td>${esc(x.broker)}${x.demo ? ' (demo)' : ''}</td></tr>`).join('')}</table></div>`;
+  const anyBlock = ps[0]?.block || 'longo';
+  h += `<div class="btns" style="margin-top:8px"><button class="btn sm" data-act="tx" data-t="${esc(t)}" data-block="${anyBlock}">+ Compra</button>${ps.some(p => !p.demo) ? `<button class="btn sec sm" data-act="tx" data-kind="sell" data-t="${esc(t)}" data-block="${anyBlock}">− Venda</button>` : ''}<button class="btn sec sm" data-act="pricesrc" data-t="${esc(t)}">Fonte de preço</button></div>
+  <p class="small muted" style="margin-top:10px">📓 Diário de investimento: chega na V3 (por agora, a nota de cada compra fica em Carteira → Movimentos). 🔔 Alertas: V4.</p>`;
+  const notes = txs.filter(x => x.note);
+  if (notes.length) h += `<div class="callout small">📝 As tuas notas: ${notes.map(x => `<div>${fmtDate(x.date)}: “${esc(x.note)}”</div>`).join('')}</div>`;
+  return h;
+}
+
+/* ---------- gráfico SVG ---------- */
+function drawChart(el, pts, range, ccy) {
+  if (!pts?.length) { el.innerHTML = '<div class="empty small">sem dados</div>'; return; }
+  const lastD = Date.parse(pts[pts.length - 1][0]);
+  const days = { '1M': 31, '6M': 183, '1A': 366, '5A': 99999 }[range];
+  let P = pts.filter(p => Date.parse(p[0]) >= lastD - days * DAY);
+  if (P.length < 2) { el.innerHTML = '<div class="empty small">Poucos pontos para este período.</div>'; return; }
+  const step = Math.ceil(P.length / 400); if (step > 1) P = P.filter((_, i) => i % step === 0 || i === P.length - 1);
+  const W = 600, H = 220, n = P.length, vs = P.map(p => p[1]);
+  const mn = Math.min(...vs), mx = Math.max(...vs), span = mx - mn || 1;
+  const X = i => i / (n - 1) * W, Y = v => H - 12 - (v - mn) / span * (H - 30);
+  const d = P.map((p, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)},${Y(p[1]).toFixed(1)}`).join('');
+  const ch = (vs[n - 1] / vs[0] - 1) * 100, col = ch >= 0 ? 'var(--green)' : 'var(--red)';
+  el.innerHTML = `<div class="row between" style="margin-bottom:6px">${pill(ch, `${fmtPct(ch)} em ${range}`)}<span class="small muted">${fmtDate(P[0][0])} → ${fmtDate(P[n - 1][0])}</span></div>
+  <div class="chart"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Gráfico de preço"><defs><linearGradient id="gfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${ch >= 0 ? '#2fd27a' : '#ff5a5f'}" stop-opacity=".28"/><stop offset="1" stop-color="${ch >= 0 ? '#2fd27a' : '#ff5a5f'}" stop-opacity="0"/></linearGradient></defs>
+  <path d="${d}L${W},${H}L0,${H}Z" fill="url(#gfill)"/><path d="${d}" fill="none" stroke="${col}" stroke-width="2" vector-effect="non-scaling-stroke"/><line id="cx" x1="0" x2="0" y1="0" y2="${H}" stroke="#8a93a8" stroke-dasharray="3 3" vector-effect="non-scaling-stroke" visibility="hidden"/></svg>
+  <span class="yl" style="top:4px">${fmtMoney(mx, ccy)}</span><span class="yl" style="bottom:4px">${fmtMoney(mn, ccy)}</span><div class="hov hidden"></div></div>`;
+  const box = $('.chart', el), svg = $('svg', el), hov = $('.hov', el), cx = $('#cx', el);
+  const move = ev => {
+    const r = svg.getBoundingClientRect(), x = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+    const i = Math.max(0, Math.min(n - 1, Math.round(x / r.width * (n - 1))));
+    const px = X(i) / W * r.width;
+    cx.setAttribute('x1', X(i)); cx.setAttribute('x2', X(i)); cx.setAttribute('visibility', 'visible');
+    hov.classList.remove('hidden'); hov.textContent = `${fmtDate(P[i][0])} · ${fmtMoney(P[i][1], ccy)}`;
+    hov.style.left = Math.max(60, Math.min(r.width - 60, px)) + 'px';
+  };
+  const leave = () => { hov.classList.add('hidden'); cx.setAttribute('visibility', 'hidden'); };
+  box.addEventListener('pointermove', move); box.addEventListener('pointerdown', move); box.addEventListener('pointerleave', leave);
+  box.addEventListener('touchmove', move, { passive: true }); box.addEventListener('touchend', leave);
+}
+
+/* =====================================================================
+   ACADEMIA
+   ===================================================================== */
+function scrAcademia() {
+  const read = LESSONS_L1.filter(l => state.academy.read[l.id]).length, Qz = state.academy.quiz['1'];
+  let h = `<h2>Academia MJIA</h2><p class="muted">Aprende por níveis. Cada nível termina com um quiz e o progresso fica guardado.</p>
+  <div class="card hero"><div class="row between"><h3>Nível 1 · Fundamentos</h3>${level1Passed() ? '<span class="pill up">✓ Concluído</span>' : '<span class="pill b">Em curso</span>'}</div>
+  <div class="row between small muted" style="margin:8px 0 4px"><span>${read}/${LESSONS_L1.length} lições</span><span>Quiz: ${Qz ? `melhor ${Qz.best}/${QUIZ_L1.length}` : 'por fazer'} (aprovação: ${QUIZ_L1_PASS}/${QUIZ_L1.length})</span></div><div class="bar"><i style="width:${read / LESSONS_L1.length * 100}%"></i></div>
+  ${!level1Passed() ? '<p class="small" style="margin-top:10px">🔒 Ao passar no quiz desbloqueias a categoria <b>Alta volatilidade / alto risco</b>.</p>' : '<p class="small up" style="margin-top:10px">🔓 Categoria de alta volatilidade desbloqueada.</p>'}
+  <div class="list" style="margin-top:8px">${LESSONS_L1.map((l, i) => `<a class="li" href="#licao-${l.id}"><div class="av">${state.academy.read[l.id] ? '✅' : i + 1}</div><div class="grow"><div class="t" style="font-weight:600">${esc(l.t)}</div><div class="s">${l.min} min</div></div><span class="chev">›</span></a>`).join('')}</div>
+  <a class="btn full" href="#quiz" style="margin-top:12px">${Qz ? 'Repetir o quiz' : 'Fazer o quiz do Nível 1'} (${QUIZ_L1.length} perguntas)</a></div>`;
+  h += `<div class="card"><h3>Próximos níveis</h3><div class="list">${ACADEMY_LEVELS.filter(l => !l.ready).map(l => `<div class="li lock" style="cursor:default"><div class="av">${l.n === 'imp' ? '🧾' : l.n}</div><div class="grow"><div class="t" style="font-weight:600">${l.n === 'imp' ? '' : 'Nível ' + l.n + ' · '}${esc(l.name)}</div></div><span class="soon">${l.ver}</span></div>`).join('')}</div></div>`;
+  return { html: h };
+}
+function scrLicao(r) {
+  const i = LESSONS_L1.findIndex(l => l.id === r.id); const L = LESSONS_L1[i];
+  if (!L) return { html: '<div class="card empty">Lição não encontrada.</div>' };
+  const next = LESSONS_L1[i + 1];
+  const h = `<a class="btn ghost sm" href="#academia" style="margin-left:-8px">‹ Academia</a>
+  <div class="card"><div class="muted small">Nível 1 · Lição ${i + 1} de ${LESSONS_L1.length} · ${L.min} min</div><h2 style="margin:6px 0 10px">${esc(L.t)}</h2><div class="lesson">${T(L.h)}</div>
+  <div class="src">Conteúdo educativo da MJIA (${CONTENT_DATE}). Informação geral, não é aconselhamento financeiro.</div>
+  <div class="btns" style="margin-top:14px">${i > 0 ? `<a class="btn sec" href="#licao-${LESSONS_L1[i - 1].id}">‹ Anterior</a>` : ''}<button class="btn" id="done">${state.academy.read[L.id] ? '✓ Lida · ' : 'Marcar como lida · '}${next ? 'seguinte ›' : 'ir para o quiz ›'}</button></div></div>`;
+  return {
+    html: h, mount: () => {
+      $('#done').onclick = () => { state.academy.read[L.id] = new Date().toISOString(); save(); go(next ? 'licao-' + next.id : 'quiz'); };
+      const w = $('[data-widget=juros]'); if (w) mountJuros(w);
+    },
+  };
+}
+function mountJuros(w) {
+  w.innerHTML = `<div class="card" style="background:var(--bg2)"><h4 style="margin-bottom:6px">🧮 Calculadora de juros compostos</h4><div class="fgrid">
+  <label class="f"><span>Capital inicial (€)</span><input class="in" id="jc" inputmode="decimal" value="250"></label>
+  <label class="f"><span>Reforço mensal (€)</span><input class="in" id="jm" inputmode="decimal" value="50"></label>
+  <label class="f"><span>Taxa anual ilustrativa (%)</span><input class="in" id="jt" inputmode="decimal" value="6"></label>
+  <label class="f"><span>Anos</span><input class="in" id="ja" inputmode="numeric" value="10"></label></div><div id="jo"></div></div>`;
+  const calc = () => {
+    const c = pnum($('#jc').value) || 0, m = pnum($('#jm').value) || 0, tx = (pnum($('#jt').value) || 0) / 100, a = Math.min(60, Math.max(0, Math.round(pnum($('#ja').value) || 0)));
+    const rm = Math.pow(1 + tx, 1 / 12) - 1; let v = c; const rows = [];
+    for (let y = 1; y <= a; y++) { for (let k = 0; k < 12; k++) v = v * (1 + rm) + m; if (y === 1 || y % 5 === 0 || y === a) rows.push([y, v, c + m * 12 * y]); }
+    const inv = c + m * 12 * a;
+    $('#jo').innerHTML = `<div class="row wrap" style="gap:16px;margin-top:6px"><div><div class="small muted">Valor final</div><div class="mid num">${fmtEUR(v, 0)}</div></div><div><div class="small muted">Dinheiro que puseste</div><div class="mid num">${fmtEUR(inv, 0)}</div></div><div><div class="small muted">Ganho dos juros</div><div class="mid num up">${fmtEUR(v - inv, 0)}</div></div></div>
+    <table class="mini"><tr><th>Ano</th><th>Puseste</th><th>Valor</th></tr>${rows.map(r => `<tr><td>${r[0]}</td><td class="num">${fmtEUR(r[2], 0)}</td><td class="num">${fmtEUR(r[1], 0)}</td></tr>`).join('')}</table>`;
+  };
+  $$('input', w).forEach(i => i.addEventListener('input', calc)); calc();
+}
+let QZ = null;
+function scrQuiz() {
+  if (!QZ || QZ.done === 'reset') QZ = { order: shuffle(QUIZ_L1.map((_, i) => i)), i: 0, ok: 0, wrong: [], answered: false };
+  return { html: `<a class="btn ghost sm" href="#academia" style="margin-left:-8px">‹ Academia</a><div class="card" id="qz"></div>`, mount: () => paintQuiz() };
+}
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function paintQuiz() {
+  const el = $('#qz'); if (!el) return;
+  if (QZ.i >= QZ.order.length) return paintQuizEnd(el);
+  const qi = QZ.order[QZ.i], Qn = QUIZ_L1[qi];
+  QZ.opts ||= shuffle(Qn.o.map((_, i) => i));
+  el.innerHTML = `<div class="row between small muted"><span>Pergunta ${QZ.i + 1} de ${QZ.order.length}</span><span>${QZ.ok} certa(s)</span></div><div class="bar" style="margin:8px 0 14px;height:6px"><i style="width:${QZ.i / QZ.order.length * 100}%"></i></div>
+  <h3 style="font-size:18px">${esc(Qn.q)}</h3><div id="qo">${QZ.opts.map(oi => `<button class="opt" data-o="${oi}">${esc(Qn.o[oi])}</button>`).join('')}</div><div id="qe"></div>`;
+  $$('.opt', el).forEach(b => b.onclick = () => {
+    if (QZ.answered) return; QZ.answered = true;
+    const oi = +b.dataset.o, right = oi === Qn.a;
+    if (right) QZ.ok++; else QZ.wrong.push(qi);
+    $$('.opt', el).forEach(x => { x.disabled = true; if (+x.dataset.o === Qn.a) x.classList.add('ok'); else if (x === b) x.classList.add('no'); });
+    $('#qe').innerHTML = `<div class="callout ${right ? 'ok' : 'bad'}">${right ? '✅ Certo!' : '❌ Não é bem assim.'} ${esc(Qn.e)}</div><button class="btn full" id="qn">${QZ.i + 1 < QZ.order.length ? 'Seguinte ›' : 'Ver resultado'}</button>`;
+    $('#qn').onclick = () => { QZ.i++; QZ.answered = false; QZ.opts = null; paintQuiz(); window.scrollTo(0, 0); };
+  });
+}
+function paintQuizEnd(el) {
+  const n = QZ.order.length, pass = QZ.ok >= QUIZ_L1_PASS;
+  if (!QZ.saved) {
+    const prev = state.academy.quiz['1'] || { best: 0, attempts: 0, passed: false };
+    const wasPassed = prev.passed;
+    state.academy.quiz['1'] = { best: Math.max(prev.best, QZ.ok), attempts: prev.attempts + 1, passed: prev.passed || pass, last: new Date().toISOString(), lastScore: QZ.ok };
+    save(); QZ.saved = true; QZ.unlocked = pass && !wasPassed;
+  }
+  el.innerHTML = `<div class="empty"><div class="e">${pass ? '🎉' : '📚'}</div><h2>${QZ.ok}/${n}</h2><p>${pass ? 'Aprovado no Nível 1!' : `Precisas de ${QUIZ_L1_PASS}/${n} para passar. Revê as lições e tenta outra vez.`}</p>${QZ.unlocked ? '<div class="callout ok">🔓 Desbloqueaste a categoria <b>Alta volatilidade / alto risco</b>. Lembra-te: é só para o bloco de alto risco (até 150 €).</div>' : ''}</div>
+  ${QZ.wrong.length ? `<h4>Para rever</h4>${QZ.wrong.map(i => `<div class="flag"><div class="e">↺</div><div><b>${esc(QUIZ_L1[i].q)}</b><div class="small muted">Resposta: ${esc(QUIZ_L1[i].o[QUIZ_L1[i].a])}. ${esc(QUIZ_L1[i].e)}</div></div></div>`).join('')}` : ''}
+  <div class="btns" style="margin-top:12px"><button class="btn sec" id="qr">Repetir</button><a class="btn" href="#academia">Voltar à Academia</a></div>`;
+  $('#qr').onclick = () => { QZ = { done: 'reset' }; render(); };
+}
+
+/* =====================================================================
+   MAIS · EM BREVE
+   ===================================================================== */
+function scrMais() {
+  return { html: `<h2 style="margin-bottom:12px">Mais</h2><div class="card"><div class="list">
+  <a class="li" href="#definicoes"><div class="av">⚙️</div><div class="grow"><div class="t">Definições</div><div class="s">Chaves das APIs, consumo, backup, objetivo, lista de ações</div></div><span class="chev">›</span></a>
+  ${Object.entries(SOON).map(([id, s]) => `<a class="li" href="#em-breve-${id}"><div class="av">${s.ic}</div><div class="grow"><div class="t">${s.l}</div><div class="s">${esc(s.d)}</div></div><span class="soon">${s.v}</span></a>`).join('')}</div></div>` };
+}
+function scrSoon(r) {
+  const s = SOON[r.id]; if (!s) return scrMais();
+  return { html: `<div class="card empty"><div class="e">${s.ic}</div><h2>${s.l}</h2><p>${esc(s.d)}</p><span class="soon">Em breve · Versão ${s.v.slice(1)}</span></div>` };
+}
+
+/* =====================================================================
+   MJIA — formulários (folhas) e Definições
+   ===================================================================== */
+const BROKERS = ['Revolut', 'Trading 212 (demo)', 'Robinhood', 'Outra'];
+const r4 = v => isNum(v) ? Math.round(v * 10000) / 10000 : '';
+const valStr = v => v == null || v === '' ? '' : String(v).replace('.', ',');
+function seg(name, opts, cur) { return `<div class="seg" data-seg="${name}" style="width:100%;display:flex">${opts.map(([v, l]) => `<button type="button" style="flex:1" data-v="${v}" class="${v === cur ? 'on' : ''}">${l}</button>`).join('')}</div>`; }
+function wireSeg(el, name, onChange) { const s = $(`[data-seg=${name}]`, el); s.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; $$('button', s).forEach(x => x.classList.toggle('on', x === b)); onChange(b.dataset.v); }); }
+const segVal = (el, name) => $(`[data-seg=${name}] button.on`, el)?.dataset.v;
+
+/* ---------- compra / venda ---------- */
+function openTxForm({ kind = 'buy', ticker = '', block = 'longo', editId = null } = {}) {
+  const ed = editId ? state.tx.find(t => t.id === editId) : null;
+  const v = ed ? { ...ed } : { kind, ticker: ticker || '', block: block || 'longo', broker: 'Revolut', date: todayISO(), qty: '', price: '', ccy: state.priceSrc[ticker]?.ccy || 'USD', fees: '', feesCcy: 'EUR', eurusd: r4(FX.latest?.rate), note: '' };
+  if (!ed && ticker && QUOTES[ticker] && validQuote(QUOTES[ticker]) && (state.priceSrc[ticker]?.mode || 'auto') === 'auto') v.price = r4(QUOTES[ticker].c);
+  const tickers = [...new Set(state.universe.map(u => u.t).concat(portfolioTickers()))];
+  const html = `<form id="txf" novalidate>${seg('kind', [['buy', '🟢 Compra'], ['sell', '🔴 Venda']], v.kind)}
+  <div class="fgrid">
+    <label class="f full"><span>${term('ticker', 'Ticker')}</span><input class="in" name="ticker" list="tkl" autocapitalize="characters" autocomplete="off" spellcheck="false" value="${esc(v.ticker)}" placeholder="ex.: AAPL, VWCE"></label>
+    <label class="f"><span>Corretora</span><select class="in" name="broker">${BROKERS.map(b => `<option ${b === v.broker ? 'selected' : ''}>${b}</option>`).join('')}</select></label>
+    <label class="f" id="blkf"><span>Bloco</span><select class="in" name="block"><option value="alto" ${v.block === 'alto' ? 'selected' : ''}>⚡ Alto risco</option><option value="longo" ${v.block === 'longo' ? 'selected' : ''}>🌱 Longo prazo</option></select></label>
+    <label class="f"><span>Data</span><input class="in" type="date" name="date" max="${todayISO()}" value="${esc(v.date)}"></label>
+    <label class="f"><span>Quantidade (${term('fracao', 'aceita frações')})</span><input class="in" name="qty" inputmode="decimal" value="${esc(valStr(v.qty))}" placeholder="ex.: 0,25"></label>
+    <label class="f"><span>Preço por unidade</span><input class="in" name="price" inputmode="decimal" value="${esc(valStr(v.price))}"></label>
+    <label class="f"><span>Moeda do preço</span><select class="in" name="ccy"><option ${v.ccy === 'USD' ? 'selected' : ''}>USD</option><option ${v.ccy === 'EUR' ? 'selected' : ''}>EUR</option></select></label>
+    <label class="f"><span>${term('comissao', 'Comissões')}</span><input class="in" name="fees" inputmode="decimal" value="${esc(valStr(v.fees))}" placeholder="0"></label>
+    <label class="f"><span>Moeda da comissão</span><select class="in" name="feesCcy"><option ${v.feesCcy === 'EUR' ? 'selected' : ''}>EUR</option><option ${v.feesCcy === 'USD' ? 'selected' : ''}>USD</option></select></label>
+    <label class="f full" id="fxf"><span>${term('cambio', 'Câmbio usado')}: 1 € = ? $</span><div class="row"><input class="in" name="eurusd" inputmode="decimal" value="${esc(valStr(v.eurusd))}" placeholder="ex.: 1,0850"><button type="button" class="btn sec sm" id="bce" style="white-space:nowrap">Taxa BCE</button></div><div class="hint" id="fxh">Usa a taxa do comprovativo da corretora se a tiveres. A ${term('taxa-bce', 'taxa BCE')} desse dia é uma aproximação.</div></label>
+    <label class="f full"><span>Nota (opcional): porquê esta operação?</span><input class="in" name="note" maxlength="240" value="${esc(v.note || '')}" placeholder="ex.: DCA mensal; acredito no crescimento da cloud"></label>
+  </div><div id="txp" class="callout small"></div><div id="txe" class="err"></div>
+  <button class="btn full" style="margin-top:10px">${ed ? 'Guardar alterações' : 'Guardar'}</button></form>
+  <datalist id="tkl">${tickers.map(t => `<option value="${esc(t)}">`).join('')}</datalist>`;
+  openSheet(ed ? 'Editar operação' : 'Registar compra ou venda', html, {
+    onMount: (el, close) => {
+      const f = $('#txf', el), F = n => f.elements[n];
+      let k = v.kind;
+      wireSeg(el, 'kind', x => { k = x; upd(); });
+      const read = () => ({ ticker: F('ticker').value.trim().toUpperCase(), broker: F('broker').value, block: F('block').value, date: F('date').value, qty: pnum(F('qty').value), price: pnum(F('price').value), ccy: F('ccy').value, fees: F('fees').value.trim() === '' ? 0 : pnum(F('fees').value), feesCcy: F('feesCcy').value, eurusd: pnum(F('eurusd').value), note: F('note').value.trim() });
+      function upd() {
+        const x = read(), demo = x.broker.includes('demo');
+        $('#blkf', el).classList.toggle('hidden', demo);
+        const needFx = x.ccy === 'USD' || (x.fees > 0 && x.feesCcy === 'USD');
+        $('#fxf', el).classList.toggle('hidden', !needFx);
+        let p = '';
+        if (isNum(x.qty) && isNum(x.price) && x.qty > 0 && x.price > 0) {
+          const gross = x.qty * x.price, r = x.ccy === 'EUR' ? 1 : x.eurusd;
+          const feeE = x.fees > 0 ? (x.feesCcy === 'EUR' ? x.fees : x.fees / x.eurusd) : 0;
+          const eur = isNum(r) && r > 0 ? gross / r : null;
+          p = `Total: <b>${fmtMoney(gross, x.ccy)}</b>${x.ccy === 'USD' && eur != null ? ` ≈ <b>${fmtEUR(eur)}</b>` : ''}${feeE ? ` · comissão ≈ ${fmtEUR(feeE)}` : ''}`;
+          if (eur != null && feeE && k === 'buy') p += ` · a comissão pesa <b>${fmtPct(feeE / eur * 100, 1, false)}</b>${feeE / eur > 0.02 ? ' 🟡 (muito alta para este montante)' : ''}`;
+          if (k === 'sell' && validTicker(x.ticker)) { const held = heldQty(x.ticker, demo ? 'longo' : x.block, demo, editId); p += `<br>Tens ${fmtQty(held)} ${x.ticker} neste ${demo ? 'portefólio demo' : 'bloco'}.`; }
+          if (k === 'buy' && !demo && eur != null) { const B = computePortfolio({ excludeTx: editId }).blocks[x.block]; const after = B.cash - eur - feeE; if (after < -0.005) p += `<br>🟡 A ${term('cash', 'liquidez')} do bloco ficaria em ${fmtEUR(after)}. Registaste o reforço? (Carteira → + Reforço)`; }
+        }
+        $('#txp', el).innerHTML = p || 'Preenche a quantidade e o preço para veres o total em euros.';
+      }
+      f.addEventListener('input', upd); f.addEventListener('change', upd); upd();
+      $('#bce', el).onclick = async () => {
+        const d = F('date').value; if (!d) return;
+        $('#fxh', el).textContent = 'A obter a taxa do BCE…';
+        try { const r = await getFxOn(d); F('eurusd').value = valStr(r4(r.rate)); $('#fxh', el).innerHTML = `Taxa ${term('taxa-bce', 'BCE')} de ${fmtDate(r.date)} (${d !== r.date ? 'último dia útil anterior; ' : ''}fonte: Frankfurter). A corretora pode ter usado outra.`; upd(); }
+        catch (e) { $('#fxh', el).innerHTML = `Não foi possível obter a taxa (${esc(e.human || 'erro')}). Escreve-a à mão.`; }
+      };
+      f.onsubmit = e => {
+        e.preventDefault();
+        const x = read(), demo = x.broker.includes('demo'), errs = [];
+        if (!validTicker(x.ticker)) errs.push('Ticker inválido (só letras, números, ponto ou hífen).');
+        if (!x.date || x.date > todayISO()) errs.push('Data inválida (não pode ser no futuro).');
+        if (!(x.qty > 0)) errs.push('A quantidade tem de ser maior do que zero.');
+        if (!(x.price > 0)) errs.push('O preço tem de ser maior do que zero.');
+        if (!(x.fees >= 0)) errs.push('Comissões inválidas.');
+        const needFx = x.ccy === 'USD' || (x.fees > 0 && x.feesCcy === 'USD');
+        if (needFx && !(x.eurusd > 0.5 && x.eurusd < 2.5)) errs.push('Câmbio inválido: escreve quantos dólares vale 1 euro (ex.: 1,08).');
+        const block = demo ? 'longo' : x.block;
+        if (k === 'sell' && !errs.length) {
+          const held = heldQty(x.ticker, block, demo, editId);
+          if (x.qty > held + 1e-9) errs.push(`Não podes vender ${fmtQty(x.qty)}: só tens ${fmtQty(held)} ${x.ticker} ${demo ? 'na conta demo' : 'neste bloco'}.`);
+          const P = computePortfolio({ demo, excludeTx: editId }), pos = P.positions.find(p => p.ticker === x.ticker && p.block === block);
+          if (pos && pos.ccy !== x.ccy) errs.push(`Esta posição foi comprada em ${pos.ccy}: regista a venda na mesma moeda.`);
+        }
+        if (errs.length) { $('#txe', el).innerHTML = errs.map(esc).join('<br>'); return; }
+        const tx = { id: ed?.id || uid(), createdAt: ed?.createdAt || new Date().toISOString(), kind: k, ticker: x.ticker, broker: x.broker, demo, block, date: x.date, qty: x.qty, price: x.price, ccy: x.ccy, fees: x.fees || 0, feesCcy: x.feesCcy, eurusd: needFx ? x.eurusd : null, note: x.note };
+        if (ed) state.tx[state.tx.findIndex(t => t.id === ed.id)] = tx; else state.tx.push(tx);
+        save(); close(); toast(ed ? 'Operação atualizada' : `${k === 'buy' ? 'Compra' : 'Venda'} de ${x.ticker} registada`);
+        const w = computePortfolio({ demo }).warnings; if (w.length) setTimeout(() => toast('🟡 ' + w[0].msg, 5000), 2700);
+        rerender();
+      };
+    },
+  });
+}
+
+/* ---------- reforço / levantamento / transferência ---------- */
+function openCashForm({ kind = 'deposit', editId = null } = {}) {
+  const ed = editId ? state.cash.find(m => m.id === editId) : null;
+  const v = ed ? { ...ed } : { kind, amount: '', block: 'longo', from: 'alto', to: 'longo', date: todayISO(), note: '' };
+  const html = `<form id="cf" novalidate>${seg('ck', [['deposit', '➕ Reforço'], ['withdraw', '➖ Levantamento'], ['transfer', '↔️ Transferir']], v.kind)}
+  <div class="fgrid"><label class="f"><span>Valor (€)</span><input class="in" name="amount" inputmode="decimal" value="${esc(valStr(v.amount))}" placeholder="ex.: 50"></label>
+  <label class="f"><span>Data</span><input class="in" type="date" name="date" max="${todayISO()}" value="${esc(v.date)}"></label>
+  <label class="f full" id="cb"><span>Bloco</span><select class="in" name="block"><option value="alto" ${v.block === 'alto' ? 'selected' : ''}>⚡ Alto risco</option><option value="longo" ${v.block === 'longo' ? 'selected' : ''}>🌱 Longo prazo</option></select></label>
+  <label class="f" id="cfr"><span>De</span><select class="in" name="from"><option value="alto" ${v.from === 'alto' ? 'selected' : ''}>⚡ Alto risco</option><option value="longo" ${v.from === 'longo' ? 'selected' : ''}>🌱 Longo prazo</option></select></label>
+  <label class="f" id="cto"><span>Para</span><select class="in" name="to"><option value="longo" ${v.to === 'longo' ? 'selected' : ''}>🌱 Longo prazo</option><option value="alto" ${v.to === 'alto' ? 'selected' : ''}>⚡ Alto risco</option></select></label>
+  <label class="f full"><span>Nota (opcional)</span><input class="in" name="note" maxlength="200" value="${esc(v.note || '')}" placeholder="ex.: retirar lucro do alto risco"></label></div>
+  <div id="cp" class="small"></div><div id="ce" class="err"></div><button class="btn full" style="margin-top:10px">Guardar</button></form>
+  <p class="small muted" style="margin-top:10px">A transferência entre blocos é só um registo na MJIA: não mexe em dinheiro real. Na Revolut, o dinheiro continua na mesma conta.</p>`;
+  openSheet(ed ? 'Editar movimento' : 'Movimento de dinheiro', html, {
+    onMount: (el, close) => {
+      const f = $('#cf', el), F = n => f.elements[n]; let k = v.kind;
+      wireSeg(el, 'ck', x => { k = x; upd(); });
+      function upd() {
+        $('#cb', el).classList.toggle('hidden', k === 'transfer'); $('#cfr', el).classList.toggle('hidden', k !== 'transfer'); $('#cto', el).classList.toggle('hidden', k !== 'transfer');
+        const a = pnum(F('amount').value), P = computePortfolio(), cap = state.settings.highRiskCap; let w = [];
+        const old = ed ? ed : null;
+        if (a > 0) {
+          const intoAlto = (k === 'deposit' && F('block').value === 'alto') || (k === 'transfer' && F('to').value === 'alto');
+          let alloc = P.blocks.alto.allocated;
+          if (old) alloc -= (old.kind === 'deposit' && old.block === 'alto' ? old.amount : 0) + (old.kind === 'transfer' && old.to === 'alto' ? old.amount : 0) - (old.kind === 'transfer' && old.from === 'alto' ? old.amount : 0) - (old.kind === 'withdraw' && old.block === 'alto' ? old.amount : 0);
+          if (intoAlto && alloc + a > cap) w.push(`🟡 O capital alocado ao alto risco passaria a ${fmtEUR(alloc + a)}, acima do limite de ${fmtEUR(cap)} que definiste. Estás a decidir com calma ou a tentar recuperar uma perda ou chegar mais depressa a um objetivo?`);
+          const src = k === 'withdraw' ? F('block').value : k === 'transfer' ? F('from').value : null;
+          if (src && !old && a > P.blocks[src].cash + 0.005) w.push(`🟡 A ${term('cash', 'liquidez')} de ${BLOCKS[src].name} é ${fmtEUR(P.blocks[src].cash)}. Para mover mais do que isso, regista primeiro a venda das ações.`);
+        }
+        $('#cp', el).innerHTML = w.map(x => `<div class="callout warn">${x}</div>`).join('');
+      }
+      f.addEventListener('input', upd); f.addEventListener('change', upd); upd();
+      f.onsubmit = e => {
+        e.preventDefault();
+        const a = pnum(F('amount').value), d = F('date').value, errs = [];
+        if (!(a > 0)) errs.push('O valor tem de ser maior do que zero.');
+        if (!d || d > todayISO()) errs.push('Data inválida.');
+        if (k === 'transfer' && F('from').value === F('to').value) errs.push('Escolhe blocos diferentes.');
+        if (errs.length) { $('#ce', el).innerHTML = errs.join('<br>'); return; }
+        const m = { id: ed?.id || uid(), createdAt: ed?.createdAt || new Date().toISOString(), kind: k, amount: Math.round(a * 100) / 100, date: d, note: F('note').value.trim() };
+        if (k === 'transfer') { m.from = F('from').value; m.to = F('to').value; } else m.block = F('block').value;
+        if (ed) state.cash[state.cash.findIndex(x => x.id === ed.id)] = m; else state.cash.push(m);
+        save(); close(); toast('Movimento registado'); rerender();
+      };
+    },
+  });
+}
+
+/* ---------- poupança para o objetivo ---------- */
+function openSavingForm({ editId = null } = {}) {
+  const ed = editId ? state.savings.find(s => s.id === editId) : null;
+  const html = `<form id="sf" novalidate><p class="small muted">Regista o dinheiro que poupaste para a viagem (fora da carteira de investimento). Usa um valor negativo se gastares parte da poupança.</p>
+  <div class="fgrid"><label class="f"><span>Valor (€)</span><input class="in" name="amount" inputmode="decimal" value="${esc(valStr(ed?.amount ?? ''))}" placeholder="ex.: 60"></label>
+  <label class="f"><span>Data</span><input class="in" type="date" name="date" max="${todayISO()}" value="${esc(ed?.date || todayISO())}"></label>
+  <label class="f full"><span>Nota (opcional)</span><input class="in" name="note" maxlength="200" value="${esc(ed?.note || '')}" placeholder="ex.: poupança de novembro"></label></div>
+  <div id="se" class="err"></div><button class="btn full" style="margin-top:10px">Guardar</button></form>`;
+  openSheet(ed ? 'Editar poupança' : 'Registar poupança', html, {
+    onMount: (el, close) => {
+      const f = $('#sf', el);
+      f.onsubmit = e => {
+        e.preventDefault(); const a = pnum(f.elements.amount.value), d = f.elements.date.value;
+        if (!isNum(a) || a === 0) { $('#se', el).textContent = 'Indica um valor diferente de zero.'; return; }
+        if (!d || d > todayISO()) { $('#se', el).textContent = 'Data inválida.'; return; }
+        const s = { id: ed?.id || uid(), date: d, amount: Math.round(a * 100) / 100, note: f.elements.note.value.trim() };
+        if (ed) state.savings[state.savings.findIndex(x => x.id === ed.id)] = s; else state.savings.push(s);
+        save(); close(); toast('Poupança registada 🎿'); rerender();
+      };
+    },
+  });
+}
+
+/* ---------- objetivo e limite do alto risco ---------- */
+function openGoalForm() {
+  const g = state.settings.goal;
+  openSheet('Objetivo e limites', `<form id="gf" novalidate><div class="fgrid">
+  <label class="f full"><span>Nome do objetivo</span><input class="in" name="name" maxlength="40" value="${esc(g.name)}"></label>
+  <label class="f"><span>Valor-alvo (€)</span><input class="in" name="target" inputmode="decimal" value="${esc(valStr(g.target))}"></label>
+  <label class="f"><span>Data</span><input class="in" type="date" name="date" value="${esc(g.date)}"></label>
+  <label class="f full"><span>Limite do bloco de alto risco (€)</span><input class="in" name="cap" inputmode="decimal" value="${esc(valStr(state.settings.highRiskCap))}"><div class="hint">A MJIA avisa-te quando o capital alocado ao alto risco passa deste valor.</div></label></div>
+  <div id="ge" class="err"></div><button class="btn full" style="margin-top:10px">Guardar</button></form>`, {
+    onMount: (el, close) => {
+      const f = $('#gf', el);
+      f.onsubmit = e => {
+        e.preventDefault(); const t = pnum(f.elements.target.value), c = pnum(f.elements.cap.value), d = f.elements.date.value, n = f.elements.name.value.trim();
+        if (!(t > 0) || !(c >= 0) || !d || !n) { $('#ge', el).textContent = 'Preenche todos os campos com valores válidos.'; return; }
+        state.settings.goal = { name: n, target: t, date: d }; state.settings.highRiskCap = c; save(); close(); toast('Objetivo atualizado'); rerender();
+      };
+    },
+  });
+}
+
+/* ---------- boas-vindas ---------- */
+function openOnboarding() {
+  openSheet('Bem-vindo à MJIA 👋', `<p>Vamos registar o teu capital inicial em cada bloco. Podes mudar tudo depois.</p>
+  <form id="of" novalidate><div class="fgrid">
+  <label class="f"><span>⚡ ${term('bloco-alto', 'Alto risco')} (€)</span><input class="in" name="alto" inputmode="decimal" value="150"></label>
+  <label class="f"><span>🌱 ${term('bloco-longo', 'Longo prazo')} (€)</span><input class="in" name="longo" inputmode="decimal" value="250"></label>
+  <label class="f full"><span>Data</span><input class="in" type="date" name="date" max="${todayISO()}" value="${todayISO()}"></label></div>
+  <div class="callout small">Se já compraste ações, regista-as a seguir em <b>Carteira → + Compra/venda</b>, com o preço e o câmbio do comprovativo. A liquidez de cada bloco ajusta-se sozinha.</div>
+  <div id="oe" class="err"></div><div class="btns"><button type="button" class="btn sec" id="skip">Agora não</button><button class="btn">Registar</button></div></form>`, {
+    onMount: (el, close) => {
+      const f = $('#of', el);
+      $('#skip', el).onclick = () => { state.onboarded = true; save(); close(); };
+      f.onsubmit = e => {
+        e.preventDefault(); const a = pnum(f.elements.alto.value) || 0, l = pnum(f.elements.longo.value) || 0, d = f.elements.date.value;
+        if (a < 0 || l < 0 || !d || d > todayISO()) { $('#oe', el).textContent = 'Valores ou data inválidos.'; return; }
+        if (a > 0) state.cash.push({ id: uid(), createdAt: new Date().toISOString(), kind: 'deposit', block: 'alto', amount: a, date: d, note: 'Capital inicial' });
+        if (l > 0) state.cash.push({ id: uid(), createdAt: new Date().toISOString(), kind: 'deposit', block: 'longo', amount: l, date: d, note: 'Capital inicial' });
+        state.onboarded = true; save(); close(); toast('Capital inicial registado'); rerender();
+      };
+    },
+  });
+}
+
+/* ---------- detalhe de um movimento ---------- */
+function openMoveMenu(kind, id) {
+  const coll = kind === 'tx' ? state.tx : kind === 'cash' ? state.cash : state.savings;
+  const it = coll.find(x => x.id === id); if (!it) return;
+  const desc = kind === 'tx' ? `${it.kind === 'buy' ? 'Compra' : 'Venda'} de ${fmtQty(it.qty)} ${esc(it.ticker)} a ${fmtMoney(it.price, it.ccy)} em ${fmtDate(it.date)}${it.note ? `<br><span class="muted">“${esc(it.note)}”</span>` : ''}` : kind === 'cash' ? `${it.kind === 'deposit' ? 'Reforço' : it.kind === 'withdraw' ? 'Levantamento' : 'Transferência'} de ${fmtEUR(it.amount)} em ${fmtDate(it.date)}` : `Poupança de ${fmtEUR(it.amount)} em ${fmtDate(it.date)}`;
+  openSheet('Movimento', `<p>${desc}</p><div class="btns"><button class="btn sec" id="me">✏️ Editar</button><button class="btn danger" id="md">🗑️ Apagar</button></div>${kind === 'tx' ? `<p style="margin-top:10px"><a href="${stockHash(it.ticker)}">Abrir a página de ${esc(it.ticker)} ›</a></p>` : ''}`, {
+    onMount: (el, close) => {
+      $('#me', el).onclick = () => { close(); kind === 'tx' ? openTxForm({ editId: id }) : kind === 'cash' ? openCashForm({ editId: id }) : openSavingForm({ editId: id }); };
+      $('#md', el).onclick = async () => {
+        close();
+        if (!await confirmBox('Apagar este movimento? Não dá para desfazer (a não ser com um backup).', { ok: 'Apagar', danger: true })) return;
+        coll.splice(coll.findIndex(x => x.id === id), 1); save(); toast('Apagado');
+        const w = computePortfolio().warnings.concat(computePortfolio({ demo: true }).warnings); if (w.length) setTimeout(() => toast('🟡 ' + w[0].msg, 5000), 2700);
+        rerender();
+      };
+    },
+  });
+}
+
+/* ---------- fonte de preço (para títulos fora da Finnhub, ex.: ETFs UCITS) ---------- */
+function openPriceSrcForm(t) {
+  const ps = state.priceSrc[t] || { mode: 'auto' };
+  openSheet(`Fonte de preço · ${t}`, `<form id="pf" novalidate>${seg('pm', [['auto', 'Finnhub'], ['manual', 'Manual'], ['av', 'Alpha Vantage']], ps.mode)}
+  <div id="pm-auto" class="small muted" style="margin-top:10px">Cotação automática da Finnhub (só para bolsas dos EUA no plano gratuito).</div>
+  <div id="pm-manual"><p class="small muted">Escreve o preço que vês na Revolut. A MJIA mostra sempre a data e indica que foi introduzido por ti.</p><div class="fgrid">
+    <label class="f"><span>Preço</span><input class="in" name="px" inputmode="decimal" value="${esc(valStr(ps.px ?? ''))}"></label>
+    <label class="f"><span>Moeda</span><select class="in" name="mccy"><option ${ps.ccy === 'EUR' ? 'selected' : ''}>EUR</option><option ${ps.ccy === 'USD' ? 'selected' : ''}>USD</option></select></label>
+    <label class="f full"><span>Data do preço</span><input class="in" type="date" name="pdate" max="${todayISO()}" value="${esc(ps.date || todayISO())}"></label></div></div>
+  <div id="pm-av"><p class="small muted">Símbolo da Alpha Vantage com o sufixo da bolsa (ex.: <code>VWCE.DEX</code> para a Xetra, em EUR). Gasta 1 de 25 pedidos diários e fica em cache 12 h. Confirma que a moeda corresponde à bolsa escolhida (na bolsa de Londres, alguns títulos cotam em pence, GBX, e esses não são suportados).</p><div class="fgrid">
+    <label class="f"><span>Símbolo</span><input class="in" name="sym" autocapitalize="characters" value="${esc(ps.sym || '')}"></label>
+    <label class="f"><span>Moeda</span><select class="in" name="accy"><option ${ps.ccy === 'EUR' ? 'selected' : ''}>EUR</option><option ${ps.ccy === 'USD' ? 'selected' : ''}>USD</option></select></label></div></div>
+  <div id="pe" class="err"></div><button class="btn full" style="margin-top:10px">Guardar</button></form>`, {
+    onMount: (el, close) => {
+      let m = ps.mode; const f = $('#pf', el);
+      const vis = () => ['auto', 'manual', 'av'].forEach(x => $('#pm-' + x, el).classList.toggle('hidden', x !== m));
+      wireSeg(el, 'pm', x => { m = x; vis(); }); vis();
+      f.onsubmit = async e => {
+        e.preventDefault(); const F = n => f.elements[n];
+        if (m === 'auto') delete state.priceSrc[t];
+        else if (m === 'manual') { const px = pnum(F('px').value), d = F('pdate').value; if (!(px > 0) || !d) { $('#pe', el).textContent = 'Preço e data obrigatórios.'; return; } state.priceSrc[t] = { mode: 'manual', px, ccy: F('mccy').value, date: d }; }
+        else { const sym = F('sym').value.trim().toUpperCase(); if (!/^[A-Z0-9.\-]{1,15}$/.test(sym)) { $('#pe', el).textContent = 'Símbolo inválido.'; return; } state.priceSrc[t] = { mode: 'av', sym, ccy: F('accy').value }; }
+        save(); close(); toast('Fonte de preço guardada');
+        if (m === 'av') { try { await getAvQuote(state.priceSrc[t].sym, PRIO.portfolio); } catch (er) { toast('Alpha Vantage: ' + er.human, 4000); } }
+        rerender();
+      };
+    },
+  });
+}
+
+/* =====================================================================
+   DEFINIÇÕES
+   ===================================================================== */
+function scrDefinicoes() {
+  const cs = cacheStats();
+  const keyRow = api => { const A = APIS[api]; return `<label class="f"><span>${A.name} <span class="muted small">· ${A.limit}</span></span><div class="row"><input class="in" type="password" autocomplete="off" spellcheck="false" data-key="${api}" value="${esc(KEYS[api] || '')}" placeholder="${KEYS[api] ? '' : 'cola aqui a chave'}"><button type="button" class="btn sec sm" data-show="${api}" aria-label="Mostrar">👁</button><button type="button" class="btn sec sm" data-test="${api}">Testar</button></div><div class="hint" id="kt-${api}">Obter chave gratuita: <a href="${A.signup}" target="_blank" rel="noopener">${A.signup.replace('https://', '')}</a></div></label>`; };
+  const uRow = api => { const A = APIS[api], u = usedToday(api), e = usage.err[api]; return `<tr><td>${A.name}</td><td class="n">${u}${A.perDay ? ' / ' + A.perDay : ''}</td><td class="n">${minuteCount(api)}${A.perMin ? ' / ' + A.perMin : ''}</td><td class="small">${e ? `${esc(new ApiError(e.code, api).human)} <span class="muted">(${fmtDT(e.at)})</span>` : '—'}</td></tr>${A.perDay ? `<tr><td colspan="4" style="border:0;padding-top:0"><div class="bar" style="height:6px"><i class="${u >= A.perDay - A.reserve ? 'y' : ''}" style="width:${Math.min(100, u / A.perDay * 100)}%"></i></div></td></tr>` : ''}`; };
+  const g = state.settings.goal;
+  const h = `<h2 style="margin-bottom:12px">Definições</h2>
+  <div class="card"><h3>🔑 Chaves das APIs</h3>
+    <div class="callout warn small">As chaves ficam guardadas <b>só neste dispositivo</b> (no browser) e nunca no código. Não partilhes capturas de ecrã deste ecrã nem backups que incluam chaves. Em cada dispositivo novo cola-as outra vez (ou importa um backup com chaves).</div>
+    ${keyRow('finnhub')}${keyRow('fmp')}${keyRow('av')}
+    <p class="small muted">A taxa de câmbio vem do BCE através da Frankfurter e não precisa de chave. O "Testar" gasta 1 pedido.</p>
+    <button class="btn" id="savekeys">Guardar chaves</button></div>
+
+  <div class="card"><h3>📶 Consumo das APIs (hoje, UTC)</h3><div class="tblwrap"><table class="tbl"><tr><th>API</th><th class="n">Hoje</th><th class="n">Último min.</th><th>Último erro</th></tr>${['finnhub', 'fmp', 'av', 'fx'].map(uRow).join('')}</table></div>
+    <p class="small muted">${term('cache', 'Cache')}: ${cs.n} registos (${fmtNum(cs.kb, 0)} KB). Duração: cotações 5 min · métricas, gráfico e calendário 1 dia · perfis 1 semana · câmbio 1 h. Na FMP e na Alpha Vantage, os últimos pedidos do dia ficam reservados à tua carteira. Os contadores são por dispositivo: se usares o PC e o iPhone no mesmo dia, o consumo real é a soma dos dois.</p>
+    <div class="btns"><button class="btn sec sm" id="clrc">Limpar cache</button></div></div>
+
+  <div class="card"><h3>💾 Backup</h3><p class="small muted">Os dados vivem no browser de cada dispositivo. Para passar a carteira do PC para o iPhone (ou vice-versa): <b>Exportar</b> num, <b>Importar</b> no outro. Último backup: ${state.settings.lastExport ? fmtDT(Date.parse(state.settings.lastExport)) : 'nunca'}.</p>
+    <label class="row small" style="margin:8px 0"><input type="checkbox" id="inck"> Incluir as chaves das APIs (só se o ficheiro ficar contigo)</label>
+    <div class="btns"><button class="btn" id="exp">⬇️ Exportar ficheiro</button><button class="btn sec" id="copy">📋 Copiar JSON</button></div>
+    <div style="margin-top:12px"><label class="f"><span>Importar de ficheiro</span><input class="in" type="file" id="impf" accept=".json,application/json"></label>
+    <details><summary class="small" style="cursor:pointer">…ou colar o texto JSON</summary><textarea class="in" id="impt" placeholder='{"app":"MJIA", …}'></textarea><button class="btn sec sm" id="impb" style="margin-top:6px">Importar texto</button></details></div>
+    <div id="bkmsg" class="small" style="margin-top:8px"></div></div>
+
+  <div class="card"><div class="card-h"><h3>🎿 Objetivo e limites</h3><button class="btn ghost sm" data-act="goal">Editar</button></div><p class="small">${esc(g.name)}: <b>${fmtEUR(g.target, 0)}</b> até ${fmtDate(g.date)} · limite do alto risco: <b>${fmtEUR(state.settings.highRiskCap, 0)}</b></p></div>
+
+  <div class="card"><h3>📋 Lista de ações (núcleo)</h3><p class="small muted">Universo que a MJIA acompanha (não é uma recomendação). As ações da tua carteira entram sempre.</p>
+    <form class="row wrap" id="uadd" style="gap:6px"><input class="in" name="t" placeholder="Ticker" autocapitalize="characters" style="flex:1;min-width:90px"><select class="in" name="c" style="flex:2;min-width:150px">${CATEGORIES.map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('')}</select><button class="btn sm">Adicionar</button></form>
+    <div class="list" style="margin-top:8px">${CATEGORIES.map(c => state.universe.filter(u => u.cat === c.id).map(u => `<div class="li" style="cursor:default;min-height:44px;padding:6px 2px"><b style="width:64px">${esc(u.t)}</b><select class="in" data-ucat="${esc(u.t)}" style="flex:1;min-height:36px;padding:6px 8px;font-size:14px">${CATEGORIES.map(cc => `<option value="${cc.id}" ${cc.id === u.cat ? 'selected' : ''}>${cc.icon} ${cc.name}</option>`).join('')}</select><button class="btn sec sm" data-udel="${esc(u.t)}" aria-label="Remover ${esc(u.t)}">✕</button></div>`).join('')).join('')}</div>
+    <button class="btn ghost sm" id="ureset">Repor a lista inicial</button></div>
+
+  <div class="card"><div class="card-h"><h3>🔔 Notificações (ntfy)</h3><span class="soon">V4</span></div><p class="small muted">Tópico aleatório, notificação só com o emoji e a cor; configuração passo a passo na Versão 4.</p></div>
+
+  <div class="card"><h3>ℹ️ Fontes de dados</h3><table class="mini"><tr><th>Fonte</th><th>Para quê</th></tr>
+    <tr><td>Finnhub</td><td>Cotações, perfil, métricas, concorrentes, calendário de resultados</td></tr>
+    <tr><td>Financial Modeling Prep</td><td>Histórico de preços (gráfico, volatilidade), dividendos, perfil detalhado</td></tr>
+    <tr><td>Alpha Vantage</td><td>Reserva do gráfico (semanal) e preços de títulos fora dos EUA</td></tr>
+    <tr><td>Frankfurter (BCE)</td><td>Câmbio EUR/USD de referência</td></tr>
+    <tr><td>MJIA</td><td>Textos educativos, equivalentes UCITS, cálculos (FIFO, câmbio, volatilidade)</td></tr></table>
+    <p class="small muted">Limites gratuitos confirmados em ${CONTENT_DATE}: Finnhub 60/min (histórico de preços e dividendos são pagos); FMP 250/dia; Alpha Vantage 25/dia. Os limites mudam: se uma API deixar de responder, o motivo aparece em "Consumo".</p></div>
+
+  <div class="card"><h3>⚠️ Zona de perigo</h3><p class="small muted">Apaga todos os dados deste dispositivo (carteira, progresso, cache). Faz um backup antes.</p><button class="btn danger" id="wipe">Apagar todos os dados</button></div>`;
+  return { html: h, mount: mountDefs };
+}
+function mountDefs() {
+  const v = $('#view');
+  $$('[data-show]', v).forEach(b => b.onclick = () => { const i = $(`[data-key=${b.dataset.show}]`, v); i.type = i.type === 'password' ? 'text' : 'password'; });
+  const collect = () => { const k = { ...KEYS }; $$('[data-key]', v).forEach(i => { const x = i.value.trim(); if (x) k[i.dataset.key] = x; else delete k[i.dataset.key]; }); return k; };
+  $('#savekeys').onclick = () => { saveKeys(collect()); toast('Chaves guardadas neste dispositivo'); $('#banners').innerHTML = banners(); };
+  $$('[data-test]', v).forEach(b => b.onclick = async () => {
+    saveKeys(collect()); const api = b.dataset.test, out = $('#kt-' + api); out.textContent = 'A testar…';
+    try {
+      let r;
+      if (api === 'finnhub') r = await getQuote('AAPL', PRIO.portfolio, true);
+      else if (api === 'fmp') r = await apiGet('fmp', '/profile', { symbol: 'AAPL' }, { ck: 'fpf:AAPL', ttl: 0, force: true, prio: PRIO.portfolio, validate: d => Array.isArray(d) && d.length > 0 });
+      else r = await apiGet('av', '', { function: 'GLOBAL_QUOTE', symbol: 'IBM' }, { ck: 'avtest', ttl: 0, force: true, prio: PRIO.portfolio, validate: d => d && d['Global Quote'] });
+      if (r.stale) throw r.err;
+      out.innerHTML = `<span class="up">✓ Funciona</span> · resposta às ${fmtDT(r.at)}`;
+    } catch (e) { out.innerHTML = `<span class="down">✗ ${esc(e.human || e.message)}</span>`; }
+  });
+  $('#clrc').onclick = () => { clearCache(); for (const k in QUOTES) delete QUOTES[k]; toast('Cache limpa'); rerender(); };
+  const json = () => JSON.stringify({ app: 'MJIA', schema: 1, version: APP_VERSION, exportedAt: new Date().toISOString(), data: state, ...($('#inck').checked ? { keys: KEYS } : {}) }, null, 1);
+  const markExp = () => { state.settings.lastExport = new Date().toISOString(); save(); };
+  $('#exp').onclick = () => {
+    try { const b = new Blob([json()], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `mjia-backup-${todayISO()}.json`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); markExp(); $('#bkmsg').innerHTML = '✓ Ficheiro gerado. Se não apareceu nenhuma transferência (alguns ambientes bloqueiam), usa "Copiar JSON".'; }
+    catch (e) { $('#bkmsg').textContent = 'Não foi possível gerar o ficheiro: usa "Copiar JSON".'; }
+  };
+  $('#copy').onclick = async () => {
+    const j = json();
+    try { await navigator.clipboard.writeText(j); markExp(); $('#bkmsg').innerHTML = '✓ JSON copiado. Cola-o num ficheiro ou numa nota segura.'; }
+    catch (e) { $('#bkmsg').innerHTML = `Não deu para copiar automaticamente. Seleciona e copia:<textarea class="in" readonly style="margin-top:6px">${esc(j)}</textarea>`; markExp(); }
+  };
+  const doImport = async txt => {
+    let o; try { o = JSON.parse(txt); } catch (e) { $('#bkmsg').innerHTML = '<span class="down">Ficheiro inválido (não é JSON).</span>'; return; }
+    if (!o || o.app !== 'MJIA' || !o.data || typeof o.data !== 'object') { $('#bkmsg').innerHTML = '<span class="down">Este ficheiro não é um backup da MJIA.</span>'; return; }
+    const d = o.data;
+    const ok = await confirmBox(`Importar o backup de ${fmtDT(Date.parse(o.exportedAt))}?<br><br>${(d.tx || []).length} operações · ${(d.cash || []).length} movimentos · ${(d.savings || []).length} poupanças${o.keys ? ' · inclui chaves' : ''}.<br><br><b>Substitui</b> os dados atuais deste dispositivo.`, { ok: 'Importar' });
+    if (!ok) return;
+    state = migrate(d); save(); if (o.keys && typeof o.keys === 'object') saveKeys(o.keys);
+    toast('Backup importado ✓'); go('inicio');
+  };
+  $('#impf').onchange = e => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => doImport(String(r.result)); r.readAsText(f); e.target.value = ''; };
+  $('#impb').onclick = () => doImport($('#impt').value);
+  $('#uadd').onsubmit = e => {
+    e.preventDefault(); const t = e.target.elements.t.value.trim().toUpperCase(), c = e.target.elements.c.value;
+    if (!validTicker(t)) return toast('Ticker inválido'); if (inUniverse(t)) return toast(`${t} já está na lista`);
+    state.universe.push({ t, cat: c, kind: c === 'etf' ? 'etf' : 'stock' }); save(); toast(`${t} adicionada`); rerender();
+  };
+  $$('[data-ucat]', v).forEach(s => s.onchange = () => { const u = inUniverse(s.dataset.ucat); u.cat = s.value; if (s.value === 'etf') u.kind = 'etf'; save(); toast('Categoria atualizada'); });
+  $$('[data-udel]', v).forEach(b => b.onclick = () => { state.universe = state.universe.filter(u => u.t !== b.dataset.udel); save(); rerender(); });
+  $('#ureset').onclick = async () => { if (await confirmBox('Repor a lista inicial de ~40 títulos? As tuas alterações à lista perdem-se (a carteira não é afetada).', { ok: 'Repor' })) { state.universe = UNIVERSE_DEFAULT.map(u => ({ ...u })); save(); rerender(); } };
+  $('#wipe').onclick = () => openSheet('Apagar todos os dados', `<p>Escreve <b>APAGAR</b> para confirmar.</p><input class="in" id="wt" autocomplete="off"><label class="row small" style="margin:10px 0"><input type="checkbox" id="wk" checked> Manter as chaves das APIs</label><button class="btn danger full" id="wb" disabled>Apagar tudo</button>`, {
+    onMount: (el) => {
+      $('#wt', el).oninput = e => $('#wb', el).disabled = e.target.value.trim() !== 'APAGAR';
+      $('#wb', el).onclick = () => { const keep = $('#wk', el).checked; LS.del(K_DATA); LS.del(K_USAGE); clearCache(); if (!keep) LS.del(K_KEYS); location.hash = 'inicio'; location.reload(); };
+    },
+  });
+}
+
+document.addEventListener('DOMContentLoaded', boot);
+</script>
+</body>
+</html>
